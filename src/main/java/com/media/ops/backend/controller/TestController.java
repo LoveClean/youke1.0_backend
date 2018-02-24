@@ -1,4 +1,4 @@
-package com.media.ops.backend.controller;
+﻿package com.media.ops.backend.controller;
 
 import com.media.ops.backend.dao.entity.Member;
 import com.media.ops.backend.service.MemberService;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
-/**
+/**    
  * @author LJH
  * @version 1.0
  * @Date 2018/1/16 16:55

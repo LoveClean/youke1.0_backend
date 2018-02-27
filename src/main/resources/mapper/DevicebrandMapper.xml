@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.media.ops.backend.dao.mapper.DevicebrandMapper">
+  <resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.Devicebrand">
+    <id column="brand" jdbcType="VARCHAR" property="brand" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tbdevicebrand
+    where brand = #{brand,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Devicebrand">
+    insert into tbdevicebrand (brand)
+    values (#{brand,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Devicebrand">
+    insert into tbdevicebrand
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="brand != null">
+        brand,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

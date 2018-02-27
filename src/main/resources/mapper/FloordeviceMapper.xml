@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.media.ops.backend.dao.mapper.FloordeviceMapper">
+  <resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.Floordevice">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="floorid" jdbcType="INTEGER" property="floorid" />
+    <result column="deviceid" jdbcType="INTEGER" property="deviceid" />
+    <result column="x" jdbcType="REAL" property="x" />
+    <result column="y" jdbcType="REAL" property="y" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, floorid, deviceid, x, y, memo
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbfloordevice
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbfloordevice
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Floordevice">
+    insert into tbfloordevice (id, floorid, deviceid, 
+      x, y, memo)
+    values (#{id,jdbcType=INTEGER}, #{floorid,jdbcType=INTEGER}, #{deviceid,jdbcType=INTEGER}, 
+      #{x,jdbcType=REAL}, #{y,jdbcType=REAL}, #{memo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Floordevice">
+    insert into tbfloordevice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="floorid != null">
+        floorid,
+      </if>
+      <if test="deviceid != null">
+        deviceid,
+      </if>
+      <if test="x != null">
+        x,
+      </if>
+      <if test="y != null">
+        y,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="floorid != null">
+        #{floorid,jdbcType=INTEGER},
+      </if>
+      <if test="deviceid != null">
+        #{deviceid,jdbcType=INTEGER},
+      </if>
+      <if test="x != null">
+        #{x,jdbcType=REAL},
+      </if>
+      <if test="y != null">
+        #{y,jdbcType=REAL},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.media.ops.backend.dao.entity.Floordevice">
+    update tbfloordevice
+    <set>
+      <if test="floorid != null">
+        floorid = #{floorid,jdbcType=INTEGER},
+      </if>
+      <if test="deviceid != null">
+        deviceid = #{deviceid,jdbcType=INTEGER},
+      </if>
+      <if test="x != null">
+        x = #{x,jdbcType=REAL},
+      </if>
+      <if test="y != null">
+        y = #{y,jdbcType=REAL},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Floordevice">
+    update tbfloordevice
+    set floorid = #{floorid,jdbcType=INTEGER},
+      deviceid = #{deviceid,jdbcType=INTEGER},
+      x = #{x,jdbcType=REAL},
+      y = #{y,jdbcType=REAL},
+      memo = #{memo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -55,6 +55,8 @@ public class Member {
 
     private Date lastBootTime;
 
+    private Date lastCircleTime;
+
     private Integer appNum;
 
     private Integer coupon;
@@ -275,6 +277,14 @@ public class Member {
 
     public void setLastBootTime(Date lastBootTime) {
         this.lastBootTime = lastBootTime;
+    }
+
+    public Date getLastCircleTime() {
+        return lastCircleTime;
+    }
+
+    public void setLastCircleTime(Date lastCircleTime) {
+        this.lastCircleTime = lastCircleTime;
     }
 
     public Integer getAppNum() {

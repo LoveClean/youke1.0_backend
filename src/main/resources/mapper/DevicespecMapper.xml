@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.media.ops.backend.dao.mapper.DevicespecMapper">
+  <resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.Devicespec">
+    <id column="spec" jdbcType="VARCHAR" property="spec" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tbdevicespec
+    where spec = #{spec,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Devicespec">
+    insert into tbdevicespec (spec)
+    values (#{spec,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Devicespec">
+    insert into tbdevicespec
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="spec != null">
+        spec,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="spec != null">
+        #{spec,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

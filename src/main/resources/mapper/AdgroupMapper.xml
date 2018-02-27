@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.media.ops.backend.dao.mapper.AdgroupMapper">
+  <resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.Adgroup">
+    <id column="groupname" jdbcType="VARCHAR" property="groupname" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tbadgroup
+    where groupname = #{groupname,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Adgroup">
+    insert into tbadgroup (groupname)
+    values (#{groupname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Adgroup">
+    insert into tbadgroup
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="groupname != null">
+        groupname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="groupname != null">
+        #{groupname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

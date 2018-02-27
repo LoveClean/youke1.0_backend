@@ -28,6 +28,7 @@
     <result column="latitude" jdbcType="VARCHAR" property="latitude" />
     <result column="longitude" jdbcType="VARCHAR" property="longitude" />
     <result column="last_boot_time" jdbcType="TIMESTAMP" property="lastBootTime" />
+    <result column="last_circle_time" jdbcType="TIMESTAMP" property="lastCircleTime" />
     <result column="app_num" jdbcType="INTEGER" property="appNum" />
     <result column="coupon" jdbcType="INTEGER" property="coupon" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
@@ -39,8 +40,8 @@
   <sql id="Base_Column_List">
     id, nickname, openid, mobile, password, address, sex, birthday, age, wechat, weibo, 
     icon, circle_pic, job, hobby, height, weight, xiong_wei, yao_wei, tun_wei, shoe_size, 
-    somatotype, member_role, latitude, longitude, last_boot_time, app_num, coupon, create_by, 
-    create_date, update_by, update_date, del_flag
+    somatotype, member_role, latitude, longitude, last_boot_time, last_circle_time, app_num, 
+    coupon, create_by, create_date, update_by, update_date, del_flag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -61,10 +62,10 @@
       height, weight, xiong_wei, 
       yao_wei, tun_wei, shoe_size, 
       somatotype, member_role, latitude, 
-      longitude, last_boot_time, app_num, 
-      coupon, create_by, create_date, 
-      update_by, update_date, del_flag
-      )
+      longitude, last_boot_time, last_circle_time, 
+      app_num, coupon, create_by, 
+      create_date, update_by, update_date, 
+      del_flag)
     values (#{id,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{sex,jdbcType=INTEGER}, #{birthday,jdbcType=TIMESTAMP}, #{age,jdbcType=INTEGER}, 
@@ -73,10 +74,10 @@
       #{height,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR}, #{xiongWei,jdbcType=VARCHAR}, 
       #{yaoWei,jdbcType=VARCHAR}, #{tunWei,jdbcType=VARCHAR}, #{shoeSize,jdbcType=VARCHAR}, 
       #{somatotype,jdbcType=VARCHAR}, #{memberRole,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
-      #{longitude,jdbcType=VARCHAR}, #{lastBootTime,jdbcType=TIMESTAMP}, #{appNum,jdbcType=INTEGER}, 
-      #{coupon,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}
-      )
+      #{longitude,jdbcType=VARCHAR}, #{lastBootTime,jdbcType=TIMESTAMP}, #{lastCircleTime,jdbcType=TIMESTAMP}, 
+      #{appNum,jdbcType=INTEGER}, #{coupon,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Member">
     insert into t_member
@@ -158,6 +159,9 @@
       </if>
       <if test="lastBootTime != null">
         last_boot_time,
+      </if>
+      <if test="lastCircleTime != null">
+        last_circle_time,
       </if>
       <if test="appNum != null">
         app_num,
@@ -260,6 +264,9 @@
       <if test="lastBootTime != null">
         #{lastBootTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="lastCircleTime != null">
+        #{lastCircleTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="appNum != null">
         #{appNum,jdbcType=INTEGER},
       </if>
@@ -361,6 +368,9 @@
       <if test="lastBootTime != null">
         last_boot_time = #{lastBootTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="lastCircleTime != null">
+        last_circle_time = #{lastCircleTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="appNum != null">
         app_num = #{appNum,jdbcType=INTEGER},
       </if>
@@ -412,6 +422,7 @@
       latitude = #{latitude,jdbcType=VARCHAR},
       longitude = #{longitude,jdbcType=VARCHAR},
       last_boot_time = #{lastBootTime,jdbcType=TIMESTAMP},
+      last_circle_time = #{lastCircleTime,jdbcType=TIMESTAMP},
       app_num = #{appNum,jdbcType=INTEGER},
       coupon = #{coupon,jdbcType=INTEGER},
       create_by = #{createBy,jdbcType=VARCHAR},

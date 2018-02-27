@@ -1,7 +1,8 @@
 package com.media.ops.backend.dao.mapper;
 
-import com.media.ops.backend.dao.entity.Member;
 import org.apache.ibatis.annotations.Select;
+
+import com.media.ops.backend.dao.entity.Member;
 
 public interface MemberMapper {
     int deleteByPrimaryKey(String id);
@@ -15,7 +16,7 @@ public interface MemberMapper {
     int updateByPrimaryKeySelective(Member record);
 
     int updateByPrimaryKey(Member record);
-
+    
 
     /**
      * 手机号是否已存在

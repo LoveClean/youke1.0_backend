@@ -3,9 +3,15 @@ package com.media.ops.backend.dao.mapper;
 import com.media.ops.backend.dao.entity.Materialgroup;
 
 public interface MaterialgroupMapper {
-    int deleteByPrimaryKey(String groupname);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(Materialgroup record);
 
     int insertSelective(Materialgroup record);
+
+    Materialgroup selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(Materialgroup record);
+
+    int updateByPrimaryKey(Materialgroup record);
 }

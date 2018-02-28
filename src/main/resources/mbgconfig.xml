@@ -110,7 +110,7 @@
 						enableCountByExample="false" enableUpdateByExample="false"
 						enableDeleteByExample="false" enableSelectByExample="false"
 						selectByExampleQueryId="false"></table>							
-		<table tableName="tboper" domainObjectName="Oper"
+		<table tableName="tbuser" domainObjectName="User"
 						enableCountByExample="false" enableUpdateByExample="false"
 						enableDeleteByExample="false" enableSelectByExample="false"
 						selectByExampleQueryId="false"></table>							

@@ -1,5 +1,7 @@
 package com.media.ops.backend.dao.mapper;
 
+import java.util.List;
+
 import com.media.ops.backend.dao.entity.Syslog;
 
 public interface SyslogMapper {
@@ -16,4 +18,6 @@ public interface SyslogMapper {
     int updateByPrimaryKeyWithBLOBs(Syslog record);
 
     int updateByPrimaryKey(Syslog record);
+    
+    List<Syslog> selectBySyslog();
 }

@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="groupname" jdbcType="VARCHAR" property="groupname" />
+    <result column="groupid" jdbcType="INTEGER" property="groupid" />
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
@@ -15,8 +15,8 @@
     <result column="del_flag" jdbcType="CHAR" property="delFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, type, groupname, path, create_by, create_date, update_by, update_date, 
-    remarks, del_flag
+    id, name, type, groupid, path, create_by, create_date, update_by, update_date, remarks, 
+    del_flag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -30,12 +30,12 @@
   </delete>
   <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Material">
     insert into tbmaterial (id, name, type, 
-      groupname, path, create_by, 
+      groupid, path, create_by, 
       create_date, update_by, update_date, 
       remarks, del_flag)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{groupname,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{groupid,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      now(), #{updateBy,jdbcType=VARCHAR}, now(), 
       #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Material">
@@ -50,8 +50,8 @@
       <if test="type != null">
         type,
       </if>
-      <if test="groupname != null">
-        groupname,
+      <if test="groupid != null">
+        groupid,
       </if>
       <if test="path != null">
         path,
@@ -85,8 +85,8 @@
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
       </if>
-      <if test="groupname != null">
-        #{groupname,jdbcType=VARCHAR},
+      <if test="groupid != null">
+        #{groupid,jdbcType=INTEGER},
       </if>
       <if test="path != null">
         #{path,jdbcType=VARCHAR},
@@ -95,13 +95,13 @@
         #{createBy,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null">
-        #{createDate,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="updateBy != null">
         #{updateBy,jdbcType=VARCHAR},
       </if>
       <if test="updateDate != null">
-        #{updateDate,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="remarks != null">
         #{remarks,jdbcType=VARCHAR},
@@ -120,8 +120,8 @@
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="groupname != null">
-        groupname = #{groupname,jdbcType=VARCHAR},
+      <if test="groupid != null">
+        groupid = #{groupid,jdbcType=INTEGER},
       </if>
       <if test="path != null">
         path = #{path,jdbcType=VARCHAR},
@@ -136,7 +136,7 @@
         update_by = #{updateBy,jdbcType=VARCHAR},
       </if>
       <if test="updateDate != null">
-        update_date = #{updateDate,jdbcType=TIMESTAMP},
+        update_date = now(),
       </if>
       <if test="remarks != null">
         remarks = #{remarks,jdbcType=VARCHAR},
@@ -151,12 +151,12 @@
     update tbmaterial
     set name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
-      groupname = #{groupname,jdbcType=VARCHAR},
+      groupid = #{groupid,jdbcType=INTEGER},
       path = #{path,jdbcType=VARCHAR},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_date = now(),
       remarks = #{remarks,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}

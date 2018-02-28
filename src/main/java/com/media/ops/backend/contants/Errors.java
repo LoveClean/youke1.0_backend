@@ -62,7 +62,11 @@ public enum Errors {
     this.label = label;
   }
 
-  /**
+	public int getCode() {
+		return code;
+	}
+  
+/**
    * 获取状态码描述
    * 
    * @param code 状态码

@@ -3,6 +3,7 @@
 <mapper namespace="com.media.ops.backend.dao.mapper.AddeliveryMapper">
   <resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.Addelivery">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="adid" jdbcType="INTEGER" property="adid" />
     <result column="delivertype" jdbcType="INTEGER" property="delivertype" />
     <result column="areaid" jdbcType="VARCHAR" property="areaid" />
     <result column="groupid" jdbcType="INTEGER" property="groupid" />
@@ -16,8 +17,8 @@
     <result column="del_flag" jdbcType="CHAR" property="delFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, delivertype, areaid, groupid, begintime, endtime, create_by, create_date, update_by, 
-    update_date, remarks, del_flag
+    id, adid, delivertype, areaid, groupid, begintime, endtime, create_by, create_date, 
+    update_by, update_date, remarks, del_flag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -30,22 +31,25 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Addelivery">
-    insert into tbaddelivery (id, delivertype, areaid, 
-      groupid, begintime, endtime, 
-      create_by, create_date, update_by, 
-      update_date, remarks, del_flag
-      )
-    values (#{id,jdbcType=INTEGER}, #{delivertype,jdbcType=INTEGER}, #{areaid,jdbcType=VARCHAR}, 
-      #{groupid,jdbcType=INTEGER}, #{begintime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, 
-      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}
-      )
+    insert into tbaddelivery (id, adid, delivertype, 
+      areaid, groupid, begintime, 
+      endtime, create_by, create_date, 
+      update_by, update_date, remarks, 
+      del_flag)
+    values (#{id,jdbcType=INTEGER}, #{adid,jdbcType=INTEGER}, #{delivertype,jdbcType=INTEGER}, 
+      #{areaid,jdbcType=VARCHAR}, #{groupid,jdbcType=INTEGER}, #{begintime,jdbcType=TIMESTAMP}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Addelivery">
     insert into tbaddelivery
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="adid != null">
+        adid,
       </if>
       <if test="delivertype != null">
         delivertype,
@@ -85,6 +89,9 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="adid != null">
+        #{adid,jdbcType=INTEGER},
+      </if>
       <if test="delivertype != null">
         #{delivertype,jdbcType=INTEGER},
       </if>
@@ -123,6 +130,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.media.ops.backend.dao.entity.Addelivery">
     update tbaddelivery
     <set>
+      <if test="adid != null">
+        adid = #{adid,jdbcType=INTEGER},
+      </if>
       <if test="delivertype != null">
         delivertype = #{delivertype,jdbcType=INTEGER},
       </if>
@@ -161,7 +171,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Addelivery">
     update tbaddelivery
-    set delivertype = #{delivertype,jdbcType=INTEGER},
+    set adid = #{adid,jdbcType=INTEGER},
+      delivertype = #{delivertype,jdbcType=INTEGER},
       areaid = #{areaid,jdbcType=VARCHAR},
       groupid = #{groupid,jdbcType=INTEGER},
       begintime = #{begintime,jdbcType=TIMESTAMP},

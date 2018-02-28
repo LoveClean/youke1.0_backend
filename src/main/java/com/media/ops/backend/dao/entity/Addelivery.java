@@ -5,6 +5,8 @@ import java.util.Date;
 public class Addelivery {
     private Integer id;
 
+    private Integer adid;
+
     private Integer delivertype;
 
     private String areaid;
@@ -33,6 +35,14 @@ public class Addelivery {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getAdid() {
+        return adid;
+    }
+
+    public void setAdid(Integer adid) {
+        this.adid = adid;
     }
 
     public Integer getDelivertype() {

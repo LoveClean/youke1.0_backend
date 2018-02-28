@@ -9,7 +9,7 @@ public class Material {
 
     private String type;
 
-    private String groupname;
+    private Integer groupid;
 
     private String path;
 
@@ -49,12 +49,12 @@ public class Material {
         this.type = type == null ? null : type.trim();
     }
 
-    public String getGroupname() {
-        return groupname;
+    public Integer getGroupid() {
+        return groupid;
     }
 
-    public void setGroupname(String groupname) {
-        this.groupname = groupname == null ? null : groupname.trim();
+    public void setGroupid(Integer groupid) {
+        this.groupid = groupid;
     }
 
     public String getPath() {

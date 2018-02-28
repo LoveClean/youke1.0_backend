@@ -7,11 +7,13 @@ public class Device {
 
     private String code;
 
+    private String mac;
+
     private String address;
 
     private String type;
 
-    private String groupname;
+    private Integer groupid;
 
     private String brand;
 
@@ -49,6 +51,14 @@ public class Device {
         this.code = code == null ? null : code.trim();
     }
 
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac == null ? null : mac.trim();
+    }
+
     public String getAddress() {
         return address;
     }
@@ -65,12 +75,12 @@ public class Device {
         this.type = type == null ? null : type.trim();
     }
 
-    public String getGroupname() {
-        return groupname;
+    public Integer getGroupid() {
+        return groupid;
     }
 
-    public void setGroupname(String groupname) {
-        this.groupname = groupname == null ? null : groupname.trim();
+    public void setGroupid(Integer groupid) {
+        this.groupid = groupid;
     }
 
     public String getBrand() {

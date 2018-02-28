@@ -1,7 +1,8 @@
 package com.media.ops.backend.util;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <pre>
@@ -115,7 +116,7 @@ public class ResponseEntity<T> implements Serializable {
    */
   public static <E> ResponseEntity<E> build(Integer httpStatus, Integer code, Exception exception, E data,
       HttpServletRequest request) {
-    ResponseEntity<E> response = new ResponseEntity<>();
+    ResponseEntity<E> response = new ResponseEntity<E>();
     response.data = data;
     if (null != exception) {
       response.exception = exception.getClass().getCanonicalName();

@@ -4,9 +4,10 @@
   <resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.Device">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="mac" jdbcType="VARCHAR" property="mac" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="groupname" jdbcType="VARCHAR" property="groupname" />
+    <result column="groupid" jdbcType="INTEGER" property="groupid" />
     <result column="brand" jdbcType="VARCHAR" property="brand" />
     <result column="spec" jdbcType="VARCHAR" property="spec" />
     <result column="areaid" jdbcType="VARCHAR" property="areaid" />
@@ -19,8 +20,8 @@
     <result column="del_flag" jdbcType="CHAR" property="delFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, code, address, type, groupname, brand, spec, areaid, buildingid, create_by, create_date, 
-    update_by, update_date, remarks, del_flag
+    id, code, mac, address, type, groupid, brand, spec, areaid, buildingid, create_by, 
+    create_date, update_by, update_date, remarks, del_flag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -33,18 +34,18 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Device">
-    insert into tbdevice (id, code, address, 
-      type, groupname, brand, 
-      spec, areaid, buildingid, 
-      create_by, create_date, update_by, 
-      update_date, remarks, del_flag
-      )
-    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{groupname,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
-      #{spec,jdbcType=VARCHAR}, #{areaid,jdbcType=VARCHAR}, #{buildingid,jdbcType=INTEGER}, 
-      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}
-      )
+    insert into tbdevice (id, code, mac, 
+      address, type, groupid, 
+      brand, spec, areaid, 
+      buildingid, create_by, create_date, 
+      update_by, update_date, remarks, 
+      del_flag)
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{groupid,jdbcType=INTEGER}, 
+      #{brand,jdbcType=VARCHAR}, #{spec,jdbcType=VARCHAR}, #{areaid,jdbcType=VARCHAR}, 
+      #{buildingid,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, now(), 
+      #{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Device">
     insert into tbdevice
@@ -55,14 +56,17 @@
       <if test="code != null">
         code,
       </if>
+      <if test="mac != null">
+        mac,
+      </if>
       <if test="address != null">
         address,
       </if>
       <if test="type != null">
         type,
       </if>
-      <if test="groupname != null">
-        groupname,
+      <if test="groupid != null">
+        groupid,
       </if>
       <if test="brand != null">
         brand,
@@ -102,14 +106,17 @@
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
       </if>
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
       </if>
-      <if test="groupname != null">
-        #{groupname,jdbcType=VARCHAR},
+      <if test="groupid != null">
+        #{groupid,jdbcType=INTEGER},
       </if>
       <if test="brand != null">
         #{brand,jdbcType=VARCHAR},
@@ -127,13 +134,13 @@
         #{createBy,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null">
-        #{createDate,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="updateBy != null">
         #{updateBy,jdbcType=VARCHAR},
       </if>
       <if test="updateDate != null">
-        #{updateDate,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="remarks != null">
         #{remarks,jdbcType=VARCHAR},
@@ -149,14 +156,17 @@
       <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
       </if>
+      <if test="mac != null">
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="groupname != null">
-        groupname = #{groupname,jdbcType=VARCHAR},
+      <if test="groupid != null">
+        groupid = #{groupid,jdbcType=INTEGER},
       </if>
       <if test="brand != null">
         brand = #{brand,jdbcType=VARCHAR},
@@ -180,7 +190,7 @@
         update_by = #{updateBy,jdbcType=VARCHAR},
       </if>
       <if test="updateDate != null">
-        update_date = #{updateDate,jdbcType=TIMESTAMP},
+        update_date = now(),
       </if>
       <if test="remarks != null">
         remarks = #{remarks,jdbcType=VARCHAR},
@@ -194,9 +204,10 @@
   <update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Device">
     update tbdevice
     set code = #{code,jdbcType=VARCHAR},
+      mac = #{mac,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
-      groupname = #{groupname,jdbcType=VARCHAR},
+      groupid = #{groupid,jdbcType=INTEGER},
       brand = #{brand,jdbcType=VARCHAR},
       spec = #{spec,jdbcType=VARCHAR},
       areaid = #{areaid,jdbcType=VARCHAR},
@@ -204,7 +215,7 @@
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_date = now(),
       remarks = #{remarks,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}

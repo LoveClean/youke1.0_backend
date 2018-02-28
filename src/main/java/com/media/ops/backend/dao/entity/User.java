@@ -2,7 +2,7 @@ package com.media.ops.backend.dao.entity;
 
 import java.util.Date;
 
-public class Oper {
+public class User {
     private Integer id;
 
     private String account;
@@ -14,6 +14,10 @@ public class Oper {
     private String email;
 
     private String phone;
+
+    private String question;
+
+    private String answer;
 
     private Integer type;
 
@@ -75,6 +79,22 @@ public class Oper {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question == null ? null : question.trim();
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer == null ? null : answer.trim();
     }
 
     public Integer getType() {

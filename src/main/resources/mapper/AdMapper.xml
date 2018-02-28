@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.Ad">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="groupname" jdbcType="VARCHAR" property="groupname" />
+    <result column="groupid" jdbcType="INTEGER" property="groupid" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
@@ -13,7 +13,7 @@
     <result column="del_flag" jdbcType="CHAR" property="delFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, groupname, create_by, create_date, update_by, update_date, remarks, del_flag
+    id, name, groupid, create_by, create_date, update_by, update_date, remarks, del_flag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -26,11 +26,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Ad">
-    insert into tbad (id, name, groupname, 
+    insert into tbad (id, name, groupid, 
       create_by, create_date, update_by, 
       update_date, remarks, del_flag
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{groupname,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{groupid,jdbcType=INTEGER}, 
       #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
       #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}
       )
@@ -44,8 +44,8 @@
       <if test="name != null">
         name,
       </if>
-      <if test="groupname != null">
-        groupname,
+      <if test="groupid != null">
+        groupid,
       </if>
       <if test="createBy != null">
         create_by,
@@ -73,8 +73,8 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="groupname != null">
-        #{groupname,jdbcType=VARCHAR},
+      <if test="groupid != null">
+        #{groupid,jdbcType=INTEGER},
       </if>
       <if test="createBy != null">
         #{createBy,jdbcType=VARCHAR},
@@ -102,8 +102,8 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="groupname != null">
-        groupname = #{groupname,jdbcType=VARCHAR},
+      <if test="groupid != null">
+        groupid = #{groupid,jdbcType=INTEGER},
       </if>
       <if test="createBy != null">
         create_by = #{createBy,jdbcType=VARCHAR},
@@ -129,7 +129,7 @@
   <update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Ad">
     update tbad
     set name = #{name,jdbcType=VARCHAR},
-      groupname = #{groupname,jdbcType=VARCHAR},
+      groupid = #{groupid,jdbcType=INTEGER},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},

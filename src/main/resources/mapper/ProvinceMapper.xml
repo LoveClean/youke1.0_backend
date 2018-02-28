@@ -15,57 +15,10 @@
     from tbprovince
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tbprovince
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Province">
-    insert into tbprovince (id, provinceid, province
-      )
-    values (#{id,jdbcType=INTEGER}, #{provinceid,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Province">
-    insert into tbprovince
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="provinceid != null">
-        provinceid,
-      </if>
-      <if test="province != null">
-        province,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="provinceid != null">
-        #{provinceid,jdbcType=VARCHAR},
-      </if>
-      <if test="province != null">
-        #{province,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.media.ops.backend.dao.entity.Province">
-    update tbprovince
-    <set>
-      <if test="provinceid != null">
-        provinceid = #{provinceid,jdbcType=VARCHAR},
-      </if>
-      <if test="province != null">
-        province = #{province,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Province">
-    update tbprovince
-    set provinceid = #{provinceid,jdbcType=VARCHAR},
-      province = #{province,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+  
+  <select id="selectAllProvinces" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from tbprovince
+  </select>
 </mapper>

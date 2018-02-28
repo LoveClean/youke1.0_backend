@@ -17,7 +17,6 @@ public interface MemberMapper {
 
     int updateByPrimaryKey(Member record);
     
-
     /**
      * 手机号是否已存在
      *

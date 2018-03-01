@@ -266,4 +266,9 @@
     and id != #{userId}
   </select>
   
+  
+  <select id="findByMobile" parameterType="string" resultMap="BaseResultMap">
+  		SELECT * FROM tbuser 
+  		where del_flag = '0' and mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
 </mapper>

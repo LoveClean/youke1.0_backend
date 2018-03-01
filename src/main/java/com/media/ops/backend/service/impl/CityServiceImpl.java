@@ -20,7 +20,7 @@ public class CityServiceImpl implements CityService {
 	@Override
 	public ResponseEntity<City> selectByPrimaryKey(Integer id) {
 		if(id==null) {
-			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR.getCode(), Errors.SYSTEM_REQUEST_PARAM_ERROR.label);
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
 		City city= cityMapper.selectByPrimaryKey(id);
 		if(city==null) {
@@ -33,7 +33,7 @@ public class CityServiceImpl implements CityService {
 	@Override
 	public ResponseEntity<List<City>> selectCitiesByProvinceId(String provinceId) {
 		if(provinceId==null) {
-			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR.getCode(), Errors.SYSTEM_REQUEST_PARAM_ERROR.label);
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
 		List<City> cityList= cityMapper.selectCitiesByProvinceId(provinceId);
 		if(CollectionUtils.isNotEmpty(cityList)) {

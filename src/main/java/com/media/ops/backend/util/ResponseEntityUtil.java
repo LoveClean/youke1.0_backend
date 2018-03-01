@@ -1,13 +1,14 @@
 package com.media.ops.backend.util;
 
-import com.media.ops.backend.contants.Errors;
-import org.springframework.http.HttpStatus;
-
 import javax.servlet.http.HttpServletRequest;
+
+import com.media.ops.backend.util.ResponseEntity;
+import com.media.ops.backend.contants.Errors;
 
 /**
  * 响应返回数据工具类
  *
+ * @author jzsong@uworks.cc
  */
 public class ResponseEntityUtil {
 
@@ -15,7 +16,7 @@ public class ResponseEntityUtil {
     ResponseEntity<T> entity = new ResponseEntity<T>();
     entity.setData(data);
     entity.setCode(Errors.SUCCESS.code);
-    entity.setHttpStatus(HttpStatus.OK.value());
+    entity.setHttpStatus(HttpStatusCode.OK.value());
     entity.setTimestamp(Long.valueOf(System.currentTimeMillis()));
     return entity;
   }
@@ -24,7 +25,7 @@ public class ResponseEntityUtil {
     ResponseEntity<T> entity = new ResponseEntity<T>();
     entity.setTimestamp(Long.valueOf(System.currentTimeMillis()));
     entity.setCode(Errors.SUCCESS.code);
-    entity.setHttpStatus(HttpStatus.OK.value());
+    entity.setHttpStatus(HttpStatusCode.OK.value());
     return entity;
   }
 
@@ -54,6 +55,14 @@ public class ResponseEntityUtil {
     entity.setException(message);
     return entity;
   }
+  
+  public static <T> ResponseEntity<T> fail(Errors errors) {
+	    ResponseEntity<T> entity = new ResponseEntity<T>();
+	    entity.setTimestamp(Long.valueOf(System.currentTimeMillis()));
+	    entity.setCode(errors.code);
+	    entity.setException(errors.label);
+	    return entity;
+	  }
 
   private static ResponseEntity<Void> build() {
     ResponseEntity<Void> entity = new ResponseEntity<Void>();
@@ -72,5 +81,28 @@ public class ResponseEntityUtil {
     entity.setErrMsg(e.getMessage());
     return entity;
   }
-
+  
+  public static <T> ResponseEntity<T> addMessage(int num){
+	  return num == 0 ?
+			  ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL) : 
+			  ResponseEntityUtil.success();
+  }
+  
+  public static <T> ResponseEntity<T> message(T data){
+	  return data == null ?
+			  ResponseEntityUtil.fail(Errors.SYSTEM_DATA_NOT_FOUND) : 
+			  ResponseEntityUtil.success(data);
+  }
+  
+  public static <T> ResponseEntity<T> updMessage(int num){
+	  return num == 0 ?
+			  ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR) : 
+			  ResponseEntityUtil.success();
+  }
+  
+  public static <T> ResponseEntity<T> delMessage(int num){
+	  return num == 0 ?
+			  ResponseEntityUtil.fail(Errors.SYSTEM_DELETE_FAIL) : 
+			  ResponseEntityUtil.success();
+  }
 }

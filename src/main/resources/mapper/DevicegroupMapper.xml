@@ -90,4 +90,12 @@
       order = #{order,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectGroupChildrenByParentId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List"/>
+    from tbdevicegroup
+    where parentid = #{parentId}
+  </select>
+  
 </mapper>

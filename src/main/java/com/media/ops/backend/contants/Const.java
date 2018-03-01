@@ -12,4 +12,9 @@ public class Const {
 		int ROLE_ADMIN=1; //后台管理员
 	}
 	
+	public interface GroupStatusEnum{
+		byte NORMAL=1;
+		byte ABANDON=2;
+	}
+	
 }

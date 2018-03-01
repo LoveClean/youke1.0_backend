@@ -1,5 +1,7 @@
 package com.media.ops.backend.dao.mapper;
 
+import java.util.List;
+
 import com.media.ops.backend.dao.entity.Devicegroup;
 
 public interface DevicegroupMapper {
@@ -14,4 +16,6 @@ public interface DevicegroupMapper {
     int updateByPrimaryKeySelective(Devicegroup record);
 
     int updateByPrimaryKey(Devicegroup record);
+
+	List<Devicegroup> selectGroupChildrenByParentId(Integer parentId);
 }

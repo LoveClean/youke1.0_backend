@@ -9,7 +9,7 @@ public class Materialgroup {
 
     private Byte status;
 
-    private Integer order;
+    private Integer sortorder;
 
     public Integer getId() {
         return id;
@@ -43,11 +43,11 @@ public class Materialgroup {
         this.status = status;
     }
 
-    public Integer getOrder() {
-        return order;
+    public Integer getSortorder() {
+        return sortorder;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setSortorder(Integer sortorder) {
+        this.sortorder = sortorder;
     }
 }

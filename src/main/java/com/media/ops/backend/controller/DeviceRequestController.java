@@ -1,21 +1,15 @@
 package com.media.ops.backend.controller;
 
-import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.dao.entity.Device;
-import com.media.ops.backend.dao.entity.Member;
-import com.media.ops.backend.dao.entity.User;
 import com.media.ops.backend.service.DeviceRequestService;
-import com.media.ops.backend.service.MemberService;
-import com.media.ops.backend.service.UserService;
+import com.media.ops.backend.util.ResponseEntity;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 /**
  * @author 林逢升
@@ -33,7 +27,7 @@ public class DeviceRequestController {
     @ApiOperation(value = "设备查询",notes = "设备查询")
     @PostMapping(value="getDevice.do")
     @ResponseBody
-    public com.media.ops.backend.util.ResponseEntity<Device> getDevice(String code, HttpSession session ) {
+    public ResponseEntity<Device> getDevice(String code, HttpSession session ) {
         return deviceRequestService.GetDevice(code);
     }
 }

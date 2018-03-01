@@ -16,6 +16,6 @@ public interface DevicegroupMapper {
     int updateByPrimaryKeySelective(Devicegroup record);
 
     int updateByPrimaryKey(Devicegroup record);
-
-	List<Devicegroup> selectGroupChildrenByParentId(Integer parentId);
+    
+    List<Devicegroup> selectGroupChildrenByParentId(Integer parentId);
 }

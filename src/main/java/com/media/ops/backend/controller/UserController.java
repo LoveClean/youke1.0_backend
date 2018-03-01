@@ -17,9 +17,9 @@ import com.media.ops.backend.util.ResponseEntityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(description="前端用户操作接口",produces = "application/json")
+@Api(description="管理员操作接口",produces = "application/json")
 @RestController
-@RequestMapping("/user/")
+@RequestMapping("/manager/")
 public class UserController {
 
 	@Autowired

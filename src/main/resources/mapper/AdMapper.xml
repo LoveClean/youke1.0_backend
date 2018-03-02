@@ -138,4 +138,14 @@
       del_flag = #{delFlag,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAdVoByMac" parameterType="java.lang.String" resultType="com.media.ops.backend.vo.AdMaterialListVo">
+    select vwad.*,vwaddevice.begintime, vwaddevice.endtime from vwad
+      INNER JOIN vwaddevice ON vwaddevice.adid=vwad.id
+    where vwaddevice.mac = #{mac} and sysdate()>vwaddevice.begintime and vwaddevice.endtime>sysdate()
+  </select>
+  <select id="selectAdMaterialByAdid" parameterType="java.lang.Integer" resultType="com.media.ops.backend.vo.AdMaterialVo">
+    select * from vwadmaterial where adid=#{adid} ORDER BY orderindex
+  </select>
+
 </mapper>

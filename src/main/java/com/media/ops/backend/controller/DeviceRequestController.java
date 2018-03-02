@@ -4,12 +4,14 @@ import com.media.ops.backend.dao.entity.Device;
 import com.media.ops.backend.service.DeviceRequestService;
 import com.media.ops.backend.util.ResponseEntity;
 
+import com.media.ops.backend.vo.AdMaterialListVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @author 林逢升
@@ -29,5 +31,17 @@ public class DeviceRequestController {
     @ResponseBody
     public ResponseEntity<Device> getDevice(String code, HttpSession session ) {
         return deviceRequestService.GetDevice(code);
+    }
+    @ApiOperation(value = "设备绑定",notes = "设备绑定")
+    @PostMapping(value="bindDevice.do")
+    @ResponseBody
+    public ResponseEntity<String> bindDevice(String code,String mac, HttpSession session ) {
+        return deviceRequestService.BindDevice(code,mac);
+    }
+    @ApiOperation(value = "获取当前广告",notes = "获取当前广告")
+    @PostMapping(value="getAd.do")
+    @ResponseBody
+    public ResponseEntity<List<AdMaterialListVo>> getAd(String mac, HttpSession session ) {
+        return deviceRequestService.GetAd(mac);
     }
 }

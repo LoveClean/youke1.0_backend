@@ -11,17 +11,17 @@ public class AdMaterialVo {
 	private String type;   //素材类型
 	private String path;   //素材地址
 	
-	public AdMaterialVo(int materialId, int orderIndex, int loadStep, int displayTime, String musicPath, String name,
-			String type, String path) {
-		this.materialId = materialId;
-		this.orderIndex = orderIndex;
-		this.loadStep = loadStep;
-		this.displayTime = displayTime;
-		this.musicPath = musicPath;
-		this.name = name;
-		this.type = type;
-		this.path = path;
-	}
+//	public AdMaterialVo(int materialId, int orderIndex, int loadStep, int displayTime, String musicPath, String name,
+//			String type, String path) {
+//		this.materialId = materialId;
+//		this.orderIndex = orderIndex;
+//		this.loadStep = loadStep;
+//		this.displayTime = displayTime;
+//		this.musicPath = musicPath;
+//		this.name = name;
+//		this.type = type;
+//		this.path = path;
+//	}
 	
 	public int getMaterialId() {
 		return materialId;
@@ -71,7 +71,4 @@ public class AdMaterialVo {
 	public void setPath(String path) {
 		this.path = path;
 	}
-
-	
-
 }

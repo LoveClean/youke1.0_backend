@@ -1,7 +1,9 @@
 package com.media.ops.backend.controller;
 
 import com.media.ops.backend.dao.entity.Device;
+import com.media.ops.backend.dao.entity.Play;
 import com.media.ops.backend.service.DeviceRequestService;
+import com.media.ops.backend.service.PlayService;
 import com.media.ops.backend.util.ResponseEntity;
 
 import com.media.ops.backend.vo.AdMaterialListVo;
@@ -44,4 +46,14 @@ public class DeviceRequestController {
     public ResponseEntity<List<AdMaterialListVo>> getAd(String mac, HttpSession session ) {
         return deviceRequestService.GetAd(mac);
     }
+
+    @Autowired
+    private PlayService playService;
+    @ApiOperation(value = "获取时间段范围内的直播记录",notes = "获取时间段范围内的直播记录")
+    @PostMapping(value="getPlaysByTime.do")
+    @ResponseBody
+    public ResponseEntity<List<Play>> getPlaysByTime(String begintime, String endtime, HttpSession session ) {
+        return playService.GetPlays(begintime,endtime);
+    }
+
 }

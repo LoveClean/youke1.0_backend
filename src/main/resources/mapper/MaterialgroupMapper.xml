@@ -90,4 +90,12 @@
       sortOrder = #{sortorder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+   <select id="selectGroupChildrenByParentId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List"/>
+    from tbmaterialgroup
+    where parentid = #{parentId}
+  </select>   
+  
 </mapper>

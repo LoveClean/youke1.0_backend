@@ -17,8 +17,10 @@ import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.dao.entity.Devicegroup;
 import com.media.ops.backend.dao.mapper.DevicegroupMapper;
 import com.media.ops.backend.service.DeviceGroupService;
+import com.media.ops.backend.util.ListSortUtil;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.DeviceGroupVo;
 
 @Service
 public class DeviceGroupServiceImpl implements DeviceGroupService {
@@ -76,12 +78,47 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
 	}
 
 	@Override
-	public ResponseEntity<List<Devicegroup>> getChildParallelGroup(Integer groupId) {
+	public ResponseEntity<List<DeviceGroupVo>> getChildParallelGroup(Integer groupId) {
 		List<Devicegroup> devicegroups= devicegroupMapper.selectGroupChildrenByParentId(groupId);
 		if(CollectionUtils.isEmpty(devicegroups)) {
 			log.info("未找到当前分类的子分类");
 		}
-		return ResponseEntityUtil.success(devicegroups);
+		
+		List<DeviceGroupVo> deviceGroupVoList= Lists.newArrayList();
+		for(Devicegroup devicegroup: devicegroups) {
+			DeviceGroupVo deviceGroupVo= this.assembleDeviceGroupVo(devicegroup);
+			deviceGroupVoList.add(deviceGroupVo);
+		}
+		
+		
+		return ResponseEntityUtil.success(deviceGroupVoList);
+	}
+	
+	@Override
+	public ResponseEntity<List<DeviceGroupVo>> getChildParallelGroup(Integer groupId, String sortField, String sortRule) {
+		List<Devicegroup> devicegroups= devicegroupMapper.selectGroupChildrenByParentId(groupId);
+		if(CollectionUtils.isEmpty(devicegroups)) {
+			log.info("未找到当前分类的子分类");
+		}
+		
+		new ListSortUtil<Devicegroup>().Sort(devicegroups, sortField, sortRule);
+		
+		List<DeviceGroupVo> deviceGroupVoList= Lists.newArrayList();
+		for(Devicegroup devicegroup: devicegroups) {
+			DeviceGroupVo deviceGroupVo= this.assembleDeviceGroupVo(devicegroup);
+			deviceGroupVoList.add(deviceGroupVo);
+		}
+		
+		return ResponseEntityUtil.success(deviceGroupVoList);
+	}
+
+	
+	private DeviceGroupVo assembleDeviceGroupVo(Devicegroup devicegroup) {
+		DeviceGroupVo deviceGroupVo= new DeviceGroupVo();
+		deviceGroupVo.setId(devicegroup.getId());
+		deviceGroupVo.setName(devicegroup.getName());
+		deviceGroupVo.setParentid(devicegroup.getParentid());
+		return deviceGroupVo;
 	}
 	
 	//递归算法，算出子节点
@@ -111,5 +148,6 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
 		}
 		return ResponseEntityUtil.success(groupIdList);
 	}
+
 
 }

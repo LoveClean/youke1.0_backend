@@ -1,5 +1,7 @@
 package com.media.ops.backend.dao.mapper;
 
+import java.util.List;
+
 import com.media.ops.backend.dao.entity.Adgroup;
 
 public interface AdgroupMapper {
@@ -14,4 +16,6 @@ public interface AdgroupMapper {
     int updateByPrimaryKeySelective(Adgroup record);
 
     int updateByPrimaryKey(Adgroup record);
+
+    List<Adgroup> selectGroupChildrenByParentId(Integer parentId);
 }

@@ -59,7 +59,7 @@
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
-      <if test="order != null">
+      <if test="sortorder != null">
         #{sortorder,jdbcType=INTEGER},
       </if>
     </trim>
@@ -76,7 +76,7 @@
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="order != null">
+      <if test="sortorder != null">
         sortOrder = #{sortorder,jdbcType=INTEGER},
       </if>
     </set>
@@ -90,4 +90,12 @@
       sortOrder = #{sortorder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+    
+   <select id="selectGroupChildrenByParentId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List"/>
+    from tbadgroup
+    where parentid = #{parentId}
+  </select>  
 </mapper>

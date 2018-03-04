@@ -1,5 +1,6 @@
 package com.media.ops.backend.service.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -7,14 +8,21 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.media.ops.backend.cache.TokenCache;
 import com.media.ops.backend.contants.Const;
+import com.media.ops.backend.contants.Errors;
+import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.User;
 import com.media.ops.backend.dao.mapper.UserMapper;
 import com.media.ops.backend.service.UserService;
 import com.media.ops.backend.util.MD5Util;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.UserVo;
+
 
 @Service
 public class UserSericeImpl implements UserService {
@@ -23,24 +31,36 @@ public class UserSericeImpl implements UserService {
     private UserMapper userMapper;
 
 	@Override
-	public ResponseEntity<User> login(String account, String password) {
-		// TODO Auto-generated method stub
-		int resultCount=userMapper.checkAccount(account);
-		if(resultCount==0) {
-			return ResponseEntityUtil.fail("用户不存在");
-		}
-		//todo MD5加密 
+	public ResponseEntity<User> login(String username, String password) {
+        if(StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+        	return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+        }
+		
+		//判断是邮箱还是手机号的正则表达式  
+		String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";  
+		String ph = "^[1][34578]\\d{9}$";
+
+		User user=null;
 		String MD5Password= MD5Util.MD5(password);
-		User user= userMapper.selectLogin(account, MD5Password);
+		
+		if(username.matches(ph)) {
+			user= userMapper.selectByPhone(username, MD5Password);
+		}else if(username.matches(em)) {
+			user= userMapper.selectByEmail(username, MD5Password);
+		}else {
+			user=userMapper.selectByAccount(username, MD5Password);
+		}
+		
 		if(user==null) {
-			return ResponseEntityUtil.fail("密码错误");
+			return ResponseEntityUtil.fail("账号或密码错误");
 		}
 		user.setPassword(StringUtils.EMPTY);
 		return ResponseEntityUtil.success(user);
+		
 	}
 
 	@Override
-	public ResponseEntity<String> register(User user) {
+	public ResponseEntity<String> add(User user) {
 		ResponseEntity<String> validResponse= this.checkValid(user.getAccount(), Const.USERNAME);
 		if(! validResponse.isSuccess()) {
 			return validResponse;
@@ -54,10 +74,10 @@ public class UserSericeImpl implements UserService {
 		
 		int resultCount= userMapper.insert(user);
 		if(resultCount==0) {
-			return ResponseEntityUtil.fail("注册失败");
+			return ResponseEntityUtil.fail("添加管理员失败");
 		}
 		
-		return ResponseEntityUtil.success("注册成功");
+		return ResponseEntityUtil.success("添加管理员成功");
 	}
 
 	@Override
@@ -190,6 +210,32 @@ public class UserSericeImpl implements UserService {
 			return ResponseEntityUtil.success();
 		}
 		return ResponseEntityUtil.fail("不是管理员");
+	}
+
+	@Override
+	public PageResponseBean<UserVo> getUserList(int pageNum, int pageSize) {
+		
+		PageHelper.startPage(pageNum, pageSize);
+		List<User> users= userMapper.selectList();
+		List<UserVo> userVos= Lists.newArrayList();
+		for(User user : users) {
+			UserVo userVo= assembleUserVo(user);
+			userVos.add(userVo);
+		}
+		PageInfo pageInfo =new PageInfo(users);
+		pageInfo.setList(userVos);
+		
+		return new PageResponseBean<UserVo>(pageInfo);
+	}
+
+	private UserVo assembleUserVo(User user) {
+		UserVo userVo=new UserVo();
+		userVo.setAccount(user.getAccount());
+		userVo.setEmail(user.getEmail());
+		userVo.setPhone(user.getPhone());
+		userVo.setTruename(user.getTruename());
+		userVo.setType(user.getType());
+		return userVo;
 	}
 
 

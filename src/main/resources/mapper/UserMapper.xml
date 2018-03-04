@@ -220,15 +220,29 @@
   </select>
 
 
-  <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+  <select id="selectByAccount" resultMap="BaseResultMap" parameterType="map">
     SELECT
     <include refid="Base_Column_List" />
     from tbuser
     where account = #{account}
     and password = #{password}
   </select>
-
-
+  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    from tbuser
+    where phone = #{phone}
+    and password = #{password}
+  </select>
+  
+  <select id="selectByEmail" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    from tbuser
+    where email = #{email}
+    and password = #{password}
+  </select>
+  
   <select id="selectQuestionByAccount" resultType="string" parameterType="string">
     select
     question
@@ -271,4 +285,12 @@
   		SELECT * FROM tbuser 
   		where del_flag = '0' and mobile = #{mobile,jdbcType=VARCHAR}
   </select>
+  
+    <select id="selectList" resultMap="BaseResultMap" >
+    SELECT
+    <include refid="Base_Column_List"/>
+    from tbuser
+    ORDER BY id asc
+  </select>
+  
 </mapper>

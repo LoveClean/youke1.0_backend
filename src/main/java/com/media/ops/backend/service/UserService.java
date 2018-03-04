@@ -1,13 +1,16 @@
 package com.media.ops.backend.service;
 
+import com.github.pagehelper.PageInfo;
+import com.media.ops.backend.controller.response.PageResponseBean;
 import  com.media.ops.backend.dao.entity.User;
 import  com.media.ops.backend.util.ResponseEntity;
+import com.media.ops.backend.vo.UserVo;
 
 public interface UserService {
 
 	ResponseEntity<User> login(String username, String password);
 
-	ResponseEntity<String> register(User user);
+	ResponseEntity<String> add(User user);
 
 	ResponseEntity<String> checkValid(String str, String type);
 
@@ -24,5 +27,7 @@ public interface UserService {
 	ResponseEntity<User> getInformation(Integer id);
 
 	ResponseEntity<String> checkAdminRole(User user);
+	
+	PageResponseBean<UserVo>  getUserList(int pageNum, int pageSize);
 
 }

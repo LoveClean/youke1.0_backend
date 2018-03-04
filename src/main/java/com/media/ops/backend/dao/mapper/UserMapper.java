@@ -1,6 +1,9 @@
 package com.media.ops.backend.dao.mapper;
 
 import com.media.ops.backend.dao.entity.User;
+
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
@@ -23,7 +26,9 @@ public interface UserMapper {
  	
  	int checkEmail(String email);
  	
- 	User selectLogin(@Param("account")String account, @Param("password")String password);
+ 	User selectByAccount(@Param("account")String account, @Param("password")String password);
+ 	User selectByPhone(@Param("phone")String phone, @Param("password")String password);
+ 	User selectByEmail(@Param("email")String email, @Param("password")String password);
 
  	String selectQuestionByAccount(String account);
  	
@@ -36,4 +41,6 @@ public interface UserMapper {
  	int checkEmailByUserId(@Param("email")String email, @Param("userId")Integer userId);
  	
  	User findByMobile(String mobile);
+ 	
+ 	List<User> selectList();
 }

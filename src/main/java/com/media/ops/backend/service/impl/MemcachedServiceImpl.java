@@ -33,7 +33,7 @@ public class MemcachedServiceImpl implements MemcachedService {
   @Override
   public void set(String key, int exprieTime, Object value) {
     memcachedClient.set(appConfig.getAppName()+"_"+appConfig.getEnv()+"_"+key, exprieTime, value);
-  }
+    }
 
   /**
    * 删除

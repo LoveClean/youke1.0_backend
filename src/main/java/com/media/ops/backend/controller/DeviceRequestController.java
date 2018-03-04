@@ -12,7 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -22,7 +21,7 @@ import java.util.List;
  */
 @Api(description="设备数据请求接口",produces = "application/json")
 @RestController
-@RequestMapping("devicerequest")
+@RequestMapping("/devicerequest/")
 public class DeviceRequestController {
 
     @Autowired
@@ -31,19 +30,19 @@ public class DeviceRequestController {
     @ApiOperation(value = "设备查询",notes = "设备查询")
     @PostMapping(value="getDevice.do")
     @ResponseBody
-    public ResponseEntity<Device> getDevice(String code, HttpSession session ) {
+    public ResponseEntity<Device> getDevice(String code ) {
         return deviceRequestService.GetDevice(code);
     }
     @ApiOperation(value = "设备绑定",notes = "设备绑定")
     @PostMapping(value="bindDevice.do")
     @ResponseBody
-    public ResponseEntity<String> bindDevice(String code,String mac, HttpSession session ) {
+    public ResponseEntity<String> bindDevice(String code,String mac ) {
         return deviceRequestService.BindDevice(code,mac);
     }
     @ApiOperation(value = "获取当前广告",notes = "获取当前广告")
     @PostMapping(value="getAd.do")
     @ResponseBody
-    public ResponseEntity<List<AdMaterialListVo>> getAd(String mac, HttpSession session ) {
+    public ResponseEntity<List<AdMaterialListVo>> getAd(String mac) {
         return deviceRequestService.GetAd(mac);
     }
 
@@ -52,7 +51,7 @@ public class DeviceRequestController {
     @ApiOperation(value = "获取时间段范围内的直播记录",notes = "获取时间段范围内的直播记录")
     @PostMapping(value="getPlaysByTime.do")
     @ResponseBody
-    public ResponseEntity<List<Play>> getPlaysByTime(String begintime, String endtime, HttpSession session ) {
+    public ResponseEntity<List<Play>> getPlaysByTime(String begintime, String endtime) {
         return playService.GetPlays(begintime,endtime);
     }
 

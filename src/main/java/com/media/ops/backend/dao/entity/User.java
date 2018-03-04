@@ -20,6 +20,11 @@ public class User {
     private String answer;
 
     private Integer type;
+    
+    /**
+     * 登录Token
+     */
+    private String accessToken;
 
     private String createBy;
 
@@ -152,4 +157,12 @@ public class User {
     public void setDelFlag(String delFlag) {
         this.delFlag = delFlag == null ? null : delFlag.trim();
     }
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
 }

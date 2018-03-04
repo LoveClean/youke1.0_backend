@@ -1,5 +1,21 @@
 package com.media.ops.backend.service.impl;
 
+import com.media.ops.backend.controller.response.PageResponseBean;
+import com.media.ops.backend.dao.mapper.SyslogMapper;
+import com.media.ops.backend.dao.mapper.UserMapper;
+import com.media.ops.backend.dao.entity.User;
+import com.media.ops.backend.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
+import com.media.ops.backend.cache.TokenCache;
+import com.media.ops.backend.contants.Const;
+import com.media.ops.backend.contants.Errors;
+import com.media.ops.backend.util.MD5Util;
+import com.media.ops.backend.util.ResponseEntity;
+import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.UserVo;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -7,31 +23,19 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.google.common.collect.Lists;
-import com.media.ops.backend.cache.TokenCache;
-import com.media.ops.backend.contants.Const;
-import com.media.ops.backend.contants.Errors;
-import com.media.ops.backend.controller.response.PageResponseBean;
-import com.media.ops.backend.dao.entity.User;
-import com.media.ops.backend.dao.mapper.UserMapper;
-import com.media.ops.backend.service.UserService;
-import com.media.ops.backend.util.MD5Util;
-import com.media.ops.backend.util.ResponseEntity;
-import com.media.ops.backend.util.ResponseEntityUtil;
-import com.media.ops.backend.vo.UserVo;
-
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserSericeImpl implements UserService {
+@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+public class UserServiceImpl implements UserService {
 
     @Resource
     private UserMapper userMapper;
 
 	@Override
-	public ResponseEntity<User> login(String username, String password) {
+	public ResponseEntity<User> adminLogin(String username, String password) {
         if(StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
         	return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
         }
@@ -54,9 +58,14 @@ public class UserSericeImpl implements UserService {
 		if(user==null) {
 			return ResponseEntityUtil.fail("账号或密码错误");
 		}
-		user.setPassword(StringUtils.EMPTY);
-		return ResponseEntityUtil.success(user);
 		
+		if(this.checkAdminRole(user).isSuccess()) {
+			user.setPassword(StringUtils.EMPTY);
+			return ResponseEntityUtil.success(user);
+		}else {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_NO_ACCESS);
+		}
+	
 	}
 
 	@Override
@@ -237,7 +246,6 @@ public class UserSericeImpl implements UserService {
 		userVo.setType(user.getType());
 		return userVo;
 	}
-
 
 
 }

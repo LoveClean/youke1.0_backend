@@ -17,11 +17,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.media.ops.backend.dao.entity.Syslog;
 import com.media.ops.backend.dao.entity.User;
 import com.media.ops.backend.service.SysLogService;
-
+import com.media.ops.backend.service.UserSessionService;
 import com.media.ops.backend.annotation.ACS;
-import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
-import com.media.ops.backend.util.BaseUtil;
 import com.media.ops.backend.util.ExceptionUtil;
 
 /**
@@ -31,8 +29,8 @@ import com.media.ops.backend.util.ExceptionUtil;
  */
 @Component
 public class AccessControlInterceptor extends HandlerInterceptorAdapter {
-  
-
+  @Autowired
+  private UserSessionService userSessionService;
   
   @Resource
   private SysLogService sysLogService;
@@ -46,10 +44,9 @@ public class AccessControlInterceptor extends HandlerInterceptorAdapter {
       add("/swagger-resources");
       add("/api-docs");
       add("/v2/api-docs");
-      add("/user/register");
-      add("/user/login");
-      add("/user/aboutUs");
-      add("/user/userGuide");
+      add("/manager/login");
+      add("/devicerequest/*");
+
       add("/sms/*");
 
       add("/error");
@@ -58,8 +55,26 @@ public class AccessControlInterceptor extends HandlerInterceptorAdapter {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-    return true;
+	   // 不需要进行访问控制的资源过滤
+	    String uri = request.getRequestURI();
+	    for (String resource : noLoginResources) {
+	      if (uri.startsWith(resource)) {
+	        return true;
+	      }
+	    }
+	    if (handler instanceof HandlerMethod) {
+	      ACS acs = ((HandlerMethod) handler).getMethodAnnotation(ACS.class);
+	      // 判断是否允许匿名访问
+	      if (acs != null && acs.allowAnonymous()) {
+	        return true;
+	      }
+	    }
+	    // 缓存获取验证
+	    User user = userSessionService.getSessionUser(request);
+	    if (user == null) {
+	      ExceptionUtil.throwException(Errors.SYSTEM_NOT_LOGIN);
+	    }
+	    return true;
   }
 
   @Override
@@ -72,13 +87,14 @@ public class AccessControlInterceptor extends HandlerInterceptorAdapter {
   public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {  
 	  
 	  //请求日志记录
-	  User user =(User)request.getSession().getAttribute(Const.CURRENT_USER);
+	  //User user =(User)request.getSession().getAttribute(Const.CURRENT_USER);
+	  User user =userSessionService.getSessionUser(request);
 	  Syslog sysLog = new Syslog();
 	  sysLog.setException(ex!=null?ex.toString():"");
 	  sysLog.setType("1");
 	  sysLog.setMethod(request.getMethod());
 	  sysLog.setRequestUri(request.getRequestURI());
-	  sysLog.setRemoteAddr(BaseUtil.getRemoteIP(request));
+	  sysLog.setRemoteAddr(userSessionService.getRemoteIP(request));
 	  
 	  Enumeration<String> e = request.getHeaders("Accept-Encoding");
 	  StringBuffer userAgent=new StringBuffer();

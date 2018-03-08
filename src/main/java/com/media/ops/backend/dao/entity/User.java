@@ -21,6 +21,8 @@ public class User {
 
     private Integer type;
     
+    private Byte status;
+    
     /**
      * 登录Token
      */
@@ -110,7 +112,15 @@ public class User {
         this.type = type;
     }
 
-    public String getCreateBy() {
+    public Byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(Byte status) {
+		this.status = status;
+	}
+
+	public String getCreateBy() {
         return createBy;
     }
 

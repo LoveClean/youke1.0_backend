@@ -45,7 +45,7 @@ public class MaterialGroupController extends BaseController{
 	
 	@ApiOperation(value = "递归获取分组操作接口",notes = "递归获取分组")
 	@PostMapping(value="get_deep_group.do")
-	public ResponseEntity getGroupAndDeepChildCategory(HttpSession session, Integer groupId) {
+	public ResponseEntity getGroupAndDeepChildCategory(Integer groupId) {
 			return materialGroupService.selectGroupAndChildrenById(groupId);
 	}
 }

@@ -83,7 +83,7 @@ public class UserController extends BaseController {
 	}
 	
 	@ApiOperation(value = "获取管理员信息接口",notes = "获取管理员信息")
-	@PostMapping(value="get_user_info.do")
+	@RequestMapping(value="get_user_info.do")
 	public ResponseEntity<User> getUserInfo(HttpServletRequest request){
 		User user= super.getSessionUser(request);
 		if(user !=null) {
@@ -141,7 +141,7 @@ public class UserController extends BaseController {
 	}
 	
 	@ApiOperation(value = "获取管理员列表",notes = "管理员列表")
-	@PostMapping(value="get_list.do")
+	@RequestMapping(value="get_list.do")
 	public ResponseEntity<PageResponseBean<UserVo>> getList(PageRequestBean bean){
 	       return ResponseEntityUtil.success(userService.getUserList(bean.getPageNum(),bean.getPageSize()));
 	}
@@ -151,4 +151,10 @@ public class UserController extends BaseController {
     public ResponseEntity<PageResponseBean<Syslog>> records(@Valid @RequestBody PageRequestBean bean) {
         return ResponseEntityUtil.success(sysLogService.sysLog(bean));
     }
+    
+	@ApiOperation(value = "登录禁用接口",notes = "登录禁用")
+	@RequestMapping(value="login_forbidden.do")
+	public ResponseEntity<String> loginForbidden(String username){
+		return userService.updateStatusById(username);
+	}
 }

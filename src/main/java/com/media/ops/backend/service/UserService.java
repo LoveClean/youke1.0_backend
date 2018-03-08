@@ -29,4 +29,6 @@ public interface UserService {
 	ResponseEntity<String> checkAdminRole(User user);
 	
 	PageResponseBean<UserVo>  getUserList(int pageNum, int pageSize);
+	
+	ResponseEntity<String> updateStatusById(String account);
 }

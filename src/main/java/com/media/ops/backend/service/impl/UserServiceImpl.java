@@ -201,6 +201,14 @@ public class UserServiceImpl implements UserService {
 		}
 		return ResponseEntityUtil.fail("更新个人信息失败");
 	}
+	
+	public ResponseEntity<String> updateStatusById(String account){
+		int resultCount= userMapper.updateStatusById(account);
+		if(resultCount>0) {
+			return ResponseEntityUtil.success("该账号已禁止登录！");
+		}
+		return ResponseEntityUtil.fail("操作失败");
+	}
 
 
 	@Override
@@ -244,6 +252,7 @@ public class UserServiceImpl implements UserService {
 		userVo.setPhone(user.getPhone());
 		userVo.setTruename(user.getTruename());
 		userVo.setType(user.getType());
+		userVo.setStatus(user.getStatus());
 		return userVo;
 	}
 

@@ -67,8 +67,8 @@ public class BaseController {
    * @return
    */
   protected String generateAccessToken(HttpServletRequest request) {
-    //return request.getSession().getId() + StringUtil.uuidNotLine();
-	  return request.getSession().getId();
+    return request.getSession().getId() + StringUtil.uuidNotLine();
+	 // return request.getSession().getId();
   }
 
   /**

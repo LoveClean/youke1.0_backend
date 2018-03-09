@@ -78,9 +78,9 @@ public class UserServiceImpl implements UserService {
 		if(!validResponse.isSuccess()) {
 			return validResponse;
 		}
-		user.setType(Const.Role.ROLE_HOST);
+		user.setType(user.getType());
 		user.setPassword(MD5Util.MD5(user.getPassword()));
-		
+		user.setDelFlag("0");
 		int resultCount= userMapper.insert(user);
 		if(resultCount==0) {
 			return ResponseEntityUtil.fail("添加管理员失败");
@@ -194,6 +194,7 @@ public class UserServiceImpl implements UserService {
 		updateUser.setPhone(user.getPhone());
 		updateUser.setQuestion(user.getQuestion());
 		updateUser.setAnswer(user.getAnswer());
+		updateUser.setUpdateBy(user.getUpdateBy());
 		
 		int updateCount= userMapper.updateByPrimaryKeySelective(updateUser);
 		if(updateCount>0) {

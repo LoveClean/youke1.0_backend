@@ -22,13 +22,23 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 
 @SuppressWarnings("restriction")
-@Api(description = "文件上传", produces = "application/json")
+@Api(description = "素材管理接口", produces = "application/json")
 @RestController
-@RequestMapping("/file")
-public class FileUploadController   {
+@RequestMapping("/material")
+public class MaterialController   {
   @Resource
   private OssService ossService;
 
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
   /**
    * 上传图片
    * 
@@ -114,5 +124,8 @@ public class FileUploadController   {
     if (owidth > 1000 || oheight > 1000) {
       ExceptionUtil.throwException(Errors.SYSTEM_CUSTOM_ERROR.code, "图片尺寸过大");
     }
+    
+    
+    
   }
 }

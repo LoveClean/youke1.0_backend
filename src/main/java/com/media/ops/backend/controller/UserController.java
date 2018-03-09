@@ -4,15 +4,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alipay.api.domain.BenefitGradePoint;
 import com.media.ops.backend.annotation.ACS;
 import com.media.ops.backend.controller.request.PageRequestBean;
+import com.media.ops.backend.controller.request.UserAddRequestBean;
 import com.media.ops.backend.controller.request.UserLoginRequestBean;
+import com.media.ops.backend.controller.request.UserUptRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Syslog;
 import com.media.ops.backend.dao.entity.User;
@@ -72,8 +76,13 @@ public class UserController extends BaseController {
 	
 	@ApiOperation(value = "添加管理员接口",notes = "添加管理员")
 	@PostMapping(value="add.do")	
-	public ResponseEntity<String> add(User user){
-		return userService.add(user);
+	public ResponseEntity<String> add(@Valid @RequestBody UserAddRequestBean bean, 
+			HttpServletRequest request){
+		User user= new User(bean.getName(), bean.getTrueName(), bean.getPassword(),
+				bean.getEmail(), bean.getPhone(), bean.getQuestion(), bean.getAnswer(), 
+				bean.getType(), (byte) 1, super.getSessionUser(request).getAccount(), super.getSessionUser(request).getAccount());
+		
+				return userService.add(user);
 	}
 	
 	@ApiOperation(value = "用户校验接口",notes = "信息校验")
@@ -83,7 +92,7 @@ public class UserController extends BaseController {
 	}
 	
 	@ApiOperation(value = "获取管理员信息接口",notes = "获取管理员信息")
-	@RequestMapping(value="get_user_info.do")
+	@GetMapping(value="get_user_info.do")
 	public ResponseEntity<User> getUserInfo(HttpServletRequest request){
 		User user= super.getSessionUser(request);
 		if(user !=null) {
@@ -120,12 +129,20 @@ public class UserController extends BaseController {
 	       return userService.resetPassword(passwordOld, passwordNew, user);
 	}
 	
-	@ApiOperation(value = "更新管理员信息接口",notes = "更新管理员信息")
+	@ApiOperation(value = "修改个人信息接口",notes = "修改自身信息")
 	@PostMapping(value="update_information.do")
-	public ResponseEntity<User> update_information(HttpServletRequest request, User user){
-		User currentUser= super.getSessionUser(request);
-		user.setId(currentUser.getId());
-		user.setAccount(currentUser.getAccount());
+	public ResponseEntity<User> update_information(HttpServletRequest request, 
+			@Valid @RequestBody UserUptRequestBean bean){
+		User user= super.getSessionUser(request);
+		
+		user.setTruename(bean.getTrueName());
+		user.setEmail(bean.getEmail());
+		user.setPhone(bean.getPhone());
+		user.setQuestion(bean.getQuestion());
+		user.setAnswer(bean.getAnswer());
+		
+		user.setUpdateBy(user.getAccount());
+
 		ResponseEntity<User> response= userService.updateInformation(user);
 		if(response.isSuccess()) {			
 			// 创建访问token
@@ -141,19 +158,19 @@ public class UserController extends BaseController {
 	}
 	
 	@ApiOperation(value = "获取管理员列表",notes = "管理员列表")
-	@RequestMapping(value="get_list.do")
+	@PostMapping(value="get_list.do")
 	public ResponseEntity<PageResponseBean<UserVo>> getList(PageRequestBean bean){
 	       return ResponseEntityUtil.success(userService.getUserList(bean.getPageNum(),bean.getPageSize()));
 	}
 	
     @ApiOperation(value = "操作记录", notes = "")
-    @RequestMapping(value = "/records", method = RequestMethod.POST)
+    @PostMapping(value = "/records")
     public ResponseEntity<PageResponseBean<Syslog>> records(@Valid @RequestBody PageRequestBean bean) {
         return ResponseEntityUtil.success(sysLogService.sysLog(bean));
     }
     
 	@ApiOperation(value = "登录禁用接口",notes = "登录禁用")
-	@RequestMapping(value="login_forbidden.do")
+	@PostMapping(value="login_forbidden.do")
 	public ResponseEntity<String> loginForbidden(String username){
 		return userService.updateStatusById(username);
 	}

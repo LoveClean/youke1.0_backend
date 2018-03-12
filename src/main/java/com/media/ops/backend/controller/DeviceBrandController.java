@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,13 +27,13 @@ public class DeviceBrandController {
 	
 	@ApiOperation(value = "添加设备品牌字典接口",notes = "添加设备品牌")
 	@PostMapping(value="add_brand.do")	
-	public ResponseEntity addBrand(String brand) {
+	public ResponseEntity addBrand(@RequestBody String brand) {
 			return deviceBrandService.addBrand(new Devicebrand(brand));
 	}
 	
 	@ApiOperation(value = "删除设备品牌字典接口",notes = "删除设备品牌")
 	@PostMapping(value="del_brand.do")	
-	public ResponseEntity delBrand(String brand) {
+	public ResponseEntity delBrand(@RequestBody String brand) {
 			return deviceBrandService.delBrand(brand);
 	}
 	@ApiOperation(value = "获取设备品牌字典接口",notes = "获取设备品牌")

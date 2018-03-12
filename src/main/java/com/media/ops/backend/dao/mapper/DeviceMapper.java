@@ -2,7 +2,8 @@ package com.media.ops.backend.dao.mapper;
 
 import com.media.ops.backend.dao.entity.Device;
 
-import java.util.Map;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface DeviceMapper {
     int deleteByPrimaryKey(Integer id);
@@ -21,5 +22,9 @@ public interface DeviceMapper {
 
     //根据设备编号查询设备，add by linfs at 2018.3.1
     Device selectByCode(String code);
+    
+    List<Device> selectList();
+    
+    List<Device> selectByCodeAreaAddress(@Param("code") String code,@Param("areaId") String areaId,@Param("address") String address);
 
 }

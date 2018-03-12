@@ -75,4 +75,9 @@ public class Const {
 		byte ABANDON=2;
 	}
 	
+	public interface DelFlagEnum{
+		String NORMAL="0";
+		String DELETED="1";		
+	}
+	
 }

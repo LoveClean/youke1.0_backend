@@ -1,11 +1,16 @@
 package com.media.ops.backend.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.media.ops.backend.controller.request.DeviceGroupAddRequestBean;
+import com.media.ops.backend.controller.request.DeviceGroupUptRequestBean;
 import com.media.ops.backend.service.DeviceGroupService;
 import com.media.ops.backend.util.ResponseEntity;
 import io.swagger.annotations.Api;
@@ -20,14 +25,14 @@ public class DeviceGroupController {
 	
 	@ApiOperation(value = "添加设备分组操作接口",notes = "添加设备分组")
 	@PostMapping(value="add_group.do")	
-	public ResponseEntity addGroup( String groupName, @RequestParam(value="parentId", defaultValue="0")int parentId) {
-			return deviceGroupService.addGroup(groupName, parentId);
+	public ResponseEntity addGroup(@RequestBody DeviceGroupAddRequestBean bean) {
+			return deviceGroupService.addGroup(bean.getGroupName(), bean.getParentId());
 	}
 	
 	@ApiOperation(value = "修改设备分组操作接口",notes = "修改设备分组")
 	@PostMapping(value="set_group.do")	
-	public ResponseEntity setDeviceGroupName(Integer groupId, String groupName) {
-		return deviceGroupService.updateGroupName(groupId, groupName);
+	public ResponseEntity setDeviceGroupName(@Valid @RequestBody  DeviceGroupUptRequestBean bean) {
+		return deviceGroupService.updateGroupName(bean.getGroupId(), bean.getGroupName());
 	}
 	
 	@ApiOperation(value = "获取分组操作接口",notes = "获取分组,默认按id的升序排列,可排序字段:id,name,sortorder, 排序顺序为asc或desc")
@@ -43,7 +48,7 @@ public class DeviceGroupController {
 
 	@ApiOperation(value = "递归获取分组操作接口",notes = "递归获取分组")
 	@PostMapping(value="get_deep_group.do")
-	public ResponseEntity getGroupAndDeepChildCategory(Integer groupId) {
+	public ResponseEntity getGroupAndDeepChildCategory(@RequestBody Integer groupId) {
 		return deviceGroupService.selectGroupAndChildrenById(groupId);
 	}
 }

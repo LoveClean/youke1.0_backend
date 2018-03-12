@@ -27,6 +27,7 @@ import java.util.List;
 public class PlayController {
     @Autowired
     private PlayService playService;
+    
     @ApiOperation(value = "获取时间段范围内的直播记录",notes = "获取时间段范围内的直播记录")
     @PostMapping(value="getPlaysByTime.do")
     @ResponseBody

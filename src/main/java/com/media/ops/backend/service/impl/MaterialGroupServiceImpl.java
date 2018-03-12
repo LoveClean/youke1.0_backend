@@ -14,14 +14,16 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
-
+import com.media.ops.backend.dao.entity.Material;
 import com.media.ops.backend.dao.entity.Materialgroup;
-
+import com.media.ops.backend.dao.mapper.MaterialMapper;
 import com.media.ops.backend.dao.mapper.MaterialgroupMapper;
 import com.media.ops.backend.service.MaterialGroupService;
 import com.media.ops.backend.util.ListSortUtil;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.MaterialGroupVo;
+import com.media.ops.backend.vo.MaterialVo;
 
 
 @Service
@@ -31,6 +33,8 @@ public class MaterialGroupServiceImpl implements MaterialGroupService{
 
 	@Autowired
 	private MaterialgroupMapper materialgroupMapper;
+	@Autowired
+	private MaterialMapper materialMapper;
 
 	@Override
 	public ResponseEntity<String> addGroup(String groupName, Integer parentId) {
@@ -92,7 +96,7 @@ public class MaterialGroupServiceImpl implements MaterialGroupService{
 	}
 	
 	@Override
-	public ResponseEntity<List<Materialgroup>> getChildParallelGroup(Integer groupId, String sortField, String sortRule) {
+	public ResponseEntity<List<MaterialGroupVo>> getChildParallelGroup(Integer groupId, String sortField, String sortRule) {
 		List<Materialgroup> materialgroups= materialgroupMapper.selectGroupChildrenByParentId(groupId);
 		if(CollectionUtils.isEmpty(materialgroups)) {
 			log.info("未找到当前分类的子分类");
@@ -100,7 +104,15 @@ public class MaterialGroupServiceImpl implements MaterialGroupService{
 		
 		new ListSortUtil<Materialgroup>().Sort(materialgroups, sortField, sortRule);
 		
-		return ResponseEntityUtil.success(materialgroups);
+		List<MaterialGroupVo> materialGroupVos= Lists.newArrayList();
+		for(Materialgroup materialgroup: materialgroups) {
+			List<Material> materialList= materialMapper.selectByGroupId(materialgroup.getId());
+			MaterialGroupVo materialGroupVo= assembleMaterialGroupVo(materialgroup, materialList);
+			materialGroupVos.add(materialGroupVo);
+		}
+		
+		
+		return ResponseEntityUtil.success(materialGroupVos);
 	}
 
 	//递归算法，算出子节点
@@ -130,4 +142,25 @@ public class MaterialGroupServiceImpl implements MaterialGroupService{
 		}
 		return ResponseEntityUtil.success(groupIdList);
 	}
+	
+	private MaterialGroupVo assembleMaterialGroupVo(Materialgroup materialgroup, List<Material> materialList) {
+		MaterialGroupVo materialGroupVo=new MaterialGroupVo();
+		materialGroupVo.setId(materialgroup.getId());
+		materialGroupVo.setName(materialgroup.getName());
+		
+		List<MaterialVo> materialVoList= Lists.newArrayList();
+		for(Material material :materialList) {
+			MaterialVo materialVo=new MaterialVo();
+			materialVo.setId(material.getId());
+			materialVo.setName(material.getName());
+			materialVo.setType(material.getType());
+			materialVo.setPath(material.getPath());
+			
+			materialVoList.add(materialVo);
+		}
+		materialGroupVo.setMaterialVoList(materialVoList);
+		return materialGroupVo;
+	}
+	
+	
 }

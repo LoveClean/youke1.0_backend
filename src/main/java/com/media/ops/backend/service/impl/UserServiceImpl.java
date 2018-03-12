@@ -248,6 +248,7 @@ public class UserServiceImpl implements UserService {
 
 	private UserVo assembleUserVo(User user) {
 		UserVo userVo=new UserVo();
+		userVo.setId(user.getId());
 		userVo.setAccount(user.getAccount());
 		userVo.setEmail(user.getEmail());
 		userVo.setPhone(user.getPhone());

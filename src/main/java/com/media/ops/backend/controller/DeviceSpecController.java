@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,13 +27,13 @@ public class DeviceSpecController {
 	
 	@ApiOperation(value = "添加设备规格字典接口",notes = "添加设备规格")
 	@PostMapping(value="add_spec.do")	
-	public ResponseEntity addSpec(String spec) {
+	public ResponseEntity addSpec(@RequestBody String spec) {
 			return deviceSpecService.addSpec(new Devicespec(spec));
 	}
 	
 	@ApiOperation(value = "删除设备规格字典接口",notes = "删除设备规格")
 	@PostMapping(value="del_spec.do")	
-	public ResponseEntity delSpec(String spec) {
+	public ResponseEntity delSpec(@RequestBody String spec) {
 			return deviceSpecService.delSpec(spec);
 	}
 	@ApiOperation(value = "获取设备规格字典接口",notes = "获取设备规格")

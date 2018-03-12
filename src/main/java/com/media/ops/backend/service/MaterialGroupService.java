@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.media.ops.backend.dao.entity.Materialgroup;
 import com.media.ops.backend.util.ResponseEntity;
+import com.media.ops.backend.vo.MaterialGroupVo;
 
 public interface MaterialGroupService {
 
@@ -15,7 +16,7 @@ public interface MaterialGroupService {
 	
 	ResponseEntity<List<Materialgroup>> getChildParallelGroup(Integer groupId);
 	
-	ResponseEntity<List<Materialgroup>> getChildParallelGroup(Integer groupId, String sortField,String sortRule);
+	ResponseEntity<List<MaterialGroupVo>> getChildParallelGroup(Integer groupId, String sortField,String sortRule);
 	
 	ResponseEntity<List<Integer>> selectGroupAndChildrenById(Integer groupId);
 }

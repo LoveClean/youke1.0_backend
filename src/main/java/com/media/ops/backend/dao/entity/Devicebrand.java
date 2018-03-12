@@ -10,4 +10,14 @@ public class Devicebrand {
     public void setBrand(String brand) {
         this.brand = brand == null ? null : brand.trim();
     }
+
+	public Devicebrand() {
+
+	}
+
+	public Devicebrand(String brand) {
+		this.brand = brand;
+	}
+    
+    
 }

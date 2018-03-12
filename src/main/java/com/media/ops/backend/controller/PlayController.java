@@ -27,10 +27,11 @@ import java.util.List;
 public class PlayController {
     @Autowired
     private PlayService playService;
+    
     @ApiOperation(value = "获取时间段范围内的直播记录",notes = "获取时间段范围内的直播记录")
     @PostMapping(value="getPlaysByTime.do")
     @ResponseBody
-    public ResponseEntity<List<Play>> getPlaysByTime(String begintime, String endtime, HttpSession session ) {
+    public ResponseEntity<List<Play>> getPlaysByTime(String begintime, String endtime) {
         return playService.GetPlays(begintime,endtime);
     }
 

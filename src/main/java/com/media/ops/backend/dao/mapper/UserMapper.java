@@ -43,4 +43,6 @@ public interface UserMapper {
  	User findByMobile(String mobile);
  	
  	List<User> selectList();
+ 	
+ 	int updateStatusById(@Param("account")String account);
 }

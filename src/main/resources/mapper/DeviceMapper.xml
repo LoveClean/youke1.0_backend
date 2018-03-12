@@ -224,5 +224,29 @@
   <select id="selectByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     select * from vwdevice where code = #{code}
   </select>
+  
+    <select id="selectList" resultMap="BaseResultMap" >
+    SELECT
+    <include refid="Base_Column_List"/>
+    from tbdevice
+    ORDER BY id asc
+  </select>
+  
+    <select id="selectByCodeAreaAddress" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from tbdevice
+    <where>
+      <if test="code != null">
+        and code like #{code}
+      </if>
+      <if test="areaId != null">
+        and areaid = #{areaId}
+      </if>
+      <if test="address != null">
+        and address like #{address}
+      </if>
+    </where>
+  </select>
 
 </mapper>

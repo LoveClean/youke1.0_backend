@@ -11,6 +11,7 @@
     <result column="question" jdbcType="VARCHAR" property="question" />
     <result column="answer" jdbcType="VARCHAR" property="answer" />
     <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="status" jdbcType="TINYINT" property="status" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
@@ -19,7 +20,7 @@
     <result column="del_flag" jdbcType="CHAR" property="delFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, account, truename, password, email, phone, question, answer, type, create_by, 
+    id, account, truename, password, email, phone, question, answer, type,status, create_by, 
     create_date, update_by, update_date, remarks, del_flag
   </sql>
   <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
@@ -36,15 +37,15 @@
   <insert id="insert" parameterType="com.media.ops.backend.dao.entity.User">
     insert into tbuser (id, account, truename, 
       password, email, phone, 
-      question, answer, type, 
+      question, answer, type,status, 
       create_by, create_date, update_by, 
       update_date, remarks, del_flag
       )
     values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{truename,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{question,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR}, 
-      now(), #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}
+      #{question,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER},
+      #{status,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, now(), 
+      #{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.User">
@@ -76,6 +77,9 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="status != null">
+        status,
       </if>
       <if test="createBy != null">
         create_by,
@@ -124,6 +128,9 @@
       <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
       <if test="createBy != null">
         #{createBy,jdbcType=VARCHAR},
       </if>
@@ -168,6 +175,9 @@
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
       <if test="createBy != null">
         create_by = #{createBy,jdbcType=VARCHAR},
       </if>
@@ -178,7 +188,7 @@
         update_by = #{updateBy,jdbcType=VARCHAR},
       </if>
       <if test="updateDate != null">
-        now(),
+        update_date= now(),
       </if>
       <if test="remarks != null">
         remarks = #{remarks,jdbcType=VARCHAR},
@@ -188,7 +198,6 @@
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
-      and account = #{account,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.User">
     update tbuser
@@ -199,6 +208,7 @@
       question = #{question,jdbcType=VARCHAR},
       answer = #{answer,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
@@ -206,7 +216,6 @@
       remarks = #{remarks,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
-      and account = #{account,jdbcType=VARCHAR}
   </update>
   
   <select id="checkAccount" resultType="int" parameterType="string" >
@@ -261,7 +270,7 @@
 
   <update id="updatePasswordByAccount" parameterType="map">
     update tbuser
-    SET password = #{passwordNew},update_time = now()
+    SET password = #{passwordNew},update_date = now()
     where account = #{account}
   </update>
 
@@ -293,4 +302,10 @@
     ORDER BY id asc
   </select>
   
+  
+<update id="updateStatusById"  parameterType="string">
+    update tbuser
+    SET status = 2,update_date = now()
+    where account = #{account}
+  </update>
 </mapper>

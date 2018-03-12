@@ -1,5 +1,21 @@
 package com.media.ops.backend.service.impl;
 
+import com.media.ops.backend.controller.response.PageResponseBean;
+import com.media.ops.backend.dao.mapper.SyslogMapper;
+import com.media.ops.backend.dao.mapper.UserMapper;
+import com.media.ops.backend.dao.entity.User;
+import com.media.ops.backend.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
+import com.media.ops.backend.cache.TokenCache;
+import com.media.ops.backend.contants.Const;
+import com.media.ops.backend.contants.Errors;
+import com.media.ops.backend.util.MD5Util;
+import com.media.ops.backend.util.ResponseEntity;
+import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.UserVo;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -7,31 +23,19 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.google.common.collect.Lists;
-import com.media.ops.backend.cache.TokenCache;
-import com.media.ops.backend.contants.Const;
-import com.media.ops.backend.contants.Errors;
-import com.media.ops.backend.controller.response.PageResponseBean;
-import com.media.ops.backend.dao.entity.User;
-import com.media.ops.backend.dao.mapper.UserMapper;
-import com.media.ops.backend.service.UserService;
-import com.media.ops.backend.util.MD5Util;
-import com.media.ops.backend.util.ResponseEntity;
-import com.media.ops.backend.util.ResponseEntityUtil;
-import com.media.ops.backend.vo.UserVo;
-
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserSericeImpl implements UserService {
+@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+public class UserServiceImpl implements UserService {
 
     @Resource
     private UserMapper userMapper;
 
 	@Override
-	public ResponseEntity<User> login(String username, String password) {
+	public ResponseEntity<User> adminLogin(String username, String password) {
         if(StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
         	return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
         }
@@ -54,9 +58,14 @@ public class UserSericeImpl implements UserService {
 		if(user==null) {
 			return ResponseEntityUtil.fail("账号或密码错误");
 		}
-		user.setPassword(StringUtils.EMPTY);
-		return ResponseEntityUtil.success(user);
 		
+		if(this.checkAdminRole(user).isSuccess()) {
+			user.setPassword(StringUtils.EMPTY);
+			return ResponseEntityUtil.success(user);
+		}else {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_NO_ACCESS);
+		}
+	
 	}
 
 	@Override
@@ -69,9 +78,9 @@ public class UserSericeImpl implements UserService {
 		if(!validResponse.isSuccess()) {
 			return validResponse;
 		}
-		user.setType(Const.Role.ROLE_HOST);
+		user.setType(user.getType());
 		user.setPassword(MD5Util.MD5(user.getPassword()));
-		
+		user.setDelFlag("0");
 		int resultCount= userMapper.insert(user);
 		if(resultCount==0) {
 			return ResponseEntityUtil.fail("添加管理员失败");
@@ -185,12 +194,21 @@ public class UserSericeImpl implements UserService {
 		updateUser.setPhone(user.getPhone());
 		updateUser.setQuestion(user.getQuestion());
 		updateUser.setAnswer(user.getAnswer());
+		updateUser.setUpdateBy(user.getUpdateBy());
 		
 		int updateCount= userMapper.updateByPrimaryKeySelective(updateUser);
 		if(updateCount>0) {
 			return ResponseEntityUtil.success(updateUser);
 		}
 		return ResponseEntityUtil.fail("更新个人信息失败");
+	}
+	
+	public ResponseEntity<String> updateStatusById(String account){
+		int resultCount= userMapper.updateStatusById(account);
+		if(resultCount>0) {
+			return ResponseEntityUtil.success("该账号已禁止登录！");
+		}
+		return ResponseEntityUtil.fail("操作失败");
 	}
 
 
@@ -230,14 +248,15 @@ public class UserSericeImpl implements UserService {
 
 	private UserVo assembleUserVo(User user) {
 		UserVo userVo=new UserVo();
+		userVo.setId(user.getId());
 		userVo.setAccount(user.getAccount());
 		userVo.setEmail(user.getEmail());
 		userVo.setPhone(user.getPhone());
 		userVo.setTruename(user.getTruename());
 		userVo.setType(user.getType());
+		userVo.setStatus(user.getStatus());
 		return userVo;
 	}
-
 
 
 }

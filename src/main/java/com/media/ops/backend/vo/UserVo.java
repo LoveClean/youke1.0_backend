@@ -9,6 +9,8 @@ public class UserVo {
 	private String phone;
 
 	private Integer type;
+	private byte status;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -46,6 +48,13 @@ public class UserVo {
 	}
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public byte getStatus() {
+		return status;
+	}
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 	
 	

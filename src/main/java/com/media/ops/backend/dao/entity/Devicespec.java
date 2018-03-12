@@ -10,4 +10,18 @@ public class Devicespec {
     public void setSpec(String spec) {
         this.spec = spec == null ? null : spec.trim();
     }
+
+    
+    
+	public Devicespec() {
+
+	}
+
+	public Devicespec(String spec) {
+		super();
+		this.spec = spec;
+	}
+    
+    
+    
 }

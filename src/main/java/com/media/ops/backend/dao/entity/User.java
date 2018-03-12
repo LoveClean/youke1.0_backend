@@ -20,6 +20,13 @@ public class User {
     private String answer;
 
     private Integer type;
+    
+    private Byte status;
+    
+    /**
+     * 登录Token
+     */
+    private String accessToken;
 
     private String createBy;
 
@@ -33,7 +40,29 @@ public class User {
 
     private String delFlag;
 
-    public Integer getId() {
+     
+    public User() {
+
+	}
+
+	public User(String account, String truename, String password, String email, String phone, String question,
+			String answer, Integer type, Byte status, String createBy, String updateBy)
+	{
+		super();
+		this.account = account;
+		this.truename = truename;
+		this.password = password;
+		this.email = email;
+		this.phone = phone;
+		this.question = question;
+		this.answer = answer;
+		this.type = type;
+		this.status = status;
+		this.createBy = createBy;
+		this.updateBy = updateBy;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -105,7 +134,15 @@ public class User {
         this.type = type;
     }
 
-    public String getCreateBy() {
+    public Byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(Byte status) {
+		this.status = status;
+	}
+
+	public String getCreateBy() {
         return createBy;
     }
 
@@ -152,4 +189,12 @@ public class User {
     public void setDelFlag(String delFlag) {
         this.delFlag = delFlag == null ? null : delFlag.trim();
     }
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
 }

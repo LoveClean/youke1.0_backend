@@ -25,17 +25,17 @@
     delete from tbad
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Ad">
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Ad"  useGeneratedKeys="true" keyProperty="id">
     insert into tbad (id, name, groupid, 
       create_by, create_date, update_by, 
       update_date, remarks, del_flag
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{groupid,jdbcType=INTEGER}, 
       #{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR}, 
-      now(), #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}
+      now(), #{remarks,jdbcType=VARCHAR}, 0
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Ad">
+  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Ad"  useGeneratedKeys="true" keyProperty="id">
     insert into tbad
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -92,7 +92,7 @@
         #{remarks,jdbcType=VARCHAR},
       </if>
       <if test="delFlag != null">
-        #{delFlag,jdbcType=CHAR},
+        0,
       </if>
     </trim>
   </insert>
@@ -147,5 +147,5 @@
   <select id="selectAdMaterialByAdid" parameterType="java.lang.Integer" resultType="com.media.ops.backend.vo.AdMaterialVo">
     select * from vwadmaterial where adid=#{adid} ORDER BY orderindex
   </select>
-
+  
 </mapper>

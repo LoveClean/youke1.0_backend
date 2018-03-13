@@ -1,7 +1,8 @@
 package com.media.ops.backend.controller;
 
-import com.media.ops.backend.controller.request.MaterailAddRequestBean;
-import com.media.ops.backend.controller.request.MaterailUptRequestBean;
+import com.media.ops.backend.controller.request.MaterialAddRequestBean;
+import com.media.ops.backend.controller.request.MaterialQueryRequestBean;
+import com.media.ops.backend.controller.request.MaterialUptRequestBean;
 import com.media.ops.backend.controller.request.MaterialSearchRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @Api(description = "素材管理接口", produces = "application/json")
+@CrossOrigin(origins="*", maxAge=3600)
 @RestController
 @RequestMapping("/material/")
 public class MaterialController {
@@ -31,23 +33,29 @@ public class MaterialController {
 	public ResponseEntity<PageResponseBean<MaterialVo>> getList(@RequestBody PageRequestBean bean) {
 		return ResponseEntityUtil.success(materialService.selectMaterialList(bean));
 	}
+	
+	@ApiOperation(value = "根据id获取素材列表", notes = "根据id获取素材列表")
+	@PostMapping(value = "get_list_ids.do")
+	public ResponseEntity<PageResponseBean<MaterialVo>> getListByIds(@RequestBody MaterialQueryRequestBean bean) {
+		return ResponseEntityUtil.success(materialService.selectMaterialListByIds(bean));
+	}
 
 	@ApiOperation(value = "搜索素材接口", notes = "搜索素材")
 	@PostMapping(value = "search.do")
 	public ResponseEntity<PageResponseBean<MaterialVo>> searchMaterial(
 			@Valid @RequestBody MaterialSearchRequestBean bean) {
-		return ResponseEntityUtil.success(materialService.selectMaterialByKeywordGroup(bean.getKeyword(),
-				bean.getGroupId(), bean.getPageNum(), bean.getPageSize()));
+		return ResponseEntityUtil.success(materialService.selectMaterialByKeywordTypeGroup(bean.getKeyword(),
+			bean.getType(),bean.getGroupId(), bean.getPageNum(), bean.getPageSize()));
 	}
 	@ApiOperation(value = "添加素材接口", notes = "添加素材")
 	@PostMapping(value = "add.do")	
-	public ResponseEntity<String> addMaterial( @RequestBody MaterailAddRequestBean bean ){
+	public ResponseEntity<String> addMaterial( @RequestBody MaterialAddRequestBean bean ){
 		return materialService.addMaterial(bean);
 	}
 	
 	@ApiOperation(value = "修改素材接口", notes = "修改素材")
 	@PostMapping(value = "update.do")	
-	public ResponseEntity<String> uptMaterial( @RequestBody MaterailUptRequestBean bean ){
+	public ResponseEntity<String> uptMaterial( @RequestBody MaterialUptRequestBean bean ){
 		return materialService.uptMaterial(bean);
 	}
 	

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import com.media.ops.backend.controller.request.PasswordQAResetRequestBean;
 import com.media.ops.backend.controller.request.PasswordResetRequestBean;
 import com.media.ops.backend.controller.request.UserAddRequestBean;
 import com.media.ops.backend.controller.request.UserLoginRequestBean;
+import com.media.ops.backend.controller.request.UserSearchRequestBean;
 import com.media.ops.backend.controller.request.UserUptRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Syslog;
@@ -33,6 +35,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Api(description="管理员操作接口",produces = "application/json")
+@CrossOrigin(origins="*", maxAge=3600)
 @RestController
 @RequestMapping("/manager/")
 public class UserController extends BaseController {
@@ -136,6 +139,12 @@ public class UserController extends BaseController {
 	       }
 	       System.out.println(bean.getPasswordNew()+"------"+bean.getPasswordOld());
 	       return userService.resetPassword(bean.getPasswordOld(), bean.getPasswordNew(), user);
+	}
+	
+	@ApiOperation(value = "管理员搜索接口",notes = "管理员搜索")
+	@PostMapping(value="search_user.do")		
+	public ResponseEntity<User> searchUser(@RequestBody UserSearchRequestBean bean){
+		return userService.getUserByAccountEmail(bean.getAccount(), bean.getEmail());
 	}
 	
 	@ApiOperation(value = "修改个人信息接口",notes = "修改自身信息")

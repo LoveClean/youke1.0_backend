@@ -1,5 +1,6 @@
 package com.media.ops.backend.dao.mapper;
 
+import com.media.ops.backend.dao.entity.Device;
 import com.media.ops.backend.dao.entity.User;
 
 import java.util.List;
@@ -45,4 +46,6 @@ public interface UserMapper {
  	List<User> selectList();
  	
  	int updateStatusById(@Param("account")String account);
+ 	
+ 	User selectByAccountEmail(@Param("account") String account,@Param("email") String email);
 }

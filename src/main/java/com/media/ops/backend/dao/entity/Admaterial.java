@@ -5,17 +5,17 @@ import java.util.Date;
 public class Admaterial {
     private Integer id;
 
-    private Integer adid;
+    private Integer adid;  //广告ID
 
-    private Integer materialid;
+    private Integer materialid;  //素材ID
 
-    private Integer orderindex;
+    private Integer orderindex;  //播放顺序
 
-    private Integer loadstep;
+    private Integer loadstep;  //加载间隔
 
-    private Integer displaytime;
+    private Integer displaytime;  //显示时间
 
-    private String musicpath;
+    private String musicpath;  //背景音乐地址
 
     private String createBy;
 

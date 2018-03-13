@@ -221,6 +221,22 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(StringUtils.EMPTY);
 		return ResponseEntityUtil.success(user);
 	}
+	
+	public ResponseEntity<User> getUserByAccountEmail(String account, String email){
+		if(StringUtils.isBlank(account)&& StringUtils.isBlank(email)) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		
+		if(StringUtils.isNotBlank(email)) {
+			email=new StringBuilder().append("%").append(email).append("%").toString();
+		}
+		User user= userMapper.selectByAccountEmail(StringUtils.isBlank(account)?null:account, StringUtils.isBlank(email)?null:email);
+		if(user==null) {
+			ResponseEntityUtil.fail("找不到符合条件的管理员");
+		}
+		return ResponseEntityUtil.success(user);
+		
+	}
 
 	@Override
 	public ResponseEntity<String> checkAdminRole(User user) {

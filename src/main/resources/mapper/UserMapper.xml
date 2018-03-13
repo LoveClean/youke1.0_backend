@@ -1,311 +1,334 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.media.ops.backend.dao.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.User">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <id column="account" jdbcType="VARCHAR" property="account" />
-    <result column="truename" jdbcType="VARCHAR" property="truename" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="question" jdbcType="VARCHAR" property="question" />
-    <result column="answer" jdbcType="VARCHAR" property="answer" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
-    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
-    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
-    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
-    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, account, truename, password, email, phone, question, answer, type,status, create_by, 
-    create_date, update_by, update_date, remarks, del_flag
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from tbuser
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="map">
-    delete from tbuser
-    where id = #{id,jdbcType=INTEGER}
-      and account = #{account,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.User">
-    insert into tbuser (id, account, truename, 
-      password, email, phone, 
-      question, answer, type,status, 
-      create_by, create_date, update_by, 
-      update_date, remarks, del_flag
-      )
-    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{truename,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{question,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER},
-      #{status,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, now(), 
-      #{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.User">
-    insert into tbuser
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="account != null">
-        account,
-      </if>
-      <if test="truename != null">
-        truename,
-      </if>
-      <if test="password != null">
-        password,
-      </if>
-      <if test="email != null">
-        email,
-      </if>
-      <if test="phone != null">
-        phone,
-      </if>
-      <if test="question != null">
-        question,
-      </if>
-      <if test="answer != null">
-        answer,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="createBy != null">
-        create_by,
-      </if>
-      <if test="createDate != null">
-        create_date,
-      </if>
-      <if test="updateBy != null">
-        update_by,
-      </if>
-      <if test="updateDate != null">
-        update_date,
-      </if>
-      <if test="remarks != null">
-        remarks,
-      </if>
-      <if test="delFlag != null">
-        del_flag,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="account != null">
-        #{account,jdbcType=VARCHAR},
-      </if>
-      <if test="truename != null">
-        #{truename,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="question != null">
-        #{question,jdbcType=VARCHAR},
-      </if>
-      <if test="answer != null">
-        #{answer,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="createBy != null">
-        #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null">
-        now(),
-      </if>
-      <if test="updateBy != null">
-        #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updateDate != null">
-       now(),
-      </if>
-      <if test="remarks != null">
-        #{remarks,jdbcType=VARCHAR},
-      </if>
-      <if test="delFlag != null">
-        #{delFlag,jdbcType=CHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.media.ops.backend.dao.entity.User">
-    update tbuser
-    <set>
-      <if test="truename != null">
-        truename = #{truename,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="question != null">
-        question = #{question,jdbcType=VARCHAR},
-      </if>
-      <if test="answer != null">
-        answer = #{answer,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="createBy != null">
-        create_by = #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null">
-        create_date = #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null">
-        update_by = #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updateDate != null">
-        update_date= now(),
-      </if>
-      <if test="remarks != null">
-        remarks = #{remarks,jdbcType=VARCHAR},
-      </if>
-      <if test="delFlag != null">
-        del_flag = #{delFlag,jdbcType=CHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.User">
-    update tbuser
-    set truename = #{truename,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      question = #{question,jdbcType=VARCHAR},
-      answer = #{answer,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
-      status = #{status,jdbcType=TINYINT},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_by = #{updateBy,jdbcType=VARCHAR},
-      update_date = now(),
-      remarks = #{remarks,jdbcType=VARCHAR},
-      del_flag = #{delFlag,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  
-  <select id="checkAccount" resultType="int" parameterType="string" >
-    select count(1) from tbuser
-    where account = #{account}
-  </select>
+	<resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.User">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<id column="account" jdbcType="VARCHAR" property="account" />
+		<result column="truename" jdbcType="VARCHAR" property="truename" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="phone" jdbcType="VARCHAR" property="phone" />
+		<result column="question" jdbcType="VARCHAR" property="question" />
+		<result column="answer" jdbcType="VARCHAR" property="answer" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="status" jdbcType="TINYINT" property="status" />
+		<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+		<result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+		<result column="remarks" jdbcType="VARCHAR" property="remarks" />
+		<result column="del_flag" jdbcType="CHAR" property="delFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, account, truename, password, email, phone, question, answer,
+		type,status, create_by,
+		create_date, update_by, update_date, remarks, del_flag
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbuser
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="map">
+		delete from tbuser
+		where id = #{id,jdbcType=INTEGER}
+		and account = #{account,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.User">
+		insert into tbuser (id, account, truename,
+		password, email, phone,
+		question, answer, type,status,
+		create_by, create_date, update_by,
+		update_date, remarks, del_flag
+		)
+		values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR},
+		#{truename,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+		#{question,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER},
+		#{status,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, now(),
+		#{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.User">
+		insert into tbuser
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="account != null">
+				account,
+			</if>
+			<if test="truename != null">
+				truename,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="question != null">
+				question,
+			</if>
+			<if test="answer != null">
+				answer,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="account != null">
+				#{account,jdbcType=VARCHAR},
+			</if>
+			<if test="truename != null">
+				#{truename,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="question != null">
+				#{question,jdbcType=VARCHAR},
+			</if>
+			<if test="answer != null">
+				#{answer,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				now(),
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				now(),
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.media.ops.backend.dao.entity.User">
+		update tbuser
+		<set>
+			<if test="truename != null">
+				truename = #{truename,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="question != null">
+				question = #{question,jdbcType=VARCHAR},
+			</if>
+			<if test="answer != null">
+				answer = #{answer,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date= now(),
+			</if>
+			<if test="remarks != null">
+				remarks = #{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=CHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.User">
+		update tbuser
+		set truename = #{truename,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		email = #{email,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		question = #{question,jdbcType=VARCHAR},
+		answer = #{answer,jdbcType=VARCHAR},
+		type = #{type,jdbcType=INTEGER},
+		status = #{status,jdbcType=TINYINT},
+		create_by = #{createBy,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		update_date = now(),
+		remarks = #{remarks,jdbcType=VARCHAR},
+		del_flag = #{delFlag,jdbcType=CHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 
-  <select id="checkEmail" resultType="int" parameterType="string" >
-    select count(1) from tbuser
-    where email = #{email}
-  </select>
+	<select id="checkAccount" resultType="int" parameterType="string">
+		select count(1) from tbuser
+		where account = #{account}
+	</select>
 
-
-  <select id="selectByAccount" resultMap="BaseResultMap" parameterType="map">
-    SELECT
-    <include refid="Base_Column_List" />
-    from tbuser
-    where account = #{account}
-    and password = #{password}
-  </select>
-  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="map">
-    SELECT
-    <include refid="Base_Column_List" />
-    from tbuser
-    where phone = #{phone}
-    and password = #{password}
-  </select>
-  
-  <select id="selectByEmail" resultMap="BaseResultMap" parameterType="map">
-    SELECT
-    <include refid="Base_Column_List" />
-    from tbuser
-    where email = #{email}
-    and password = #{password}
-  </select>
-  
-  <select id="selectQuestionByAccount" resultType="string" parameterType="string">
-    select
-    question
-    from tbuser
-    where account = #{account}
-  </select>
-
-  <select id="checkAnswer" resultType="int" parameterType="map">
-    SELECT
-    count(1)
-    from tbuser
-    where account=#{account}
-    and question = #{question}
-    and answer = #{answer}
-  </select>
-
-  <update id="updatePasswordByAccount" parameterType="map">
-    update tbuser
-    SET password = #{passwordNew},update_date = now()
-    where account = #{account}
-  </update>
-
-  <select id="checkPassword" resultType="int" parameterType="map">
-    SELECT
-    count(1)
-    from tbuser
-    where password = #{password}
-    and id = #{userId}
-  </select>
+	<select id="checkEmail" resultType="int" parameterType="string">
+		select count(1) from tbuser
+		where email = #{email}
+	</select>
 
 
-  <select id="checkEmailByUserId" resultType="int" parameterType="map">
-    select count(1) from tbuser
-    where email = #{email}
-    and id != #{userId}
-  </select>
-  
-  
-  <select id="findByMobile" parameterType="string" resultMap="BaseResultMap">
-  		SELECT * FROM tbuser 
-  		where del_flag = '0' and mobile = #{mobile,jdbcType=VARCHAR}
-  </select>
-  
-    <select id="selectList" resultMap="BaseResultMap" >
-    SELECT
-    <include refid="Base_Column_List"/>
-    from tbuser
-    ORDER BY id asc
-  </select>
-  
-  
-<update id="updateStatusById"  parameterType="string">
-    update tbuser
-    SET status = 2,update_date = now()
-    where account = #{account}
-  </update>
+	<select id="selectByAccount" resultMap="BaseResultMap"
+		parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbuser
+		where account = #{account}
+		and password = #{password}
+	</select>
+	<select id="selectByPhone" resultMap="BaseResultMap"
+		parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbuser
+		where phone = #{phone}
+		and password = #{password}
+	</select>
+
+	<select id="selectByEmail" resultMap="BaseResultMap"
+		parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbuser
+		where email = #{email}
+		and password = #{password}
+	</select>
+
+	<select id="selectQuestionByAccount" resultType="string"
+		parameterType="string">
+		select
+		question
+		from tbuser
+		where account = #{account}
+	</select>
+
+	<select id="checkAnswer" resultType="int" parameterType="map">
+		SELECT
+		count(1)
+		from tbuser
+		where account=#{account}
+		and question = #{question}
+		and answer = #{answer}
+	</select>
+
+	<update id="updatePasswordByAccount" parameterType="map">
+		update tbuser
+		SET password = #{passwordNew},update_date = now()
+		where account = #{account}
+	</update>
+
+	<select id="checkPassword" resultType="int" parameterType="map">
+		SELECT
+		count(1)
+		from tbuser
+		where password = #{password}
+		and id = #{userId}
+	</select>
+
+
+	<select id="checkEmailByUserId" resultType="int" parameterType="map">
+		select count(1) from tbuser
+		where email = #{email}
+		and id != #{userId}
+	</select>
+
+
+	<select id="findByMobile" parameterType="string" resultMap="BaseResultMap">
+		SELECT * FROM tbuser
+		where del_flag = '0' and mobile = #{mobile,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbuser
+		ORDER BY id asc
+	</select>
+
+
+	<update id="updateStatusById" parameterType="string">
+		update tbuser
+		SET status = 2,update_date = now()
+		where account = #{account}
+	</update>
+
+	<select id="selectByAccountEmail" resultMap="BaseResultMap"
+		parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbuser
+		<where>
+			<if test="account != null">
+				and account = #{account}
+			</if>
+			<if test="email != null">
+				and email like #{email}
+			</if>
+		</where>
+	</select>
+
 </mapper>

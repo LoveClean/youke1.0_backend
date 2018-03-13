@@ -7,23 +7,19 @@ import javax.validation.constraints.Min;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class MaterialSearchRequestBean implements Serializable {
+public class MaterialQueryRequestBean implements Serializable {
 
-	/**
+
+	  /**
 	 * 
 	 */
-	private static final long serialVersionUID = 7975429760176343147L;
-
-	  private static final int DEFAULT_PAGE = 1;
+	private static final long serialVersionUID = -9069244169596142419L;
+	
+	private static final int DEFAULT_PAGE = 1;
 	  private static final int DEFAULT_SIZE = 10;
 	  
-	@ApiModelProperty(value = "素材分组",required=true)
-	private Integer groupId;
-	@ApiModelProperty(value = "素材类型，图片、视频、音频三种")
-	private String type;
-	
-	@ApiModelProperty(value = "关键词")
-	private String keyword;
+	@ApiModelProperty(value = "Id集合,以逗号隔开",required=true)
+	private String ids;
 	
 	 /**
 	   * 当前页，默认1
@@ -57,27 +53,14 @@ public class MaterialSearchRequestBean implements Serializable {
 		    this.pageSize = (pageSize <= 0 ||  pageSize >= 100) ? 10 : pageSize;
 		  }
 
-	public Integer getGroupId() {
-		return groupId;
-	}
-	public void setGroupId(Integer groupId) {
-		this.groupId = groupId;
-	}
-	public String getKeyword() {
-		return keyword;
-	}
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
-	}
+		public String getIds() {
+			return ids;
+		}
 
-	public String getType() {
-		return type;
-	}
+		public void setIds(String ids) {
+			this.ids = ids;
+		}
 
-	public void setType(String type) {
-		this.type = type;
-	}
 
-	
 	
 }

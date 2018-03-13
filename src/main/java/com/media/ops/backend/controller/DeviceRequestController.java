@@ -20,6 +20,7 @@ import java.util.List;
  * @Date 2018/3/1 10:30
  */
 @Api(description="设备数据请求接口",produces = "application/json")
+@CrossOrigin(origins="*", maxAge=3600)
 @RestController
 @RequestMapping("/devicerequest/")
 public class DeviceRequestController {

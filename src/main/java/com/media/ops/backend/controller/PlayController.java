@@ -8,6 +8,7 @@ import com.media.ops.backend.vo.AdMaterialListVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +23,7 @@ import java.util.List;
  *  getPlaysByTime为电视设备接口用到的，其它为网站或手机APP用到的
  */
 @Api(description="直播接口",produces = "application/json")
+@CrossOrigin(origins="*", maxAge=3600)
 @RestController
 @RequestMapping("play")
 public class PlayController {

@@ -30,7 +30,7 @@
     delete from tbadmaterial
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Admaterial">
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Admaterial"   useGeneratedKeys="true" keyProperty="id">
     insert into tbadmaterial (id, adid, materialid, 
       orderindex, loadstep, displaytime, 
       musicpath, create_by, create_date, 

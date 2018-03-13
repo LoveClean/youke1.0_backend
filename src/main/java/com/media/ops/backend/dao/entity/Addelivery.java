@@ -5,17 +5,17 @@ import java.util.Date;
 public class Addelivery {
     private Integer id;
 
-    private Integer adid;
+    private Integer adid;//广告id
 
-    private Integer delivertype;
+    private Integer delivertype; //投放类型
 
-    private String areaid;
+    private String areaid;//区域ID，选填
 
-    private Integer groupid;
+    private Integer groupid; //楼宇ID或设备分组ID
 
-    private Date begintime;
+    private Date begintime;  //开始时间
 
-    private Date endtime;
+    private Date endtime;  //结束时间
 
     private String createBy;
 

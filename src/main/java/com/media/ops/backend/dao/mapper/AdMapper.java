@@ -9,6 +9,8 @@ import com.media.ops.backend.vo.AddeliveryVo;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 public interface AdMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -28,4 +30,5 @@ public interface AdMapper {
     List<AdMaterialListVo> selectAdVoByMac(String mac);
     //根据广告ID查询素材
     List<AdMaterialVo> selectAdMaterialByAdid(int adid);
+    
 }

@@ -3,6 +3,7 @@ package com.media.ops.backend.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Api(description="广告分组操作接口",produces = "application/json")
+@CrossOrigin(origins="*", maxAge=3600)
 @RestController
 @RequestMapping("/adgroup/")
 public class AdGroupController {
@@ -38,11 +40,11 @@ public class AdGroupController {
 	@ApiOperation(value = "获取分组操作接口",notes = "获取分组,默认按id的升序排列,可排序字段:id,name,sortorder, 排序顺序为asc或desc")
 	@PostMapping(value="get_group.do")
 	public ResponseEntity getChildParallelGroup(
-			@RequestParam(value="groupId", defaultValue="0") Integer groupId,
+			@RequestParam(value="parentId", defaultValue="0") Integer parentId,
 			@RequestParam(value="sortField", defaultValue="id") String sortField,
 			@RequestParam(value="sortRule", defaultValue="asc") String sortRule
 			) {
-			return adGroupService.getChildParallelGroup(groupId,sortField,sortRule);
+			return adGroupService.getChildParallelGroup(parentId,sortField,sortRule);
 	}
 	
 	@ApiOperation(value = "递归获取分组操作接口",notes = "递归获取分组")

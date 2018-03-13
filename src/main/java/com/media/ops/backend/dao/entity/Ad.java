@@ -3,11 +3,11 @@ package com.media.ops.backend.dao.entity;
 import java.util.Date;
 
 public class Ad {
-    private Integer id;
+    private Integer id;  //广告ID
 
-    private String name;
+    private String name;  //广告名称
 
-    private Integer groupid;
+    private Integer groupid;  //分组id
 
     private String createBy;
 

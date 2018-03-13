@@ -23,5 +23,7 @@ public interface MaterialMapper {
     
     List<Material> selectList();
     
-    List<Material> selectByNameGroupId(@Param("materialName") String materialName,@Param("groupId") Integer groupId);
+    List<Material> selectListByIds(@Param("materialIds") List<Integer> materialIds);
+    
+    List<Material> selectByNameTypeGroupId(@Param("materialName") String materialName,@Param("materialType") String materialType,@Param("groupId") Integer groupId);
 }

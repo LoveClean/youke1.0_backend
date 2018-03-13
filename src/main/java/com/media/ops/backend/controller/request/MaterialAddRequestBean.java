@@ -4,11 +4,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class MaterailUptRequestBean {
-	@NotBlank(message = "id不能为空")
-	@ApiModelProperty(value = "id，必填", required = true)
-	private int id;
-	
+public class MaterialAddRequestBean {
 	@NotBlank(message = "name不能为空")
 	@ApiModelProperty(value = "name，必填", required = true)
 	private String name;
@@ -25,17 +21,8 @@ public class MaterailUptRequestBean {
 	@ApiModelProperty(value = "path，必填", required = true)
     private String path;
 	
-	@ApiModelProperty(value = "操作用户,选填", required = false)
-	private String updateBy;
-  
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	@ApiModelProperty(value = "操作用户", required = false)
+	private String createBy;
 
 	public String getName() {
 		return name;
@@ -69,13 +56,14 @@ public class MaterailUptRequestBean {
 		this.path = path;
 	}
 
-	public String getUpdateBy() {
-		return updateBy;
+	public String getCreateBy() {
+		return createBy;
 	}
 
-	public void setUpdateBy(String updateBy) {
-		this.updateBy = updateBy;
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
 	}
+	
 	
 	
 }

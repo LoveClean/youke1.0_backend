@@ -14,21 +14,27 @@ public interface UserService {
 
 	ResponseEntity<String> checkValid(String str, String type);
 
-	ResponseEntity<String> selectQuestion(String username);
-
-	ResponseEntity<String> checkAnswer(String username, String question, String answer);
-
-	ResponseEntity<String> forgetResetPassword(String username, String newPassword, String forgetToken);
-
 	ResponseEntity<String> resetPassword(String passwordOld, String passwordNew, User user);
 
 	ResponseEntity<User> updateInformation(User user);
 
 	ResponseEntity<User> getInformation(Integer id);
+	
+	ResponseEntity<User> getUserByAccountEmail(String account, String email);
 
 	ResponseEntity<String> checkAdminRole(User user);
 	
 	PageResponseBean<UserVo>  getUserList(int pageNum, int pageSize);
 	
 	ResponseEntity<String> updateStatusById(String account);
+	
+
+	
+	///////////////////////////通过密保问题修改密码的方法////////////////////////////////////////
+	ResponseEntity<String> selectQuestion(String username);
+
+	ResponseEntity<String> checkAnswer(String username, String question, String answer);
+
+	ResponseEntity<String> forgetResetPassword(String username, String newPassword, String forgetToken);
+
 }

@@ -176,15 +176,32 @@
     where del_flag=0
     ORDER BY id asc
   </select>
-  
+
+
+  <select id="selectListByIds" resultMap="BaseResultMap"  parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List"/>
+    from tbmaterial
+    where del_flag=0
+    <if test="materialIds != null" >
+      and id in
+      <foreach item="item" index="index" open="(" separator="," close=")" collection="materialIds">
+        #{item}
+      </foreach>
+    </if>
+    ORDER BY id asc
+  </select>  
     
-  <select id="selectByNameGroupId" resultMap="BaseResultMap" parameterType="map">
+  <select id="selectByNameTypeGroupId" resultMap="BaseResultMap" parameterType="map">
     SELECT
     <include refid="Base_Column_List"></include>
     from tbmaterial
     where del_flag=0
     <if test="materialName != null">
       and name like #{materialName}
+    </if>
+    <if test="materialType != null">
+      and type = #{materialType}
     </if>
     <if test="groupId != null" >
       and groupid= #{groupId,jdbcType=INTEGER}

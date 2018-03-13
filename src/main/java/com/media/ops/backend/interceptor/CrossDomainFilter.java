@@ -20,37 +20,39 @@ import java.io.IOException;
  * @author LJH
  */
 public class CrossDomainFilter extends OncePerRequestFilter {
+	  private static final Logger LOG = LoggerFactory.getLogger(CrossDomainFilter.class);
 
-  private static final Logger LOG = LoggerFactory.getLogger(CrossDomainFilter.class);
+	  private volatile boolean allowCrossDomain = true;
 
-  private volatile boolean allowCrossDomain = true;
+	  @Override
+	  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+	      FilterChain filterChain) throws ServletException, IOException {
+	    // 设置允许跨域访问
+	    LOG.debug("Request Orign = {},url={}", request.getHeader("Origin"),request.getRequestURL());
+	    
+	    if(allowCrossDomain){
+	      // 重要：clientIp不能为*，否则session无法传递到服务器端.
+	      response.addHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+	      response.addHeader("Access-Control-Allow-Credentials", "true");
 
-  @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                  FilterChain filterChain) throws ServletException, IOException {
-    // 设置允许跨域访问
-    LOG.debug("Request Orign = {},url={}", request.getHeader("Origin"),request.getRequestURL());
-    
-    if(allowCrossDomain){
-      // 重要：clientIp不能为*，否则session无法传递到服务器端.
-      response.addHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-      response.addHeader("Access-Control-Allow-Credentials", "true");
-      /**
-       * 未处理缓存
-       */
-      response.addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-      response.addHeader("Access-Control-Allow-Headers",
-          "X-Requested-With, X-Access-Token "+ Const.ACCESS_TOKEN_HEADER_NAME+
-          ", X-Upload-Auth-Token, Origin, Content-Type, Cookie,"+Const.REQUEST_SIDE_HEAD_NAME);
-    }
-    if(request.getMethod().equals("OPTIONS")){
-    	return ;
-    }else{
-    	filterChain.doFilter(request, response);
-    }
-  }
+	      /**
+	       * 处理 Preflight 情况下的额外返回数据:
+	       * https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#
+	       * Preflighted_requests 需要确认 Preflight 是有效的请求，而不是直接进行的OPTIONS操作.
+	       */
+	      response.addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+	      response.addHeader("Access-Control-Allow-Headers",
+	          "X-Requested-With, X-Access-Token, "+Const.ACCESS_TOKEN_HEADER_NAME+
+	          ", X-Upload-Auth-Token, Origin, Content-Type, Cookie,"+Const.REQUEST_SIDE_HEAD_NAME);
+	    }
+	    if(request.getMethod().equals("OPTIONS")){
+	    	return ;
+	    }else{
+	    	filterChain.doFilter(request, response);
+	    }
+	  }
 
-  public void setAllowCrossDomain(boolean allowCrossDomain) {
-    this.allowCrossDomain = allowCrossDomain;
-  }
-}
+	  public void setAllowCrossDomain(boolean allowCrossDomain) {
+	    this.allowCrossDomain = allowCrossDomain;
+	  }
+	}

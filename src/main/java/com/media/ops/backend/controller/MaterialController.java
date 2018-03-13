@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @Api(description = "素材管理接口", produces = "application/json")
-@CrossOrigin(origins="*", maxAge=3600)
+
 @RestController
 @RequestMapping("/material/")
 public class MaterialController {

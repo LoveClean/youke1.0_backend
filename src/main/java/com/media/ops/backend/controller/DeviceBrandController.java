@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.media.ops.backend.dao.entity.Devicebrand;
-import com.media.ops.backend.dao.entity.Devicespec;
 import com.media.ops.backend.service.DeviceBrandService;
-import com.media.ops.backend.service.DeviceSpecService;
 import com.media.ops.backend.util.ResponseEntity;
 
 import io.swagger.annotations.Api;

@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alipay.api.domain.BenefitGradePoint;
 import com.media.ops.backend.annotation.ACS;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.request.PasswordQARequestBean;
@@ -35,7 +33,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Api(description="管理员操作接口",produces = "application/json")
-@CrossOrigin(origins="*", maxAge=3600)
 @RestController
 @RequestMapping("/manager/")
 public class UserController extends BaseController {

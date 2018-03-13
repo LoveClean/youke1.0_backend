@@ -2,25 +2,18 @@ package com.media.ops.backend.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.dao.entity.City;
 import com.media.ops.backend.service.CityService;
 import com.media.ops.backend.util.ResponseEntity;
-import com.media.ops.backend.util.ResponseEntityUtil;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Api(description="城市操作接口描述",produces = "application/json")
-@CrossOrigin(origins="*", maxAge=3600)
 @RestController
 @RequestMapping("/city/")
 public class CityController {

@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.media.ops.backend.contants.Const;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,8 +40,8 @@ public class CrossDomainFilter extends OncePerRequestFilter {
        */
       response.addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       response.addHeader("Access-Control-Allow-Headers",
-          "X-Requested-With, X-Access-Token "+
-          ", X-Upload-Auth-Token, Origin, Content-Type, Cookie");
+          "X-Requested-With, X-Access-Token "+ Const.ACCESS_TOKEN_HEADER_NAME+
+          ", X-Upload-Auth-Token, Origin, Content-Type, Cookie,"+Const.REQUEST_SIDE_HEAD_NAME);
     }
     if(request.getMethod().equals("OPTIONS")){
     	return ;

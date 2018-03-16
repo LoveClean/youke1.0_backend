@@ -1,6 +1,5 @@
 package com.media.ops.backend.service;
 
-import com.media.ops.backend.controller.request.UserLoginRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.User;
 import com.media.ops.backend.util.ResponseEntity;
@@ -10,7 +9,7 @@ import com.media.ops.backend.vo.UserVo;
 public interface UserService {
 	ResponseEntity<User> adminLogin(String username, String password);
 
-	ResponseEntity<String> add(User user);
+	ResponseEntity add(User user);
 
 	ResponseEntity<String> checkValid(String str, String type);
 

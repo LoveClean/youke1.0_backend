@@ -1,12 +1,14 @@
 package com.media.ops.backend.controller.request;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotBlank;
 
 import io.swagger.annotations.ApiModelProperty;
 
 public class DeviceUptRequestBean {
 	
-	@NotBlank(message = "id不能为空")
+	@NotNull(message = "id不能为空")
 	@ApiModelProperty(value = "id，必填", required = true)
 	private int id;
 	@NotBlank(message = "设备编码code")

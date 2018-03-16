@@ -70,7 +70,6 @@ public class DeviceServiceImpl implements DeviceService {
 		Integer pageNum=bean.getPageNum();
 		Integer pageSize=bean.getPageSize();
 		
-		System.out.println(code+"------"+ address+"-----------"+areaId);
 		
 		if(StringUtils.isBlank(code)&& StringUtils.isBlank(address)&&StringUtils.isBlank(areaId)) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);

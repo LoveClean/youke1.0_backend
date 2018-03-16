@@ -39,8 +39,7 @@
     values (#{id,jdbcType=INTEGER}, #{adid,jdbcType=INTEGER}, #{materialid,jdbcType=INTEGER}, 
       #{orderindex,jdbcType=INTEGER}, #{loadstep,jdbcType=INTEGER}, #{displaytime,jdbcType=INTEGER}, 
       #{musicpath,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, now(), 
-      #{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR}, 
-      #{delFlag,jdbcType=CHAR})
+      #{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR}, 0)
   </insert>
   <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Admaterial">
     insert into tbadmaterial
@@ -185,4 +184,35 @@
       del_flag = #{delFlag,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByAdId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from tbadmaterial
+    <where>
+      del_flag ='0'
+      <if test="_parameter  != null">
+        and adid = #{_parameter,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>  
+  
+  <update id="batchUpdateDelFlagByAdId" parameterType="map">
+     update tbadmaterial
+     set 
+     del_flag='1',
+     <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR}
+      </if>
+     <where>
+      <if test="adid  != null">
+        and adid = #{adid,jdbcType=INTEGER}
+      </if>
+    </where>
+    
+  </update>
+  
+  
+  
+  
 </mapper>

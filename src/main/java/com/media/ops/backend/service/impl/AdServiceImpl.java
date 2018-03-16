@@ -11,6 +11,7 @@ import com.media.ops.backend.controller.request.AdAddRequestBean;
 import com.media.ops.backend.controller.request.AdUptRequestBean;
 import com.media.ops.backend.dao.entity.Ad;
 import com.media.ops.backend.dao.mapper.AdMapper;
+import com.media.ops.backend.dao.mapper.AdmaterialMapper;
 import com.media.ops.backend.service.AdService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
@@ -20,6 +21,8 @@ public class AdServiceImpl implements AdService{
 
 	@Autowired
 	private AdMapper adMapper;
+	@Autowired
+	private AdmaterialMapper admaterialMapper;
 	
 	public ResponseEntity  addAd(String createby, AdAddRequestBean bean) {
 		Ad ad=new Ad();
@@ -44,6 +47,10 @@ public class AdServiceImpl implements AdService{
 		uptAd.setUpdateBy(updateby);
 		uptAd.setId(adId);
 		int resultCount= adMapper.updateByPrimaryKeySelective(uptAd);
+		
+		if(resultCount>0) {
+			admaterialMapper.batchUpdateDelFlagByAdId(adId, updateby);
+		}
 
 		return ResponseEntityUtil.delMessage(resultCount);
 

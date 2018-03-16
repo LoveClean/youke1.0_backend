@@ -2,32 +2,56 @@ package com.media.ops.backend.vo;
 
 
 public class AdMaterialVo {
+	private int id;  //广告素材ID
+	private int adId;  //广告ID
 	private int materialId;  //素材ID
+	private String materialName;  //素材名称
+	private String materialType;   //素材类型
+	private String materialPath;   //素材地址
+	
 	private int orderIndex; //播放顺序
 	private int loadStep;   //加载间隔
 	private int displayTime;  //显示时间
 	private String musicPath;  //伴音地址 
-	private String name;  //素材名称
-	private String type;   //素材类型
-	private String path;   //素材地址
+
 	
-//	public AdMaterialVo(int materialId, int orderIndex, int loadStep, int displayTime, String musicPath, String name,
-//			String type, String path) {
-//		this.materialId = materialId;
-//		this.orderIndex = orderIndex;
-//		this.loadStep = loadStep;
-//		this.displayTime = displayTime;
-//		this.musicPath = musicPath;
-//		this.name = name;
-//		this.type = type;
-//		this.path = path;
-//	}
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getAdId() {
+		return adId;
+	}
+	public void setAdId(int adId) {
+		this.adId = adId;
+	}
 	public int getMaterialId() {
 		return materialId;
 	}
 	public void setMaterialId(int materialId) {
 		this.materialId = materialId;
+	}
+
+	public String getMaterialName() {
+		return materialName;
+	}
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
+	}
+	public String getMaterialType() {
+		return materialType;
+	}
+	public void setMaterialType(String materialType) {
+		this.materialType = materialType;
+	}
+	public String getMaterialPath() {
+		return materialPath;
+	}
+	public void setMaterialPath(String materialPath) {
+		this.materialPath = materialPath;
 	}
 	public int getOrderIndex() {
 		return orderIndex;
@@ -52,23 +76,5 @@ public class AdMaterialVo {
 	}
 	public void setMusicPath(String musicPath) {
 		this.musicPath = musicPath;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	public String getPath() {
-		return path;
-	}
-	public void setPath(String path) {
-		this.path = path;
 	}
 }

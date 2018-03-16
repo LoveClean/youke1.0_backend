@@ -8,6 +8,7 @@ import com.media.ops.backend.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.media.ops.backend.cache.TokenCache;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
@@ -17,6 +18,7 @@ import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.UserVo;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -69,7 +71,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResponseEntity<String> add(User user) {
+	public ResponseEntity add(User user) {
 		ResponseEntity<String> validResponse= this.checkValid(user.getAccount(), Const.USERNAME);
 		if(! validResponse.isSuccess()) {
 			return validResponse;
@@ -86,7 +88,9 @@ public class UserServiceImpl implements UserService {
 			return ResponseEntityUtil.fail("添加管理员失败");
 		}
 		
-		return ResponseEntityUtil.success("添加管理员成功");
+		Map<String, Object> result= Maps.newHashMap();
+		result.put("newUser", assembleUserVo(user));
+		return  ResponseEntityUtil.success(result);
 	}
 
 	@Override

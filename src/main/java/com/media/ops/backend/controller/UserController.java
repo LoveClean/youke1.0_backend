@@ -79,7 +79,7 @@ public class UserController extends BaseController {
 	
 	@ApiOperation(value = "添加管理员接口",notes = "添加管理员")
 	@PostMapping(value="add.do")	
-	public ResponseEntity<String> add(@Valid @RequestBody UserAddRequestBean bean, 
+	public ResponseEntity add(@Valid @RequestBody UserAddRequestBean bean, 
 			HttpServletRequest request){
 		User user= new User(bean.getName(), bean.getTrueName(), bean.getPassword(),
 				bean.getEmail(), bean.getPhone(), bean.getQuestion(), bean.getAnswer(), 

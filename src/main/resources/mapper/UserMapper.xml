@@ -35,7 +35,7 @@
 		where id = #{id,jdbcType=INTEGER}
 		and account = #{account,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.User">
+	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.User" useGeneratedKeys="true" keyProperty="id">
 		insert into tbuser (id, account, truename,
 		password, email, phone,
 		question, answer, type,status,

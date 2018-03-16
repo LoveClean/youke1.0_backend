@@ -1,12 +1,21 @@
 package com.media.ops.backend.controller.request;
 
+import javax.validation.constraints.NotNull;
+
+import io.swagger.annotations.ApiModelProperty;
+
 public class AdMaterialUptRequestBean {
-    private int id;
-	private int adId;  //广告ID
-	private int materialId;  //素材ID
+	@NotNull(message = "广告素材Id不能为空")
+	@ApiModelProperty(value = "广告素材Id，必填", required = true)
+	private int id;
+	
+	@ApiModelProperty(value = "播放顺序orderIndex")
 	private int orderIndex; //播放顺序
+	@ApiModelProperty(value = "加载间隔loadStep")
 	private int loadStep;   //加载间隔
+	@ApiModelProperty(value = "播放时间displayTime")
 	private int displayTime;  //显示时间
+	@ApiModelProperty(value = "伴音地址musicPath")
 	private String musicPath;  //伴音地址 
 	
 	public int getId() {
@@ -15,18 +24,7 @@ public class AdMaterialUptRequestBean {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getAdId() {
-		return adId;
-	}
-	public void setAdId(int adId) {
-		this.adId = adId;
-	}
-	public int getMaterialId() {
-		return materialId;
-	}
-	public void setMaterialId(int materialId) {
-		this.materialId = materialId;
-	}
+
 	public int getOrderIndex() {
 		return orderIndex;
 	}

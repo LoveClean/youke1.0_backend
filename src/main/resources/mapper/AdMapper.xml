@@ -1,151 +1,172 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.media.ops.backend.dao.mapper.AdMapper">
-  <resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.Ad">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="groupid" jdbcType="INTEGER" property="groupid" />
-    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
-    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
-    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
-    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
-    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, name, groupid, create_by, create_date, update_by, update_date, remarks, del_flag
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from tbad
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tbad
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Ad"  useGeneratedKeys="true" keyProperty="id">
-    insert into tbad (id, name, groupid, 
-      create_by, create_date, update_by, 
-      update_date, remarks, del_flag
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{groupid,jdbcType=INTEGER}, 
-      #{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR}, 
-      now(), #{remarks,jdbcType=VARCHAR}, 0
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Ad"  useGeneratedKeys="true" keyProperty="id">
-    insert into tbad
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="groupid != null">
-        groupid,
-      </if>
-      <if test="createBy != null">
-        create_by,
-      </if>
-      <if test="createDate != null">
-        create_date,
-      </if>
-      <if test="updateBy != null">
-        update_by,
-      </if>
-      <if test="updateDate != null">
-        update_date,
-      </if>
-      <if test="remarks != null">
-        remarks,
-      </if>
-      <if test="delFlag != null">
-        del_flag,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="groupid != null">
-        #{groupid,jdbcType=INTEGER},
-      </if>
-      <if test="createBy != null">
-        #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null">
-        now(),
-      </if>
-      <if test="updateBy != null">
-        #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updateDate != null">
-        now(),
-      </if>
-      <if test="remarks != null">
-        #{remarks,jdbcType=VARCHAR},
-      </if>
-      <if test="delFlag != null">
-        0,
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.media.ops.backend.dao.entity.Ad">
-    update tbad
-    <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="groupid != null">
-        groupid = #{groupid,jdbcType=INTEGER},
-      </if>
-      <if test="createBy != null">
-        create_by = #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null">
-        create_date = #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null">
-        update_by = #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updateDate != null">
-        update_date = now(),
-      </if>
-      <if test="remarks != null">
-        remarks = #{remarks,jdbcType=VARCHAR},
-      </if>
-      <if test="delFlag != null">
-        del_flag = #{delFlag,jdbcType=CHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Ad">
-    update tbad
-    set name = #{name,jdbcType=VARCHAR},
-      groupid = #{groupid,jdbcType=INTEGER},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_by = #{updateBy,jdbcType=VARCHAR},
-      update_date = now(),
-      remarks = #{remarks,jdbcType=VARCHAR},
-      del_flag = #{delFlag,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+	<resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.Ad">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="groupid" jdbcType="INTEGER" property="groupid" />
+		<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+		<result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+		<result column="remarks" jdbcType="VARCHAR" property="remarks" />
+		<result column="del_flag" jdbcType="CHAR" property="delFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, groupid, create_by, create_date, update_by, update_date,
+		remarks, del_flag
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbad
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from tbad
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Ad"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into tbad (id, name, groupid,
+		create_by, create_date, update_by,
+		update_date, remarks, del_flag
+		)
+		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{groupid,jdbcType=INTEGER},
+		#{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR},
+		now(), #{remarks,jdbcType=VARCHAR}, 0
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Ad"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into tbad
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="groupid != null">
+				groupid,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="groupid != null">
+				#{groupid,jdbcType=INTEGER},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				now(),
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				now(),
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="delFlag != null">
+				0,
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.media.ops.backend.dao.entity.Ad">
+		update tbad
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="groupid != null">
+				groupid = #{groupid,jdbcType=INTEGER},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = now(),
+			</if>
+			<if test="remarks != null">
+				remarks = #{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=CHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Ad">
+		update tbad
+		set name = #{name,jdbcType=VARCHAR},
+		groupid = #{groupid,jdbcType=INTEGER},
+		create_by = #{createBy,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		update_date = now(),
+		remarks = #{remarks,jdbcType=VARCHAR},
+		del_flag = #{delFlag,jdbcType=CHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 
-  <select id="selectAdVoByMac" parameterType="java.lang.String" resultType="com.media.ops.backend.vo.AdMaterialListVo">
-    select vwad.*,vwaddevice.begintime, vwaddevice.endtime from vwad
-      INNER JOIN vwaddevice ON vwaddevice.adid=vwad.id
-    where vwaddevice.mac = #{mac} and sysdate()>vwaddevice.begintime and vwaddevice.endtime>sysdate()
-  </select>
-  <select id="selectAdMaterialByAdid" parameterType="java.lang.Integer" resultType="com.media.ops.backend.vo.AdMaterialVo">
-    select * from vwadmaterial where adid=#{adid} ORDER BY orderindex
-  </select>
-  
+
+	<select id="selectList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbad
+		ORDER BY id asc
+	</select>
+
+
+
+
+
+
+	<select id="selectAdVoByMac" parameterType="java.lang.String"
+		resultType="com.media.ops.backend.vo.AdMaterialListVo">
+		select vwad.*,vwaddevice.begintime, vwaddevice.endtime from vwad
+		INNER JOIN vwaddevice ON vwaddevice.adid=vwad.id
+		where vwaddevice.mac = #{mac} and sysdate()>vwaddevice.begintime and
+		vwaddevice.endtime>sysdate()
+	</select>
+	<select id="selectAdMaterialByAdid" parameterType="java.lang.Integer"
+		resultType="com.media.ops.backend.vo.AdMaterialVo">
+		select * from vwadmaterial where adid=#{adid} ORDER BY orderindex
+	</select>
+
 </mapper>

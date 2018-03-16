@@ -1,12 +1,26 @@
 package com.media.ops.backend.controller.request;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import io.swagger.annotations.ApiModelProperty;
+
 public class AdMaterialAddRequestBean {
 
+	@NotBlank(message = "adId不能为空")
+	@ApiModelProperty(value = "广告Id，必填", required = true)
 	private int adId;  //广告ID
+	
+	@NotBlank(message = "materialId不能为空")
+	@ApiModelProperty(value = "素材Id，必填", required = true)
 	private int materialId;  //素材ID
+	
+	@ApiModelProperty(value = "播放顺序orderIndex")
 	private int orderIndex; //播放顺序
+	@ApiModelProperty(value = "加载间隔loadStep")
 	private int loadStep;   //加载间隔
+	@ApiModelProperty(value = "播放时间displayTime")
 	private int displayTime;  //显示时间
+	@ApiModelProperty(value = "伴音地址musicPath")
 	private String musicPath;  //伴音地址 
 	public int getAdId() {
 		return adId;

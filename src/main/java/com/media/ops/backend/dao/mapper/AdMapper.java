@@ -30,5 +30,8 @@ public interface AdMapper {
     List<AdMaterialListVo> selectAdVoByMac(String mac);
     //根据广告ID查询素材
     List<AdMaterialVo> selectAdMaterialByAdid(int adid);
+    ///////////////////////////////////////////////////
+    
+	List<Ad> selectList();
     
 }

@@ -174,13 +174,13 @@ public class UserController extends BaseController {
 	
 	@ApiOperation(value = "获取管理员列表",notes = "管理员列表")
 	@PostMapping(value="get_list.do")
-	public ResponseEntity<PageResponseBean<UserVo>> getList(PageRequestBean bean){
+	public ResponseEntity<PageResponseBean<UserVo>> getList(@RequestBody PageRequestBean bean){
 	       return ResponseEntityUtil.success(userService.getUserList(bean.getPageNum(),bean.getPageSize()));
 	}
 	
     @ApiOperation(value = "操作记录", notes = "")
     @PostMapping(value = "/records")
-    public ResponseEntity<PageResponseBean<Syslog>> records(@Valid @RequestBody PageRequestBean bean) {
+    public ResponseEntity<PageResponseBean<Syslog>> records(@RequestBody PageRequestBean bean) {
         return ResponseEntityUtil.success(sysLogService.sysLog(bean));
     }
     

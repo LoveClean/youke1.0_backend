@@ -153,10 +153,6 @@
 	</select>
 
 
-
-
-
-
 	<select id="selectAdVoByMac" parameterType="java.lang.String"
 		resultType="com.media.ops.backend.vo.AdMaterialListVo">
 		select vwad.*,vwaddevice.begintime, vwaddevice.endtime from vwad

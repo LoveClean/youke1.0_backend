@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.media.ops.backend.controller.request.AdAddRequestBean;
 import com.media.ops.backend.controller.request.AdUptRequestBean;
+import com.media.ops.backend.controller.request.PageRequestBean;
+import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.service.AdService;
 import com.media.ops.backend.util.ResponseEntity;
+import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.AdVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,5 +43,11 @@ public class AdController extends BaseController {
 	@PostMapping(value="update_ad_name.do")	
 	public ResponseEntity uptAdName(@RequestBody AdUptRequestBean bean,HttpServletRequest request) {
 		return adService.uptAdName(super.getSessionUser(request).getAccount(), bean);
+	}
+	
+	@ApiOperation(value = "获取广告列表接口", notes = "广告列表")
+	@PostMapping(value = "get_list.do")
+	public ResponseEntity<PageResponseBean<AdVo>> getList(@RequestBody PageRequestBean bean) {
+		return ResponseEntityUtil.success(adService.selectAdList(bean));
 	}
 }

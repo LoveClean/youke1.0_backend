@@ -310,9 +310,9 @@
 	</select>
 
 
-	<update id="updateStatusById" parameterType="string">
+	<update id="updateStatusById" parameterType="map">
 		update tbuser
-		SET status = 2,update_date = now()
+		SET status = #{status},update_date = now()
 		where account = #{account}
 	</update>
 

@@ -6,6 +6,8 @@ public class Addelivery {
     private Integer id;
 
     private Integer adid;//广告id
+    
+    private Integer adtype; //广告类型，0为普通广告，1为插播
 
     private Integer delivertype; //投放类型
 
@@ -44,8 +46,16 @@ public class Addelivery {
     public void setAdid(Integer adid) {
         this.adid = adid;
     }
+    
+    public Integer getAdtype() {
+		return adtype;
+	}
 
-    public Integer getDelivertype() {
+	public void setAdtype(Integer adtype) {
+		this.adtype = adtype;
+	}
+
+	public Integer getDelivertype() {
         return delivertype;
     }
 

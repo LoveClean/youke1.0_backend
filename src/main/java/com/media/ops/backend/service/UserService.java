@@ -25,9 +25,9 @@ public interface UserService {
 	
 	PageResponseBean<UserVo>  getUserList(int pageNum, int pageSize);
 	
-	ResponseEntity<String> updateStatusById(String account);
+	ResponseEntity<String>  updateStatusById(String account, Integer status);
 	
-
+	
 	
 	///////////////////////////通过密保问题修改密码的方法////////////////////////////////////////
 	ResponseEntity<String> selectQuestion(String username);

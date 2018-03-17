@@ -16,6 +16,7 @@ import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.request.PasswordQARequestBean;
 import com.media.ops.backend.controller.request.PasswordQAResetRequestBean;
 import com.media.ops.backend.controller.request.PasswordResetRequestBean;
+import com.media.ops.backend.controller.request.UserAccountStatusRequestBean;
 import com.media.ops.backend.controller.request.UserAddRequestBean;
 import com.media.ops.backend.controller.request.UserLoginRequestBean;
 import com.media.ops.backend.controller.request.UserSearchRequestBean;
@@ -186,7 +187,7 @@ public class UserController extends BaseController {
     
 	@ApiOperation(value = "登录禁用接口",notes = "登录禁用")
 	@PostMapping(value="login_forbidden.do")
-	public ResponseEntity<String> loginForbidden(String username){
-		return userService.updateStatusById(username);
+	public ResponseEntity<String> loginForbidden(@RequestBody UserAccountStatusRequestBean bean){
+		return userService.updateStatusById(bean.getAccount(), bean.getStatus());
 	}
 }

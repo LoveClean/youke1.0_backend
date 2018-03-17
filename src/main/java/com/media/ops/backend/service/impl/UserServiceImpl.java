@@ -3,6 +3,7 @@ package com.media.ops.backend.service.impl;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.mapper.SyslogMapper;
 import com.media.ops.backend.dao.mapper.UserMapper;
+import com.media.ops.backend.dao.entity.Adgroup;
 import com.media.ops.backend.dao.entity.User;
 import com.media.ops.backend.service.UserService;
 import com.github.pagehelper.PageHelper;
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
 			return ResponseEntityUtil.fail("账号或密码错误");
 		}
 		
-		if(this.checkAdminRole(user).isSuccess()) {
+		if(this.checkAdminRole(user).isSuccess() && this.checkUserStatus(user).isSuccess()) {
 			user.setPassword(StringUtils.EMPTY);
 			return ResponseEntityUtil.success(user);
 		}else {
@@ -207,10 +208,15 @@ public class UserServiceImpl implements UserService {
 		return ResponseEntityUtil.fail("更新个人信息失败");
 	}
 	
-	public ResponseEntity<String> updateStatusById(String account){
-		int resultCount= userMapper.updateStatusById(account);
+	public ResponseEntity<String> updateStatusById(String account, Integer status){
+		int resultCount= userMapper.updateStatusById(account,status);
 		if(resultCount>0) {
-			return ResponseEntityUtil.success("该账号已禁止登录！");
+			if(Const.Status.isNormal(status)) {
+				return ResponseEntityUtil.success("该账号已启用！");
+			}else {
+				return ResponseEntityUtil.success("该账号已禁用！");
+			}
+			
 		}
 		return ResponseEntityUtil.fail("操作失败");
 	}
@@ -249,6 +255,14 @@ public class UserServiceImpl implements UserService {
 		}
 		return ResponseEntityUtil.fail("不是管理员");
 	}
+	
+	public ResponseEntity checkUserStatus(User user) {
+		if(user !=null && Const.Status.isNormal(user.getStatus().intValue())) {
+			return ResponseEntityUtil.success();
+		}
+		return ResponseEntityUtil.fail("账号已禁用，无权访问");
+	}
+	
 
 	@Override
 	public PageResponseBean<UserVo> getUserList(int pageNum, int pageSize) {
@@ -277,6 +291,6 @@ public class UserServiceImpl implements UserService {
 		userVo.setStatus(user.getStatus());
 		return userVo;
 	}
-
+	
 
 }

@@ -76,8 +76,18 @@ public class Const {
 	}
 	
 	public interface DelFlagEnum{
-		String NORMAL="0";
-		String DELETED="1";		
+		String NORMAL="0";   //正常
+		String DELETED="1";	 //删除	 
+	}
+	
+	public interface AdDeliveryTypeEnum{
+		int BY_DEVICE_GROUP=0;  //按设备分组投放
+		int BY_BUILDING=1;  //投楼宇投放
+	}
+	
+	public interface AdTypeEnum{
+		int DEFAULT_PLAY=0;   //正常播放
+		int EMERGENT_PLAY=1;  //插播
 	}
 	
 }

@@ -45,7 +45,7 @@ public interface UserMapper {
  	
  	List<User> selectList();
  	
- 	int updateStatusById(@Param("account")String account);
+ 	int updateStatusById(@Param("account")String account, @Param("status")Integer status);
  	
  	User selectByAccountEmail(@Param("account") String account,@Param("email") String email);
 }

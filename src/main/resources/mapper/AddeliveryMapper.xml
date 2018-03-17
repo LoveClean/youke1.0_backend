@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.Addelivery">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="adid" jdbcType="INTEGER" property="adid" />
+    <result column="adtype" jdbcType="INTEGER" property="adtype" />
     <result column="delivertype" jdbcType="INTEGER" property="delivertype" />
     <result column="areaid" jdbcType="VARCHAR" property="areaid" />
     <result column="groupid" jdbcType="INTEGER" property="groupid" />
@@ -17,7 +18,7 @@
     <result column="del_flag" jdbcType="CHAR" property="delFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, adid, delivertype, areaid, groupid, begintime, endtime, create_by, create_date, 
+    id, adid, adtype, delivertype, areaid, groupid, begintime, endtime, create_by, create_date, 
     update_by, update_date, remarks, del_flag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -31,12 +32,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Addelivery">
-    insert into tbaddelivery (id, adid, delivertype, 
+    insert into tbaddelivery (id, adid, adtype,delivertype, 
       areaid, groupid, begintime, 
       endtime, create_by, create_date, 
       update_by, update_date, remarks, 
       del_flag)
-    values (#{id,jdbcType=INTEGER}, #{adid,jdbcType=INTEGER}, #{delivertype,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{adid,jdbcType=INTEGER}, #{adtype,jdbcType=INTEGER}, #{delivertype,jdbcType=INTEGER}, 
       #{areaid,jdbcType=VARCHAR}, #{groupid,jdbcType=INTEGER}, #{begintime,jdbcType=TIMESTAMP}, 
       #{endtime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, now(), 
       #{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR}, 
@@ -50,6 +51,9 @@
       </if>
       <if test="adid != null">
         adid,
+      </if>
+      <if test="adtype != null">
+        adtype,
       </if>
       <if test="delivertype != null">
         delivertype,
@@ -92,6 +96,9 @@
       <if test="adid != null">
         #{adid,jdbcType=INTEGER},
       </if>
+      <if test="adtype != null">
+        #{adtype,jdbcType=INTEGER},
+      </if>
       <if test="delivertype != null">
         #{delivertype,jdbcType=INTEGER},
       </if>
@@ -133,6 +140,9 @@
       <if test="adid != null">
         adid = #{adid,jdbcType=INTEGER},
       </if>
+      <if test="adtype != null">
+        adtype = #{adtype,jdbcType=INTEGER},
+      </if>
       <if test="delivertype != null">
         delivertype = #{delivertype,jdbcType=INTEGER},
       </if>
@@ -172,6 +182,7 @@
   <update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Addelivery">
     update tbaddelivery
     set adid = #{adid,jdbcType=INTEGER},
+      adtype = #{adtype,jdbcType=INTEGER},
       delivertype = #{delivertype,jdbcType=INTEGER},
       areaid = #{areaid,jdbcType=VARCHAR},
       groupid = #{groupid,jdbcType=INTEGER},

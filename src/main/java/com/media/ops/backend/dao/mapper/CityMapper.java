@@ -15,7 +15,13 @@ public interface CityMapper {
      * @return
      */
     City selectByPrimaryKey(Integer id);
-
+    /**
+     * 根据城市id获取城市
+     * @param cityId
+     * @return
+     */
+    City selectByCityId(@Param("cityId") String cityId);
+    
     /**
      * 根据省份id,获取该省所有城市
      * @return

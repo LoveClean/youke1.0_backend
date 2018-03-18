@@ -16,67 +16,14 @@
     from tbarea
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tbarea
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Area">
-    insert into tbarea (id, areaid, area, 
-      father)
-    values (#{id,jdbcType=INTEGER}, #{areaid,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
-      #{father,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Area">
-    insert into tbarea
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="areaid != null">
-        areaid,
-      </if>
-      <if test="area != null">
-        area,
-      </if>
-      <if test="father != null">
-        father,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="areaid != null">
-        #{areaid,jdbcType=VARCHAR},
-      </if>
-      <if test="area != null">
-        #{area,jdbcType=VARCHAR},
-      </if>
-      <if test="father != null">
-        #{father,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.media.ops.backend.dao.entity.Area">
-    update tbarea
-    <set>
-      <if test="areaid != null">
-        areaid = #{areaid,jdbcType=VARCHAR},
-      </if>
-      <if test="area != null">
-        area = #{area,jdbcType=VARCHAR},
-      </if>
-      <if test="father != null">
-        father = #{father,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Area">
-    update tbarea
-    set areaid = #{areaid,jdbcType=VARCHAR},
-      area = #{area,jdbcType=VARCHAR},
-      father = #{father,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+  <select id="selectByAreaId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbarea
+    where areaid = #{areaId,jdbcType=INTEGER}
+  </select>
+ 
+
+ 
+
 </mapper>

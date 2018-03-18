@@ -21,11 +21,17 @@ public class ApplicationTests {
 	
 	@Test
 	public void test() {
-		System.out.println(smsService.send("13588774342", "Test 短信发送"));
+		System.out.println(smsService.sign("短信测试", "utf-8"));
 	}
 	@Test
 	public void test1() {
 		System.out.println(MD5Util.MD5("111111"));
+	}
+	@Test
+	public void test2() {
+		System.out.println("-----------start------------");
+		System.out.println(smsService.send("13588774342", "短信发送测试"));
+		System.out.println("-----------end---------------");
 	}
 
 }

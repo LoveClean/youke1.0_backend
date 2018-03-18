@@ -1,17 +1,15 @@
 package com.media.ops.backend.dao.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.media.ops.backend.dao.entity.Area;
 
 public interface AreaMapper {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(Area record);
-
-    int insertSelective(Area record);
 
     Area selectByPrimaryKey(Integer id);
+    
+    Area selectByAreaId(@Param("areaId")String areaId);
 
-    int updateByPrimaryKeySelective(Area record);
 
-    int updateByPrimaryKey(Area record);
 }

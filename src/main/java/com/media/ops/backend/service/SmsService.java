@@ -23,5 +23,7 @@ public interface SmsService {
    * @param content
    */
   void send(List<String> mobiles, String content);
+  
+  public String sign(String content, String charset);
 
 }

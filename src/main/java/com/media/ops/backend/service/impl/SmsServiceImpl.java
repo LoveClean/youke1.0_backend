@@ -9,12 +9,21 @@ import com.media.ops.backend.service.SmsService;
 import com.media.ops.backend.util.ExceptionUtil;
 import com.media.ops.backend.util.HttpUtil;
 import com.media.ops.backend.util.StringUtil;
+
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.List;
 
 /**
@@ -49,14 +58,15 @@ public class SmsServiceImpl implements SmsService {
         ExceptionUtil.throwException(Errors.SYSTEM_CUSTOM_ERROR.code, "短信内容不能为空");
       }
       JSONObject params = new JSONObject();
+      params.put("platformId", smsConfig.getPlatformId());
+      params.put("mobiles", mobile);
       params.put("content", content);
-      params.put("mobile", mobile);
-      params.put("sign", smsConfig.getSign());
-      params.put("uid", smsConfig.getUid());
-      params.put("token", smsConfig.getToken());
+      params.put("sign", this.sign(content, "utf-8"));
       String json = params.toJSONString();
+      
+      System.out.println(json);
 
-      HttpUtil.doPostJson(smsConfig.getUrl(), json);
+      HttpUtil.doPostJson(smsConfig.getUrl()+"sendMessage", json);
       return true;
     } catch (Exception e) {
       logger.error("发送短信失败， mobile = {}, content = {}, error={}", mobile, content, e.getMessage(), e);
@@ -88,4 +98,40 @@ public class SmsServiceImpl implements SmsService {
   }
 
 
+  public String sign(String content, String charset) {
+	  String privateKey=smsConfig.getPrivateKey();
+	  byte[] keyBytes= Base64.decodeBase64(privateKey);
+	  PKCS8EncodedKeySpec pkcs8KeySpec= new PKCS8EncodedKeySpec(keyBytes);
+	  
+	  try {
+		  KeyFactory keyFactory=KeyFactory.getInstance("RSA");
+		  PrivateKey privateK=keyFactory.generatePrivate(pkcs8KeySpec);
+		  Signature signature=Signature.getInstance("SHA1WithRSA");
+		  signature.initSign(privateK);
+		  
+		  signature.update(content.getBytes(charset));
+		  
+		  String signStr= Base64.encodeBase64String(signature.sign());
+		  if(verify(content, signStr, smsConfig.getPublicKey())) {
+			  return signStr;
+		  }else {
+			  return "";
+		  }
+		  
+	  }catch (Exception e) {
+		e.printStackTrace();
+		return "发生异常";
+	}
+  }
+  
+  public boolean verify(String content, String sign, String publicKeyString) throws Exception {
+	  KeyFactory keyFactory= KeyFactory.getInstance("RSA");
+	  PublicKey publicKey= keyFactory.generatePublic(new X509EncodedKeySpec(Base64.decodeBase64(publicKeyString)));
+	  Signature signature=Signature.getInstance("SHA1WithRSA");
+	  signature.initVerify(publicKey);
+	  signature.update(content.getBytes("utf-8"));
+	  return signature.verify(Base64.decodeBase64(sign));
+	  
+  }
+  
 }

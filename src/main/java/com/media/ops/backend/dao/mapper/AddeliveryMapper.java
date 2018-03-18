@@ -1,6 +1,9 @@
 package com.media.ops.backend.dao.mapper;
 
+import java.util.List;
+
 import com.media.ops.backend.dao.entity.Addelivery;
+
 
 public interface AddeliveryMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,6 @@ public interface AddeliveryMapper {
     int updateByPrimaryKeySelective(Addelivery record);
 
     int updateByPrimaryKey(Addelivery record);
+    
+    List<Addelivery> selectList();
 }

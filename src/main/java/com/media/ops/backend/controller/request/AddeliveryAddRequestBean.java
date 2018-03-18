@@ -12,11 +12,11 @@ public class AddeliveryAddRequestBean {
     private Integer adid;//广告id
     
 	@NotNull(message = "广告类型不能为空")
-	@ApiModelProperty(value = "adtype，必填-0为正常，1为插播", required = true)
+	@ApiModelProperty(value = "广告类型adtype，必填-0为正常，1为插播", required = true)
     private Integer adtype; //广告类型，0为普通广告，1为插播
 	
 	@NotNull(message = "投放类型不能为空")
-	@ApiModelProperty(value = "deliverytype，必填-0按设备分组，1按楼宇", required = true)
+	@ApiModelProperty(value = "投放类型deliverytype，必填-0按设备分组，1按楼宇", required = true)
     private Integer delivertype; //投放类型
 
 	@ApiModelProperty(value = "areaid区域ID")

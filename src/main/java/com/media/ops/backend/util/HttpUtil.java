@@ -3,6 +3,7 @@ package com.media.ops.backend.util;
 import com.alibaba.fastjson.JSONObject;
 import com.media.ops.backend.contants.Errors;
 import org.apache.commons.codec.CharEncoding;
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
@@ -69,12 +70,14 @@ public class HttpUtil {
 
     JSONObject response = null;
     try {
-
+      
       HttpClient client = HttpClients.createDefault();
+      //HttpClient client = new SSLClient();
+      
       HttpPost post = new HttpPost(url);
       post.addHeader("text/plain", CharEncoding.UTF_8);
       post.addHeader("Content-Type", "application/json");
-
+      
       StringEntity s = new StringEntity(jsonFormString, chartset);
       post.setEntity(s);
       HttpResponse httpResponse = client.execute(post);

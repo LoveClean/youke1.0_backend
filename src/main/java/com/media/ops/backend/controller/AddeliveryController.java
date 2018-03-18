@@ -11,9 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.media.ops.backend.controller.request.AddeliveryAddRequestBean;
+import com.media.ops.backend.controller.request.AddeliveryEmergentRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryUptRequestBean;
+import com.media.ops.backend.controller.request.PageRequestBean;
+import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.service.AddeliveryService;
 import com.media.ops.backend.util.ResponseEntity;
+import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.AddeliveryDetailVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,4 +42,15 @@ public class AddeliveryController extends BaseController {
 	public ResponseEntity setDelivery(@Valid @RequestBody AddeliveryUptRequestBean bean,HttpServletRequest request) {
 			return addeliveryService.updateAdDelivery(super.getSessionUser(request).getAccount(), bean);
 	}	
+	
+	@ApiOperation(value = "强制投放操作接口",notes = "强制投放广告")
+	@PostMapping(value="emergent_delivery.do")	
+	public ResponseEntity emergentDelivery(@Valid @RequestBody AddeliveryEmergentRequestBean bean,HttpServletRequest request) {
+			return addeliveryService.emergentAdDelivery(super.getSessionUser(request).getAccount(), bean);
+	}
+	@ApiOperation(value = "广告投放列表接口",notes = "广告投放列表")
+	@PostMapping(value="list_delivery.do")	
+	public ResponseEntity<PageResponseBean<AddeliveryDetailVo>> getList(@RequestBody PageRequestBean bean){
+		return ResponseEntityUtil.success(addeliveryService.selectList(bean));
+	}
 }

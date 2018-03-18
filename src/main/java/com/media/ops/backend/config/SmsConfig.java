@@ -6,41 +6,41 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "sms")
 @Component
 public class SmsConfig {
-  private String uid;
-  private String sign;
-  private String token;
-  private String url;
+	private String platformId;
+	private String privateKey;
+	private String publicKey;
+	private String url;
 
-  public String getUid() {
-    return uid;
-  }
+	public String getPlatformId() {
+		return platformId;
+	}
 
-  public void setUid(String uid) {
-    this.uid = uid;
-  }
+	public void setPlatformId(String platformId) {
+		this.platformId = platformId;
+	}
 
-  public String getSign() {
-    return sign;
-  }
+	public String getPrivateKey() {
+		return privateKey;
+	}
 
-  public void setSign(String sign) {
-    this.sign = sign;
-  }
+	public void setPrivateKey(String privateKey) {
+		this.privateKey = privateKey;
+	}
 
-  public String getToken() {
-    return token;
-  }
+	public String getPublicKey() {
+		return publicKey;
+	}
 
-  public void setToken(String token) {
-    this.token = token;
-  }
+	public void setPublicKey(String publicKey) {
+		this.publicKey = publicKey;
+	}
 
-  public String getUrl() {
-    return url;
-  }
+	public String getUrl() {
+		return url;
+	}
 
-  public void setUrl(String url) {
-    this.url = url;
-  }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 }

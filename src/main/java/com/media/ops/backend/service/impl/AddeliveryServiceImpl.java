@@ -75,6 +75,7 @@ public class AddeliveryServiceImpl implements AddeliveryService {
         uptAddelivery.setGroupid(bean.getGroupid());
         uptAddelivery.setBegintime(bean.getBegintime());
         uptAddelivery.setEndtime(bean.getEndtime());
+        uptAddelivery.setUpdateBy(updateby);
         
         int resultCount= addeliveryMapper.updateByPrimaryKeySelective(uptAddelivery);
        
@@ -88,6 +89,7 @@ public class AddeliveryServiceImpl implements AddeliveryService {
         uptAddelivery.setAdtype(Const.AdTypeEnum.EMERGENT_PLAY);
         uptAddelivery.setBegintime(bean.getBegintime());
         uptAddelivery.setEndtime(bean.getEndtime());
+        uptAddelivery.setUpdateBy(account);
         
         int resultCount= addeliveryMapper.updateByPrimaryKeySelective(uptAddelivery);
        

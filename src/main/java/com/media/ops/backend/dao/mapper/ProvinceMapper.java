@@ -2,6 +2,9 @@ package com.media.ops.backend.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.media.ops.backend.dao.entity.City;
 import com.media.ops.backend.dao.entity.Province;
 
 public interface ProvinceMapper {
@@ -17,5 +20,7 @@ public interface ProvinceMapper {
      * @return
      */
     List<Province> selectAllProvinces();
+    
+    Province selectByProvinceId(@Param("provinceId") String provinceId);
 
 }

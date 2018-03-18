@@ -1,5 +1,9 @@
 package com.media.ops.backend.dao.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.media.ops.backend.dao.entity.Buildingfloor;
 
 public interface BuildingfloorMapper {
@@ -14,4 +18,6 @@ public interface BuildingfloorMapper {
     int updateByPrimaryKeySelective(Buildingfloor record);
 
     int updateByPrimaryKey(Buildingfloor record);
+    
+    List<Buildingfloor> selectListByBuildingId(@Param("buildingId")Integer buildingId);
 }

@@ -1,29 +1,29 @@
 package com.media.ops.backend.vo;
 
-import java.util.List;
-
 public class BuildingFloorListVo {
 	
 	private Integer buildingid;  //楼宇Id
-	
-	private List<BuildingFloorListVo> buildingFloorListVoList;  //楼宇楼层列表
-
+	private Integer floorno;  //楼层id
+    private String path;   //楼层平面图
 	public Integer getBuildingid() {
 		return buildingid;
 	}
-
 	public void setBuildingid(Integer buildingid) {
 		this.buildingid = buildingid;
 	}
-
-	public List<BuildingFloorListVo> getBuildingFloorListVoList() {
-		return buildingFloorListVoList;
+	public Integer getFloorno() {
+		return floorno;
 	}
-
-	public void setBuildingFloorListVoList(List<BuildingFloorListVo> buildingFloorListVoList) {
-		this.buildingFloorListVoList = buildingFloorListVoList;
+	public void setFloorno(Integer floorno) {
+		this.floorno = floorno;
 	}
-	
-	
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+    
+    
 
 }

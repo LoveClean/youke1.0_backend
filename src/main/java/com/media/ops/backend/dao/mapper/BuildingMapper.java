@@ -1,5 +1,7 @@
 package com.media.ops.backend.dao.mapper;
 
+import java.util.List;
+
 import com.media.ops.backend.dao.entity.Building;
 
 public interface BuildingMapper {
@@ -14,4 +16,8 @@ public interface BuildingMapper {
     int updateByPrimaryKeySelective(Building record);
 
     int updateByPrimaryKey(Building record);
+    
+    List<Building> selectList();
+    
+    
 }

@@ -1,12 +1,14 @@
 package com.media.ops.backend.controller.request;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotBlank;
 
 import io.swagger.annotations.ApiModelProperty;
 
 public class AdUptRequestBean {
 	
-	@NotBlank(message = "广告Id不能为空")
+	@NotNull(message = "广告Id不能为空")
 	@ApiModelProperty(value = "广告Id，必填", required = true)
 	private Integer id;
 		

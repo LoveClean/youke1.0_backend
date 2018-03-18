@@ -9,11 +9,11 @@ public class BuildingVo {
     private String name;   //楼宇名称
 
     private String areaid;   //县区id
-    private ProvinceCityAreaVo provinceCityAreaVo;   //区域对象模型 
+    private AreaVo areaVo;   //区域对象模型 
 
     private String address;   //详细地址
     
-    private List<BuildingFloorListVo> buildingFloorListVoList;   //楼层列表
+    private List<BuildingFloorListVo> buildingFloorListVos;   //楼层列表
 
 	public Integer getId() {
 		return id;
@@ -39,12 +39,12 @@ public class BuildingVo {
 		this.areaid = areaid;
 	}
 
-	public ProvinceCityAreaVo getProvinceCityAreaVo() {
-		return provinceCityAreaVo;
+	public AreaVo getAreaVo() {
+		return areaVo;
 	}
 
-	public void setProvinceCityAreaVo(ProvinceCityAreaVo provinceCityAreaVo) {
-		this.provinceCityAreaVo = provinceCityAreaVo;
+	public void setAreaVo(AreaVo areaVo) {
+		this.areaVo = areaVo;
 	}
 
 	public String getAddress() {
@@ -55,15 +55,15 @@ public class BuildingVo {
 		this.address = address;
 	}
 
-	public List<BuildingFloorListVo> getBuildingFloorListVoList() {
-		return buildingFloorListVoList;
+	public List<BuildingFloorListVo> getBuildingFloorListVos() {
+		return buildingFloorListVos;
 	}
 
-	public void setBuildingFloorListVoList(List<BuildingFloorListVo> buildingFloorListVoList) {
-		this.buildingFloorListVoList = buildingFloorListVoList;
+	public void setBuildingFloorListVos(List<BuildingFloorListVo> buildingFloorListVos) {
+		this.buildingFloorListVos = buildingFloorListVos;
 	}
-    
-    
+
+
     
     
    

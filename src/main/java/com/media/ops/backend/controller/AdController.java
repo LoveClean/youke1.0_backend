@@ -50,4 +50,8 @@ public class AdController extends BaseController {
 	public ResponseEntity<PageResponseBean<AdVo>> getList(@RequestBody PageRequestBean bean) {
 		return ResponseEntityUtil.success(adService.selectAdList(bean));
 	}
+	
+	//查看广告详情接口
+	
+	
 }

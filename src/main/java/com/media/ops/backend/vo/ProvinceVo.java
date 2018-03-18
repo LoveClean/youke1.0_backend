@@ -6,7 +6,7 @@ public class ProvinceVo {
 	private String provId;  //省份Id
 	private String province;  //省份
 	
-	private List<CityVo> cityVoList;  //该省所有城市
+	//private List<CityVo> cityVoList;  //该省所有城市
 
 	public String getProvId() {
 		return provId;
@@ -24,13 +24,13 @@ public class ProvinceVo {
 		this.province = province;
 	}
 
-	public List<CityVo> getCityVoList() {
-		return cityVoList;
-	}
-
-	public void setCityVoList(List<CityVo> cityVoList) {
-		this.cityVoList = cityVoList;
-	}
+//	public List<CityVo> getCityVoList() {
+//		return cityVoList;
+//	}
+//
+//	public void setCityVoList(List<CityVo> cityVoList) {
+//		this.cityVoList = cityVoList;
+//	}
 	
 	
 	

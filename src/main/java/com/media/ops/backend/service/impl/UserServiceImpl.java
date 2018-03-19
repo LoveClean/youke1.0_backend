@@ -223,13 +223,14 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public ResponseEntity<User> getInformation(Integer id) {
+	public ResponseEntity<UserVo> getInformation(Integer id) {
 		User user= userMapper.selectByPrimaryKey(id);
 		if(user==null) {
 			return ResponseEntityUtil.fail("找不到该用户");
 		}
 		user.setPassword(StringUtils.EMPTY);
-		return ResponseEntityUtil.success(user);
+		UserVo userVo= assembleUserVo(user);
+		return ResponseEntityUtil.success(userVo);
 	}
 	
 	public ResponseEntity<User> getUserByAccountEmail(String account, String email){

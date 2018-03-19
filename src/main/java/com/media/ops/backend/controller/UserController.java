@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.media.ops.backend.annotation.ACS;
+import com.media.ops.backend.controller.request.InfoCheckRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.request.PasswordQARequestBean;
 import com.media.ops.backend.controller.request.PasswordQAResetRequestBean;
@@ -90,10 +91,10 @@ public class UserController extends BaseController {
 	}
 	
 	@ACS(allowAnonymous = true)
-	@ApiOperation(value = "用户校验接口",notes = "信息校验")
+	@ApiOperation(value = "有效性校验接口,type可为account或email",notes = "信息校验")
 	@PostMapping(value="check_valid.do")
-	public ResponseEntity<String> checkValid(String str, String type){
-		return userService.checkValid(str, type);
+	public ResponseEntity<String> checkValid(@Valid @RequestBody InfoCheckRequestBean bean){
+		return userService.checkValid(bean.getValue(), bean.getType());
 	}
 	
 	
@@ -190,4 +191,12 @@ public class UserController extends BaseController {
 	public ResponseEntity<String> loginForbidden(@RequestBody UserAccountStatusRequestBean bean){
 		return userService.updateStatusById(bean.getAccount(), bean.getStatus());
 	}
+	
+	@ApiOperation(value = "根据id查询管理员信息接口",notes = "根据id查询管理员信息接口")
+	@PostMapping(value="get_info.do")	
+	public ResponseEntity<UserVo> getInformation(@RequestBody Integer id){
+		return userService.getInformation(id);
+	}
+	
+
 }

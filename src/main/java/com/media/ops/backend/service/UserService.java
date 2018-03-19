@@ -17,7 +17,7 @@ public interface UserService {
 
 	ResponseEntity<User> updateInformation(User user);
 
-	ResponseEntity<User> getInformation(Integer id);
+	ResponseEntity<UserVo> getInformation(Integer id);
 	
 	ResponseEntity<User> getUserByAccountEmail(String account, String email);
 

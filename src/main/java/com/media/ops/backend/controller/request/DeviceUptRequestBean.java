@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import io.swagger.annotations.ApiModelProperty;
 
 public class DeviceUptRequestBean {
-	
 	@NotNull(message = "id不能为空")
 	@ApiModelProperty(value = "id，必填", required = true)
 	private int id;

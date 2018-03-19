@@ -21,7 +21,7 @@ public class PageRequestBean implements Serializable {
 
   private static final long serialVersionUID = -8822923831226295853L;
   private static final int DEFAULT_PAGE = 1;
-  private static final int DEFAULT_SIZE = 10;
+  private static final int DEFAULT_SIZE = 999;
 //  private static final String SORT = "ID";
   //ASC升序，DESC降序
 //  private static final String ORDER = "DESC";
@@ -67,7 +67,7 @@ public class PageRequestBean implements Serializable {
   }
 
   public void setPageSize(int pageSize) {
-    this.pageSize = (pageSize <= 0 ||  pageSize >= 100) ? 10 : pageSize;
+    this.pageSize = (pageSize <= 0 ||  pageSize >= 1000) ? 999 : pageSize;
   }
 //  public String getSort() {
 //    return StringUtils.isNotBlank(sort) ? sort : SORT;

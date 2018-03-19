@@ -10,6 +10,8 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.BuildingAddRequestBean;
+import com.media.ops.backend.controller.request.BuildingFloorAddRequestBean;
+import com.media.ops.backend.controller.request.BuildingFloorUptRequestBean;
 import com.media.ops.backend.controller.request.BuildingUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
@@ -32,6 +34,7 @@ import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.AreaVo;
 import com.media.ops.backend.vo.BuildingFloorListVo;
+import com.media.ops.backend.vo.BuildingFloorVo;
 import com.media.ops.backend.vo.BuildingVo;
 import com.media.ops.backend.vo.DeviceVo;
 import com.media.ops.backend.vo.FloorDeviceVo;
@@ -213,5 +216,35 @@ public class BuildingServiceImpl implements BuildingService {
 		deviceVo.setAddress(device.getAddress());
 
 		return deviceVo;
+	}
+
+	@Override
+	public ResponseEntity createBuildingFloor(String createby, BuildingFloorAddRequestBean bean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity updateBuilding(String updateby, BuildingFloorUptRequestBean bean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<String> delBuildingFloor(String updateby, Integer Id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<String> delFloorByBuildingId(String updateby, Integer Id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<List<BuildingFloorVo>> selectFloorsByBuildingId(Integer buildingId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
 		if(! validResponse.isSuccess()) {
 			return validResponse;
 		}
-		validResponse= this.checkValid(user.getPassword(), Const.EMAIL);
+		validResponse= this.checkValid(user.getEmail(), Const.EMAIL);
 		if(!validResponse.isSuccess()) {
 			return validResponse;
 		}

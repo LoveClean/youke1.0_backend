@@ -11,7 +11,7 @@ public class DeviceSearchRequestBean implements Serializable {
 
 	private static final long serialVersionUID = -5772418760357199184L;
 	private static final int DEFAULT_PAGE = 1;
-	private static final int DEFAULT_SIZE = 10;
+	private static final int DEFAULT_SIZE = 999;
 
 	@ApiModelProperty(value = "设备编号")
 	private String code;
@@ -48,7 +48,7 @@ public class DeviceSearchRequestBean implements Serializable {
 	}
 
 	public void setPageSize(int pageSize) {
-		this.pageSize = (pageSize <= 0 || pageSize >= 100) ? 10 : pageSize;
+		this.pageSize = (pageSize <= 0 || pageSize >= 1000) ? 999 : pageSize;
 	}
 
 	public String getCode() {

@@ -24,6 +24,8 @@ public interface SmsService {
    */
   void send(List<String> mobiles, String content);
   
+  boolean sendMass(List<String> mobiles, String content);
+  
   public String sign(String content, String charset);
 
 }

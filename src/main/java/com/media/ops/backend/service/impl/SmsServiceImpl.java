@@ -73,6 +73,40 @@ public class SmsServiceImpl implements SmsService {
       return false;
     }
   }
+  
+  public boolean sendMass(List<String> mobiles, String content) {
+	  StringBuilder mobilesStr = new StringBuilder();
+	    mobiles.forEach(mobile -> {
+	      if (StringUtils.isNotBlank(mobile)) {
+	        mobilesStr.append(mobile).append(",");
+	      }
+	      });
+	    mobilesStr.deleteCharAt(mobilesStr.length()-1);
+	    try {
+	      logger.info("发送短信, mobiles = {}, content = {}", mobilesStr, content);
+	      
+	      if (StringUtil.isBlank(mobilesStr)) {
+	        ExceptionUtil.throwException(Errors.SYSTEM_CUSTOM_ERROR.code, "手机号不能为空");
+	      }
+	      if (StringUtil.isBlank(content)) {
+	        ExceptionUtil.throwException(Errors.SYSTEM_CUSTOM_ERROR.code, "短信内容不能为空");
+	      }
+	      JSONObject params = new JSONObject();
+	      params.put("platformId", smsConfig.getPlatformId());
+	      params.put("mobiles", mobilesStr);
+	      params.put("content", content);
+	      params.put("sign", this.sign(content, "utf-8"));
+	      String json = params.toJSONString();
+	      
+	      System.out.println(json);
+
+	      HttpUtil.doPostJson(smsConfig.getUrl()+"sendMass", json);
+	      return true;
+	    } catch (Exception e) {
+	      logger.error("发送短信失败， mobile = {}, content = {}, error={}", mobilesStr, content, e.getMessage(), e);
+	      return false;
+	    }
+	  }
 
   /**
    * 短信群发
@@ -97,7 +131,7 @@ public class SmsServiceImpl implements SmsService {
     }
   }
 
-
+  //私钥签名
   public String sign(String content, String charset) {
 	  String privateKey=smsConfig.getPrivateKey();
 	  byte[] keyBytes= Base64.decodeBase64(privateKey);
@@ -124,6 +158,7 @@ public class SmsServiceImpl implements SmsService {
 	}
   }
   
+  //签名与公钥验证
   public boolean verify(String content, String sign, String publicKeyString) throws Exception {
 	  KeyFactory keyFactory= KeyFactory.getInstance("RSA");
 	  PublicKey publicKey= keyFactory.generatePublic(new X509EncodedKeySpec(Base64.decodeBase64(publicKeyString)));

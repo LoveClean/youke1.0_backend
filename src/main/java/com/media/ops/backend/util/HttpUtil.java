@@ -70,10 +70,8 @@ public class HttpUtil {
 
     JSONObject response = null;
     try {
-      
       HttpClient client = HttpClients.createDefault();
-      //HttpClient client = new SSLClient();
-      
+     
       HttpPost post = new HttpPost(url);
       post.addHeader("text/plain", CharEncoding.UTF_8);
       post.addHeader("Content-Type", "application/json");

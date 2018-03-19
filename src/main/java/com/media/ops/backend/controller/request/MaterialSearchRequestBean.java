@@ -15,7 +15,7 @@ public class MaterialSearchRequestBean implements Serializable {
 	private static final long serialVersionUID = 7975429760176343147L;
 
 	  private static final int DEFAULT_PAGE = 1;
-	  private static final int DEFAULT_SIZE = 10;
+	  private static final int DEFAULT_SIZE = 999;
 	  
 	@ApiModelProperty(value = "素材分组",required=true)
 	private Integer groupId;
@@ -54,7 +54,7 @@ public class MaterialSearchRequestBean implements Serializable {
 		  }
 
 		  public void setPageSize(int pageSize) {
-		    this.pageSize = (pageSize <= 0 ||  pageSize >= 100) ? 10 : pageSize;
+		    this.pageSize = (pageSize <= 0 ||  pageSize >= 1000) ? 10 : pageSize;
 		  }
 
 	public Integer getGroupId() {

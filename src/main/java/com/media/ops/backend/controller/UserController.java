@@ -174,6 +174,24 @@ public class UserController extends BaseController {
 		return response;
 	}
 	
+	
+	@ApiOperation(value = "修改他人信息接口",notes = "修改自身信息")
+	@PostMapping(value="update_others_infor.do")
+	public ResponseEntity<User> updateOthersInfor(HttpServletRequest request, 
+			@Valid @RequestBody UserUptRequestBean bean){
+		User user= new User();
+		
+		user.setId(bean.getId());
+		user.setTruename(bean.getTrueName());
+		user.setEmail(bean.getEmail());
+		user.setPhone(bean.getPhone());
+		user.setQuestion(bean.getQuestion());
+		user.setAnswer(bean.getAnswer());
+		
+		user.setUpdateBy(super.getSessionUser(request).getAccount());
+
+		return userService.updateInformation(user);
+	}
 	@ApiOperation(value = "获取管理员列表",notes = "管理员列表")
 	@PostMapping(value="get_list.do")
 	public ResponseEntity<PageResponseBean<UserVo>> getList(@RequestBody PageRequestBean bean){

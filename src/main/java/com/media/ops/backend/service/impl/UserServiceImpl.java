@@ -195,6 +195,7 @@ public class UserServiceImpl implements UserService {
 		}
 		User updateUser= new User();
 		updateUser.setId(user.getId());
+		updateUser.setTruename(user.getTruename());
 		updateUser.setEmail(user.getEmail());
 		updateUser.setPhone(user.getPhone());
 		updateUser.setQuestion(user.getQuestion());
@@ -203,7 +204,7 @@ public class UserServiceImpl implements UserService {
 		
 		int updateCount= userMapper.updateByPrimaryKeySelective(updateUser);
 		if(updateCount>0) {
-			return ResponseEntityUtil.success(updateUser);
+			return ResponseEntityUtil.success(userMapper.selectByPrimaryKey(updateUser.getId()));
 		}
 		return ResponseEntityUtil.fail("更新个人信息失败");
 	}

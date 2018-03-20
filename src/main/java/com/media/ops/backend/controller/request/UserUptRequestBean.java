@@ -6,6 +6,9 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class UserUptRequestBean {
 
+	@ApiModelProperty(value = "id,修改他人信息的必填，修改自己信息不填")
+	private Integer id;
+	
     @ApiModelProperty(value = "姓名，选填")
     private String trueName;
     
@@ -20,6 +23,15 @@ public class UserUptRequestBean {
     private String question;
     @ApiModelProperty(value = "找回密码答案，选填")
     private String answer;
+    
+    
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	public String getTrueName() {
 		return trueName;
 	}

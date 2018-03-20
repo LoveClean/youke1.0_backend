@@ -199,8 +199,10 @@ public class UserServiceImpl implements UserService {
 		updateUser.setEmail(user.getEmail());
 		updateUser.setPhone(user.getPhone());
 		updateUser.setQuestion(user.getQuestion());
-		updateUser.setAnswer(user.getAnswer());
+		updateUser.setAnswer(user.getAnswer());   
 		updateUser.setUpdateBy(user.getUpdateBy());
+		updateUser.setType(user.getType());
+		updateUser.setStatus(user.getStatus());
 		
 		int updateCount= userMapper.updateByPrimaryKeySelective(updateUser);
 		if(updateCount>0) {

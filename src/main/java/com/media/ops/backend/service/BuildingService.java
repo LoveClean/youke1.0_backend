@@ -31,7 +31,7 @@ public interface BuildingService {
 	
 	public ResponseEntity<String> delBuildingFloor(String updateby, Integer Id);
 	
-	public ResponseEntity<String> delFloorByBuildingId(String updateby, Integer Id);
+	public ResponseEntity<String> delFloorByBuildingId(String updateby, Integer buildingId);
 	
 	public ResponseEntity<List<BuildingFloorVo>> selectFloorsByBuildingId(Integer buildingId);
 	

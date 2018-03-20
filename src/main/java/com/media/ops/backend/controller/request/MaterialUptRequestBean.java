@@ -10,25 +10,21 @@ public class MaterialUptRequestBean {
 	private int id;
 	
 	@NotBlank(message = "name不能为空")
-	@ApiModelProperty(value = "name，必填", required = true)
+	@ApiModelProperty(value = "name，素材名称，必填", required = true)
 	private String name;
 	
 	@NotBlank(message = "type不能为空")
-	@ApiModelProperty(value = "type，必填", required = true)
+	@ApiModelProperty(value = "type，必填，素材类型：图片、音频、视频3种值", required = true)
 	private String type;
 	
 	@NotBlank(message = "素材分组不能为空")
-	@ApiModelProperty(value = "groupid，必填", required = true)
+	@ApiModelProperty(value = "groupid，素材分组，必填", required = true)
     private Integer groupid;
 	
 	@NotBlank(message = "素材地址不能为空")
-	@ApiModelProperty(value = "path，必填", required = true)
+	@ApiModelProperty(value = "path，存储路径，必填", required = true)
     private String path;
 	
-	@ApiModelProperty(value = "操作用户,选填", required = false)
-	private String updateBy;
-  
-
 	public int getId() {
 		return id;
 	}
@@ -69,13 +65,6 @@ public class MaterialUptRequestBean {
 		this.path = path;
 	}
 
-	public String getUpdateBy() {
-		return updateBy;
-	}
-
-	public void setUpdateBy(String updateBy) {
-		this.updateBy = updateBy;
-	}
 	
 	
 }

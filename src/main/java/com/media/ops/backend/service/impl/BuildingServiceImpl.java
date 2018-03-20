@@ -2,12 +2,14 @@ package com.media.ops.backend.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.BuildingAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorAddRequestBean;
@@ -91,6 +93,7 @@ public class BuildingServiceImpl implements BuildingService {
 		Building delBuilding = new Building();
 		delBuilding.setId(buildingId);
 		delBuilding.setUpdateBy(updateby);
+		delBuilding.setDelFlag(Const.DelFlagEnum.DELETED);
 
 		int resultCount = buildingMapper.updateByPrimaryKeySelective(delBuilding);
 		return ResponseEntityUtil.delMessage(resultCount);
@@ -218,28 +221,60 @@ public class BuildingServiceImpl implements BuildingService {
 		return deviceVo;
 	}
 
+	/**
+	 * 添加楼层
+	 */
 	@Override
 	public ResponseEntity createBuildingFloor(String createby, BuildingFloorAddRequestBean bean) {
-		// TODO Auto-generated method stub
-		return null;
+		Buildingfloor buildingfloor= new Buildingfloor();
+		buildingfloor.setBuildingid(bean.getBuildingid());
+		buildingfloor.setFloorno(bean.getFloorno());
+		buildingfloor.setPath(bean.getPath());
+		buildingfloor.setCreateBy(createby);
+		buildingfloor.setUpdateBy(createby);
+		
+		int resultCount = buildingfloorMapper.insertSelective(buildingfloor);
+		return ResponseEntityUtil.addMessage(resultCount);
 	}
 
 	@Override
 	public ResponseEntity updateBuilding(String updateby, BuildingFloorUptRequestBean bean) {
-		// TODO Auto-generated method stub
-		return null;
+		Buildingfloor buildingfloor=new Buildingfloor();
+		buildingfloor.setId(bean.getId());
+		buildingfloor.setBuildingid(bean.getBuildingid());
+		buildingfloor.setFloorno(bean.getFloorno());
+		buildingfloor.setPath(bean.getPath());
+		buildingfloor.setUpdateBy(updateby);
+		
+		int resultCount= buildingfloorMapper.updateByPrimaryKeySelective(buildingfloor);
+		return ResponseEntityUtil.updMessage(resultCount);
 	}
 
+	/**
+	 * 修改楼层信息
+	 */
 	@Override
 	public ResponseEntity<String> delBuildingFloor(String updateby, Integer Id) {
-		// TODO Auto-generated method stub
-		return null;
+		Buildingfloor delBuildingfloor = new Buildingfloor();
+		delBuildingfloor.setId(Id);
+		delBuildingfloor.setDelFlag( Const.DelFlagEnum.DELETED);
+		delBuildingfloor.setUpdateBy(updateby);
+		
+		int resultCount= buildingfloorMapper.updateByPrimaryKeySelective(delBuildingfloor);
+		return ResponseEntityUtil.delMessage(resultCount);
+		
 	}
 
+	/**
+	 * 根据楼宇id删除楼层
+	 */
 	@Override
-	public ResponseEntity<String> delFloorByBuildingId(String updateby, Integer Id) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<String> delFloorByBuildingId(String updateby, Integer buildingId) {
+		if(buildingId==null) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		int resultCount= buildingfloorMapper.uptFloorByBuildingId(buildingId, Const.DelFlagEnum.DELETED, StringUtils.isBlank(updateby)?null:updateby);
+	    return ResponseEntityUtil.delMessage(resultCount);
 	}
 
 	@Override

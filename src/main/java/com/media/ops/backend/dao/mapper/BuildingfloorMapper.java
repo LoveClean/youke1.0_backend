@@ -19,5 +19,7 @@ public interface BuildingfloorMapper {
 
     int updateByPrimaryKey(Buildingfloor record);
     
+    int uptFloorByBuildingId(@Param("buildingId")Integer buildingId, @Param("delFlag")String delFlag, @Param("updateBy")String updateBy);
+    
     List<Buildingfloor> selectListByBuildingId(@Param("buildingId")Integer buildingId);
 }

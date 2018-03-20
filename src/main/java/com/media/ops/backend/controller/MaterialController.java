@@ -14,6 +14,7 @@ import com.media.ops.backend.vo.MaterialVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/material/")
-public class MaterialController {
+public class MaterialController extends BaseController {
 
 	@Autowired
 	private MaterialService materialService;
@@ -49,19 +50,19 @@ public class MaterialController {
 	}
 	@ApiOperation(value = "添加素材接口", notes = "添加素材")
 	@PostMapping(value = "add.do")	
-	public ResponseEntity<String> addMaterial( @RequestBody MaterialAddRequestBean bean ){
-		return materialService.addMaterial(bean);
+	public ResponseEntity<String> addMaterial( @RequestBody MaterialAddRequestBean bean,HttpServletRequest request ){
+		return materialService.addMaterial(super.getSessionUser(request).getAccount(),bean);
 	}
 	
 	@ApiOperation(value = "修改素材接口", notes = "修改素材")
 	@PostMapping(value = "update.do")	
-	public ResponseEntity<String> uptMaterial( @RequestBody MaterialUptRequestBean bean ){
-		return materialService.uptMaterial(bean);
+	public ResponseEntity<String> uptMaterial( @RequestBody MaterialUptRequestBean bean,HttpServletRequest request ){
+		return materialService.uptMaterial(super.getSessionUser(request).getAccount(),bean);
 	}
 	
 	@ApiOperation(value = "删除素材接口", notes = "删除素材")
 	@PostMapping(value = "delete.do")	
-	public ResponseEntity<String> delMaterial( @RequestBody Integer id){
-		return materialService.delMaterial(id);
+	public ResponseEntity<String> delMaterial( @RequestBody Integer id,HttpServletRequest request){
+		return materialService.delMaterial(super.getSessionUser(request).getAccount(),id);
 	}
 }

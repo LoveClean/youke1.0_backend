@@ -54,7 +54,7 @@ public class MaterialSearchRequestBean implements Serializable {
 		  }
 
 		  public void setPageSize(int pageSize) {
-		    this.pageSize = (pageSize <= 0 ||  pageSize >= 1000) ? 10 : pageSize;
+		    this.pageSize = (pageSize <= 0 ||  pageSize >= 1000) ? 999 : pageSize;
 		  }
 
 	public Integer getGroupId() {

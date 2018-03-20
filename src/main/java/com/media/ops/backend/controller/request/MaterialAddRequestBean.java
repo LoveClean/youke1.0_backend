@@ -6,24 +6,21 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class MaterialAddRequestBean {
 	@NotBlank(message = "name不能为空")
-	@ApiModelProperty(value = "name，必填", required = true)
+	@ApiModelProperty(value = "素材name，必填", required = true)
 	private String name;
 	
 	@NotBlank(message = "type不能为空")
-	@ApiModelProperty(value = "type，必填", required = true)
+	@ApiModelProperty(value = "素材type，必填,图片、音频、视频3种值", required = true)
 	private String type;
 	
 	@NotBlank(message = "素材分组不能为空")
-	@ApiModelProperty(value = "groupid，必填", required = true)
+	@ApiModelProperty(value = "groupid，素材分组，必填", required = true)
     private Integer groupid;
 	
 	@NotBlank(message = "素材地址不能为空")
-	@ApiModelProperty(value = "path，必填", required = true)
+	@ApiModelProperty(value = "path，存储路径，必填", required = true)
     private String path;
 	
-	@ApiModelProperty(value = "操作用户", required = false)
-	private String createBy;
-
 	public String getName() {
 		return name;
 	}
@@ -56,13 +53,6 @@ public class MaterialAddRequestBean {
 		this.path = path;
 	}
 
-	public String getCreateBy() {
-		return createBy;
-	}
-
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy;
-	}
 	
 	
 	

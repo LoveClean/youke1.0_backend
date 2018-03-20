@@ -112,7 +112,7 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public ResponseEntity<String> addMaterial(MaterialAddRequestBean bean) {
+	public ResponseEntity<String> addMaterial(String createby,MaterialAddRequestBean bean) {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -121,7 +121,7 @@ public class MaterialServiceImpl implements MaterialService {
 		material.setType(bean.getType());
 		material.setGroupid(bean.getGroupid());
 		material.setPath(bean.getPath());
-		material.setCreateBy(bean.getCreateBy());
+		material.setCreateBy(createby);
 		
 		int resultCount= materialMapper.insertSelective(material);
 		
@@ -130,7 +130,7 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public ResponseEntity<String> uptMaterial(MaterialUptRequestBean bean) {
+	public ResponseEntity<String> uptMaterial(String updateby,MaterialUptRequestBean bean) {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -140,7 +140,7 @@ public class MaterialServiceImpl implements MaterialService {
 		updateMaterial.setType(bean.getType());
 		updateMaterial.setGroupid(bean.getGroupid());
 		updateMaterial.setPath(bean.getPath());
-		updateMaterial.setUpdateBy(bean.getUpdateBy());
+		updateMaterial.setUpdateBy(updateby);
 		
 		int resultCount= materialMapper.updateByPrimaryKeySelective(updateMaterial);
 		
@@ -149,13 +149,14 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public ResponseEntity<String> delMaterial(Integer id) {
+	public ResponseEntity<String> delMaterial(String updateby,Integer id) {
 		if(id==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
 		
 		Material material= new Material();
 		material.setId(id);
+		material.setUpdateBy(updateby);
 		material.setDelFlag(Const.DelFlagEnum.DELETED);
 		
 		int resultCount= materialMapper.updateByPrimaryKeySelective(material);

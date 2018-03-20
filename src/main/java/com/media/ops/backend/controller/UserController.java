@@ -19,6 +19,7 @@ import com.media.ops.backend.controller.request.PasswordQAResetRequestBean;
 import com.media.ops.backend.controller.request.PasswordResetRequestBean;
 import com.media.ops.backend.controller.request.UserAccountStatusRequestBean;
 import com.media.ops.backend.controller.request.UserAddRequestBean;
+import com.media.ops.backend.controller.request.UserInfoUptRequestBean;
 import com.media.ops.backend.controller.request.UserLoginRequestBean;
 import com.media.ops.backend.controller.request.UserSearchRequestBean;
 import com.media.ops.backend.controller.request.UserUptRequestBean;
@@ -173,21 +174,20 @@ public class UserController extends BaseController {
 		}
 		return response;
 	}
-	
-	
+		
 	@ApiOperation(value = "修改他人信息接口",notes = "修改自身信息")
 	@PostMapping(value="update_others_infor.do")
 	public ResponseEntity<User> updateOthersInfor(HttpServletRequest request, 
-			@Valid @RequestBody UserUptRequestBean bean){
+			@Valid @RequestBody UserInfoUptRequestBean bean){
 		User user= new User();
 		
 		user.setId(bean.getId());
 		user.setTruename(bean.getTrueName());
 		user.setEmail(bean.getEmail());
 		user.setPhone(bean.getPhone());
-		user.setQuestion(bean.getQuestion());
-		user.setAnswer(bean.getAnswer());
-		
+		user.setType(bean.getType());
+		user.setStatus(bean.getStatus());
+
 		user.setUpdateBy(super.getSessionUser(request).getAccount());
 
 		return userService.updateInformation(user);

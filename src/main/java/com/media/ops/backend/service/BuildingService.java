@@ -27,7 +27,7 @@ public interface BuildingService {
 	////////////////////////////////////////////////////////////////////////
 	public ResponseEntity createBuildingFloor(String createby, BuildingFloorAddRequestBean bean);
 	
-	public ResponseEntity updateBuilding(String updateby, BuildingFloorUptRequestBean bean);
+	public ResponseEntity updateBuildingFloor(String updateby, BuildingFloorUptRequestBean bean);
 	
 	public ResponseEntity<String> delBuildingFloor(String updateby, Integer Id);
 	

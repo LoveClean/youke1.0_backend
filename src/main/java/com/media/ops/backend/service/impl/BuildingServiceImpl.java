@@ -164,28 +164,7 @@ public class BuildingServiceImpl implements BuildingService {
 
 		return buildingFloorListVo;
 	}
-
 	
-	
-	
-	
-	
-	
-	// 封装楼层设备模型
-	private FloorDeviceVo assembleFloorDeviceVo(Floordevice floordevice) {
-		FloorDeviceVo floorDeviceVo = new FloorDeviceVo();
-		floorDeviceVo.setFloorId(floordevice.getFloorid());
-
-		Device device = deviceMapper.selectByPrimaryKey(floordevice.getDeviceid());
-		if (device != null) {
-			floorDeviceVo.setDeviceVo(assembleDeviceVo(device));
-		}
-		floorDeviceVo.setX(floordevice.getX());
-		floorDeviceVo.setY(floordevice.getY());
-
-		return floorDeviceVo;
-	}
-
 	// 封装区域模型
 	private AreaVo assembleAreaVo(Area area) {
 		AreaVo areaVo = new AreaVo();
@@ -203,23 +182,7 @@ public class BuildingServiceImpl implements BuildingService {
 		return areaVo;
 	}
 
-	// 封装设备模型
-	private DeviceVo assembleDeviceVo(Device device) {
-		DeviceVo deviceVo = new DeviceVo();
-		deviceVo.setCode(device.getCode());
-		deviceVo.setMac(device.getMac());
-
-		deviceVo.setType(device.getType());
-
-		deviceVo.setGroupid(device.getGroupid());
-		deviceVo.setBrand(device.getBrand());
-		deviceVo.setSpec(device.getSpec());
-		deviceVo.setAreaid(device.getAreaid());
-		deviceVo.setBuildingid(device.getBuildingid());
-		deviceVo.setAddress(device.getAddress());
-
-		return deviceVo;
-	}
+///////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * 添加楼层
@@ -238,7 +201,7 @@ public class BuildingServiceImpl implements BuildingService {
 	}
 
 	@Override
-	public ResponseEntity updateBuilding(String updateby, BuildingFloorUptRequestBean bean) {
+	public ResponseEntity updateBuildingFloor(String updateby, BuildingFloorUptRequestBean bean) {
 		Buildingfloor buildingfloor=new Buildingfloor();
 		buildingfloor.setId(bean.getId());
 		buildingfloor.setBuildingid(bean.getBuildingid());
@@ -280,6 +243,68 @@ public class BuildingServiceImpl implements BuildingService {
 	@Override
 	public ResponseEntity<List<BuildingFloorVo>> selectFloorsByBuildingId(Integer buildingId) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Buildingfloor> buildingfloors= buildingfloorMapper.selectListByBuildingId(buildingId);
+		if(buildingId==null) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		List<BuildingFloorVo> buildingFloorVos=Lists.newArrayList();
+		for (Buildingfloor buildingfloor : buildingfloors) {
+			BuildingFloorVo buildingFloorVo=assembleBuildingFloorVo(buildingfloor);
+			buildingFloorVos.add(buildingFloorVo);
+		}
+		
+		return ResponseEntityUtil.success(buildingFloorVos);
+	}
+	
+	//封装BuildingFloor模型
+	private  BuildingFloorVo assembleBuildingFloorVo(Buildingfloor buildingfloor) {
+		BuildingFloorVo buildingFloorVo=new BuildingFloorVo();
+		buildingFloorVo.setBuildingid(buildingfloor.getBuildingid());
+		buildingFloorVo.setFloorno(buildingfloor.getFloorno());
+		buildingFloorVo.setPath(buildingfloor.getPath());
+		//FloorDeviceList
+		
+		List<Floordevice> floordevices= floordeviceMapper.selectByFloorno(buildingfloor.getId());
+		List<FloorDeviceVo> floorDeviceVos= Lists.newArrayList();
+		for (Floordevice floordevice : floordevices) {
+			FloorDeviceVo floorDeviceVo= assembleFloorDeviceVo(floordevice);
+			floorDeviceVos.add(floorDeviceVo);
+		}
+		buildingFloorVo.setFloorDeviceVoList(floorDeviceVos);
+		return buildingFloorVo;
+	}
+	
+	// 封装楼层设备模型
+	private FloorDeviceVo assembleFloorDeviceVo(Floordevice floordevice) {
+		FloorDeviceVo floorDeviceVo = new FloorDeviceVo();
+		floorDeviceVo.setId(floordevice.getId());
+		floorDeviceVo.setFloorId(floordevice.getFloorid());
+
+		Device device = deviceMapper.selectByPrimaryKey(floordevice.getDeviceid());
+		if (device != null) {
+			floorDeviceVo.setDeviceVo(assembleDeviceVo(device));
+		}
+		floorDeviceVo.setX(floordevice.getX());
+		floorDeviceVo.setY(floordevice.getY());
+
+		return floorDeviceVo;
+	}
+	
+	// 封装设备模型
+	private DeviceVo assembleDeviceVo(Device device) {
+		DeviceVo deviceVo = new DeviceVo();
+		deviceVo.setCode(device.getCode());
+		deviceVo.setMac(device.getMac());
+
+		deviceVo.setType(device.getType());
+
+		deviceVo.setGroupid(device.getGroupid());
+		deviceVo.setBrand(device.getBrand());
+		deviceVo.setSpec(device.getSpec());
+		deviceVo.setAreaid(device.getAreaid());
+		deviceVo.setBuildingid(device.getBuildingid());
+		deviceVo.setAddress(device.getAddress());
+
+		return deviceVo;
 	}
 }

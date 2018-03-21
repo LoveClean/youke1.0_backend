@@ -101,4 +101,13 @@
       memo = #{memo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  	<select id="selectByFloorno" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbfloordevice
+		where floorid=#{floorNo}
+		order by id asc
+	</select>
 </mapper>

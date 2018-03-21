@@ -1,5 +1,7 @@
 package com.media.ops.backend.dao.mapper;
 
+import java.util.List;
+
 import com.media.ops.backend.dao.entity.Floordevice;
 
 public interface FloordeviceMapper {
@@ -14,4 +16,6 @@ public interface FloordeviceMapper {
     int updateByPrimaryKeySelective(Floordevice record);
 
     int updateByPrimaryKey(Floordevice record);
+    
+    List<Floordevice>  selectByFloorno(Integer floorNo);
 }

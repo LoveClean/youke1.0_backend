@@ -1,10 +1,20 @@
 package com.media.ops.backend.vo;
 
 public class FloorDeviceVo {
-	private int floorId;   //楼层id,可以去掉
+	private int id;
+	private int floorId;   //楼层id
 	private DeviceVo deviceVo;  //设备模型
     private float x;   //X坐标
     private float y;   //Y坐标
+    
+    
+    
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public int getFloorId() {
 		return floorId;
 	}

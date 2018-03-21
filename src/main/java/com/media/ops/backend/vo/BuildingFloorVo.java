@@ -7,7 +7,8 @@ public class BuildingFloorVo {
     private Integer buildingid;  //楼宇Id
     private Integer floorno;  //楼层id
     private String path;   //楼层平面图
-    private List<FloorDeviceListVo> floorDeviceListVoList;   //楼层设备列表
+    private List<FloorDeviceVo> floorDeviceVoList;   //楼层设备列表
+    
 	public Integer getBuildingid() {
 		return buildingid;
 	}
@@ -26,12 +27,14 @@ public class BuildingFloorVo {
 	public void setPath(String path) {
 		this.path = path;
 	}
-	public List<FloorDeviceListVo> getFloorDeviceListVoList() {
-		return floorDeviceListVoList;
+	
+	public List<FloorDeviceVo> getFloorDeviceVoList() {
+		return floorDeviceVoList;
 	}
-	public void setFloorDeviceListVoList(List<FloorDeviceListVo> floorDeviceListVoList) {
-		this.floorDeviceListVoList = floorDeviceListVoList;
+	public void setFloorDeviceVoList(List<FloorDeviceVo> floorDeviceVoList) {
+		this.floorDeviceVoList = floorDeviceVoList;
 	}
+
     
     
     

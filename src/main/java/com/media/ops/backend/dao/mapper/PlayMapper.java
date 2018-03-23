@@ -1,11 +1,10 @@
 package com.media.ops.backend.dao.mapper;
 
-import com.media.ops.backend.dao.entity.Play;
-import com.media.ops.backend.vo.AdMaterialListVo;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
-import java.util.List;
+import com.media.ops.backend.dao.entity.Play;
 
 public interface PlayMapper {
     int deleteByPrimaryKey(Integer id);
@@ -19,9 +18,15 @@ public interface PlayMapper {
     int updateByPrimaryKeySelective(Play record);
 
     int updateByPrimaryKey(Play record);
-    ////////////////////以上是自动生成的////////////////////////////
 
     //查询直播开始时间在时段区间中的直播，add by linfs at 2018.3.2
     List<Play> selectByTime(@Param("begintime")String begintime, @Param("endtime")String endtime);
+    
+    //通过playerId与status查询直播
+    List<Play> selectByPlayIdAndStatus(@Param("playerId")Integer playerId,@Param("status")Integer status);
+    //查询所有直播
+    List<Play> selectList();
+    //通过playerId查询直播
+    List<Play> selectByPlayerId(@Param("playerId")Integer playerId);
 
 }

@@ -15,6 +15,8 @@ import com.media.ops.backend.controller.request.BuildingAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorUptRequestBean;
 import com.media.ops.backend.controller.request.BuildingUptRequestBean;
+import com.media.ops.backend.controller.request.FloorDeviceAddRequestBean;
+import com.media.ops.backend.controller.request.FloorDeviceUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Area;
@@ -96,6 +98,9 @@ public class BuildingServiceImpl implements BuildingService {
 		delBuilding.setDelFlag(Const.DelFlagEnum.DELETED);
 
 		int resultCount = buildingMapper.updateByPrimaryKeySelective(delBuilding);
+		if(resultCount>0) {
+			return  this.delFloorByBuildingId(updateby, buildingId);
+		}
 		return ResponseEntityUtil.delMessage(resultCount);
 	}
 
@@ -256,6 +261,20 @@ public class BuildingServiceImpl implements BuildingService {
 		return ResponseEntityUtil.success(buildingFloorVos);
 	}
 	
+	public ResponseEntity<BuildingFloorVo>  selectFloorById(Integer id){
+		if(id==null) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		Buildingfloor buildingfloor= buildingfloorMapper.selectByPrimaryKey(id);
+		if(buildingfloor==null) {
+			return ResponseEntityUtil.fail("找不到相关楼层");
+		}
+
+		BuildingFloorVo buildingFloorVo= assembleBuildingFloorVo(buildingfloor);
+		return ResponseEntityUtil.success(buildingFloorVo);
+
+	}
+	
 	//封装BuildingFloor模型
 	private  BuildingFloorVo assembleBuildingFloorVo(Buildingfloor buildingfloor) {
 		BuildingFloorVo buildingFloorVo=new BuildingFloorVo();
@@ -273,6 +292,50 @@ public class BuildingServiceImpl implements BuildingService {
 		buildingFloorVo.setFloorDeviceVoList(floorDeviceVos);
 		return buildingFloorVo;
 	}
+	///////////////////////////楼层设备操作//////////////////////////////////////
+	@Override
+	public ResponseEntity addFloorDevice(String createby, FloorDeviceAddRequestBean bean) {
+		Floordevice floordevice=new Floordevice();
+		floordevice.setDeviceid(bean.getDeviceid());
+		floordevice.setFloorid(bean.getFloorid());
+		floordevice.setX(bean.getX());
+		floordevice.setY(bean.getY());
+		floordevice.setMemo(bean.getMemo());
+		
+		int resultCount= floordeviceMapper.insertSelective(floordevice);
+		return ResponseEntityUtil.addMessage(resultCount);
+	}
+
+	@Override
+	public ResponseEntity updateFloorDevice(String updateby, FloorDeviceUptRequestBean bean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<String> delFloorDevice(String updateby, Integer Id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<String> delDevicesByFloorId(String updateby, Integer buildingId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<List<BuildingFloorVo>> selecDevicesByFloorId(Integer floorId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<BuildingFloorVo> selectFloorDeviceById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}	
+	
 	
 	// 封装楼层设备模型
 	private FloorDeviceVo assembleFloorDeviceVo(Floordevice floordevice) {
@@ -307,4 +370,6 @@ public class BuildingServiceImpl implements BuildingService {
 
 		return deviceVo;
 	}
+
+
 }

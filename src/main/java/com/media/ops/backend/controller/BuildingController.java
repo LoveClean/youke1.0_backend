@@ -61,7 +61,7 @@ public class BuildingController extends BaseController{
 	public ResponseEntity delBuilding(@RequestBody Integer buildingId,HttpServletRequest request) {
 		return buildingService.deleteBuilding(super.getSessionUser(request).getAccount(), buildingId);
 	}
-	
+	///////////////////////////////楼层操作///////////////////////////////////////////////
 	
 	@ApiOperation(value = "添加楼层操作接口",notes = "添加楼层")
 	@PostMapping(value="addFloor.do")
@@ -85,4 +85,12 @@ public class BuildingController extends BaseController{
 	public ResponseEntity<List<BuildingFloorVo>> getFloorList(@RequestBody Integer buildingId) {
 		return buildingService.selectFloorsByBuildingId(buildingId);
 	}
+	
+	@ApiOperation(value = "根据id查询楼层接口", notes = "查询楼层信息")
+	@PostMapping(value = "get_floor.do")
+	public ResponseEntity<BuildingFloorVo> getFloor(@RequestBody Integer id ){
+		return buildingService.selectFloorById(id);
+	}
+///////////////////////////////////////楼层设备操作///////////////////////////////////////////////////////	
+	
 }

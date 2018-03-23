@@ -7,7 +7,11 @@ public class Play {
 
     private String title;
 
-    private String player;
+    private Integer type;
+
+    private Integer playerid;
+
+    private String picpath;
 
     private Date begintime;
 
@@ -16,6 +20,10 @@ public class Play {
     private String streamaddress;
 
     private String playaddress;
+
+    private String replayaddress;
+
+    private String realaddress;
 
     private Integer status;
 
@@ -47,12 +55,28 @@ public class Play {
         this.title = title == null ? null : title.trim();
     }
 
-    public String getPlayer() {
-        return player;
+    public Integer getType() {
+        return type;
     }
 
-    public void setPlayer(String player) {
-        this.player = player == null ? null : player.trim();
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getPlayerid() {
+        return playerid;
+    }
+
+    public void setPlayerid(Integer playerid) {
+        this.playerid = playerid;
+    }
+
+    public String getPicpath() {
+        return picpath;
+    }
+
+    public void setPicpath(String picpath) {
+        this.picpath = picpath == null ? null : picpath.trim();
     }
 
     public Date getBegintime() {
@@ -85,6 +109,22 @@ public class Play {
 
     public void setPlayaddress(String playaddress) {
         this.playaddress = playaddress == null ? null : playaddress.trim();
+    }
+
+    public String getReplayaddress() {
+        return replayaddress;
+    }
+
+    public void setReplayaddress(String replayaddress) {
+        this.replayaddress = replayaddress == null ? null : replayaddress.trim();
+    }
+
+    public String getRealaddress() {
+        return realaddress;
+    }
+
+    public void setRealaddress(String realaddress) {
+        this.realaddress = realaddress == null ? null : realaddress.trim();
     }
 
     public Integer getStatus() {

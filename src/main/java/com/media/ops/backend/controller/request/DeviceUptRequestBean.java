@@ -27,8 +27,7 @@ public class DeviceUptRequestBean {
 	private String areaId;
 	@ApiModelProperty(value = "所属楼宇buildingId")
 	private Integer buildingId;
-	@ApiModelProperty(value = "操作人")
-	private String updateby;
+
 	
 	public int getId() {
 		return id;
@@ -84,12 +83,7 @@ public class DeviceUptRequestBean {
 	public void setBuildingId(Integer buildingId) {
 		this.buildingId = buildingId;
 	}
-	public String getUpdateby() {
-		return updateby;
-	}
-	public void setUpdateby(String updateby) {
-		this.updateby = updateby;
-	}
+
 
 	
 }

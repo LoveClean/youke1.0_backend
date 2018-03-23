@@ -62,7 +62,7 @@ public class PlayServiceImpl implements PlayService{
 		 play.setDelFlag(Const.DelFlagEnum.NORMAL);
 		 play.setBegintime(bean.getBegintime());
 		 play.setEndtime(bean.getEndtime());
-		 int resultCount=playMapper.insertSelective(play);
+		 int resultCount=playMapper.insert(play);
 		 
 			if(resultCount==0) {
 				return ResponseEntityUtil.fail("添加直播失败");

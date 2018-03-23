@@ -1,5 +1,7 @@
 package com.media.ops.backend.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 @Api(description = "设备管理接口", produces = "application/json")
 @RestController
 @RequestMapping("/device/")
-public class DeviceController {
+public class DeviceController extends BaseController {
 	@Autowired
 	private DeviceService deviceService;
 
@@ -46,17 +48,17 @@ public class DeviceController {
 	}
 	@ApiOperation(value = "添加设备接口", notes = "设备新增")
 	@PostMapping(value = "add.do")
-	public ResponseEntity addDevice(@RequestBody DeviceAddRequestBean bean){
-		return deviceService.addDevice(bean);
+	public ResponseEntity addDevice(@RequestBody DeviceAddRequestBean bean,HttpServletRequest request){
+		return deviceService.addDevice(super.getSessionUser(request).getAccount(),bean);
 	}
 	@ApiOperation(value = "修改设备信息接口", notes = "设备编辑")
 	@PostMapping(value = "update.do")
-	public ResponseEntity<String> uptDevice(@RequestBody DeviceUptRequestBean bean){
-		return deviceService.uptDevice(bean);
+	public ResponseEntity<String> uptDevice(@RequestBody DeviceUptRequestBean bean,HttpServletRequest request){
+		return deviceService.uptDevice(super.getSessionUser(request).getAccount(),bean);
 	}
 	@ApiOperation(value = "删除设备接口", notes = "设备删除")
 	@PostMapping(value = "delete.do")
-	public ResponseEntity<String> delDevice(@RequestBody Integer id){
-		return deviceService.delDevice(id);
+	public ResponseEntity<String> delDevice(@RequestBody Integer id,HttpServletRequest request){
+		return deviceService.delDevice(id,super.getSessionUser(request).getAccount());
 	}
 }

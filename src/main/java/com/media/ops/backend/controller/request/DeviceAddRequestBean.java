@@ -19,8 +19,7 @@ public class DeviceAddRequestBean {
 	private String areaId;
 	@ApiModelProperty(value = "所属楼宇buildingId")
 	private Integer buildingId;
-	@ApiModelProperty(value = "操作人")
-	private String createby;
+
 
 	public String getCode() {
 		return code;
@@ -86,14 +85,5 @@ public class DeviceAddRequestBean {
 		this.buildingId = buildingId;
 	}
 
-	public String getCreateby() {
-		return createby;
-	}
-
-	public void setCreateby(String createby) {
-		this.createby = createby;
-	}
-	
-	
 
 }

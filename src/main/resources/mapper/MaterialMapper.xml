@@ -28,7 +28,7 @@
     delete from tbmaterial
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Material">
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Material"  useGeneratedKeys="true" keyProperty="id">
     insert into tbmaterial (id, name, type, 
       groupid, path, create_by, 
       create_date, update_by, update_date, 

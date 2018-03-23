@@ -20,9 +20,9 @@ public interface DeviceService {
 	
 	public ResponseEntity<DeviceVo> selectDevice(Integer id);
 	
-	public ResponseEntity addDevice( DeviceAddRequestBean bean );
+	public ResponseEntity addDevice(String createby, DeviceAddRequestBean bean );
 	
-	public ResponseEntity<String> uptDevice( DeviceUptRequestBean bean );
+	public ResponseEntity<String> uptDevice(String updateby, DeviceUptRequestBean bean );
 	
-	public ResponseEntity<String> delDevice(Integer id);
+	public ResponseEntity<String> delDevice(Integer id,String updateby);
 }

@@ -38,7 +38,7 @@
     delete from tbplay
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Play">
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Play"  useGeneratedKeys="true" keyProperty="id">
     insert into tbplay (id, title, type, 
       playerid, picpath, begintime, 
       endtime, streamaddress, playaddress, 

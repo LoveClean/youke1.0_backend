@@ -123,8 +123,9 @@ public class MaterialServiceImpl implements MaterialService {
 		material.setGroupid(bean.getGroupid());
 		material.setPath(bean.getPath());
 		material.setCreateBy(createby);
+		material.setUpdateBy(createby);
 		
-		int resultCount= materialMapper.insertSelective(material);
+		int resultCount= materialMapper.insert(material);
 		
 		if(resultCount==0) {
 			return ResponseEntityUtil.fail("添加素材失败");

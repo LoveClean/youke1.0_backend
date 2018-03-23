@@ -136,7 +136,7 @@ public class DeviceServiceImpl implements DeviceService {
 	}
 
 	@Override
-	public ResponseEntity addDevice(DeviceAddRequestBean bean) {
+	public ResponseEntity addDevice(String createby,DeviceAddRequestBean bean) {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -149,9 +149,11 @@ public class DeviceServiceImpl implements DeviceService {
 		device.setSpec(bean.getSpec());
 		device.setAreaid(bean.getAreaId());
 		device.setBuildingid(bean.getBuildingId());
-		device.setCreateBy(bean.getCreateby());
+		device.setCreateBy(createby);
+		device.setUpdateBy(createby);
 		
-		int resultCount= deviceMapper.insertSelective(device);
+		
+		int resultCount= deviceMapper.insert(device);
 
 		if(resultCount==0) {
 			return ResponseEntityUtil.fail("添加设备失败");
@@ -163,7 +165,7 @@ public class DeviceServiceImpl implements DeviceService {
 	}
 
 	@Override
-	public ResponseEntity<String> uptDevice(DeviceUptRequestBean bean) {
+	public ResponseEntity<String> uptDevice(String updateby,DeviceUptRequestBean bean) {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -177,14 +179,14 @@ public class DeviceServiceImpl implements DeviceService {
 		updateDevice.setSpec(bean.getSpec());
 		updateDevice.setAreaid(bean.getAreaId());
 		updateDevice.setBuildingid(bean.getBuildingId());
-		updateDevice.setUpdateBy(bean.getUpdateby());
+		updateDevice.setUpdateBy(updateby);
 		
 		int resultCount= deviceMapper.updateByPrimaryKeySelective(updateDevice);
 		return ResponseEntityUtil.updMessage(resultCount);
 	}
 
 	@Override
-	public ResponseEntity<String> delDevice(Integer id) {
+	public ResponseEntity<String> delDevice(Integer id,String updateby) {
 		if(id==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -192,6 +194,7 @@ public class DeviceServiceImpl implements DeviceService {
 		Device device=new Device();
 		device.setId(id);
 		device.setDelFlag(Const.DelFlagEnum.DELETED);
+		device.setUpdateBy(updateby);
 		
 		int resultCount= deviceMapper.updateByPrimaryKeySelective(device);
 		return ResponseEntityUtil.delMessage(resultCount);

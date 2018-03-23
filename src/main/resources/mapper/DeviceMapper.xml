@@ -33,7 +33,7 @@
     delete from tbdevice
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Device">
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Device"  useGeneratedKeys="true" keyProperty="id" >
     insert into tbdevice (id, code, mac, 
       address, type, groupid, 
       brand, spec, areaid, 

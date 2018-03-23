@@ -1,11 +1,14 @@
 package com.media.ops.backend.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.beust.jcommander.internal.Lists;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.PageRequestBean;
@@ -41,7 +44,7 @@ public class PlayServiceImpl implements PlayService{
 	}
 
 	@Override
-	public ResponseEntity<String> add(String createby,PlayAddRequestBean bean) {
+	public ResponseEntity add(String createby,PlayAddRequestBean bean) {
 		if (bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -60,7 +63,14 @@ public class PlayServiceImpl implements PlayService{
 		 play.setBegintime(bean.getBegintime());
 		 play.setEndtime(bean.getEndtime());
 		 int resultCount=playMapper.insertSelective(play);
-		return ResponseEntityUtil.addMessage(resultCount);
+		 
+			if(resultCount==0) {
+				return ResponseEntityUtil.fail("添加直播失败");
+			}
+			
+			Map<String, Object> result= Maps.newHashMap();
+			result.put("newPlay",assemblePlayVo(play));
+			return ResponseEntityUtil.success(result);
 	}
 
 	@Override

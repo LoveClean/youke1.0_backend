@@ -20,7 +20,7 @@ public interface DeviceService {
 	
 	public ResponseEntity<DeviceVo> selectDevice(Integer id);
 	
-	public ResponseEntity<String> addDevice( DeviceAddRequestBean bean );
+	public ResponseEntity addDevice( DeviceAddRequestBean bean );
 	
 	public ResponseEntity<String> uptDevice( DeviceUptRequestBean bean );
 	

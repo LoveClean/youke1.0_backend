@@ -1,6 +1,7 @@
 package com.media.ops.backend.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.DeviceAddRequestBean;
@@ -134,7 +136,7 @@ public class DeviceServiceImpl implements DeviceService {
 	}
 
 	@Override
-	public ResponseEntity<String> addDevice(DeviceAddRequestBean bean) {
+	public ResponseEntity addDevice(DeviceAddRequestBean bean) {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -150,7 +152,14 @@ public class DeviceServiceImpl implements DeviceService {
 		device.setCreateBy(bean.getCreateby());
 		
 		int resultCount= deviceMapper.insertSelective(device);
-		return ResponseEntityUtil.addMessage(resultCount);
+
+		if(resultCount==0) {
+			return ResponseEntityUtil.fail("添加设备失败");
+		}
+		
+		Map<String, Object> result= Maps.newHashMap();
+		result.put("newDevice",assembleDeviceVo(device));
+		return ResponseEntityUtil.success(result);
 	}
 
 	@Override

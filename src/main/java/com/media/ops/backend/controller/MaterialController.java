@@ -50,7 +50,7 @@ public class MaterialController extends BaseController {
 	}
 	@ApiOperation(value = "添加素材接口", notes = "添加素材")
 	@PostMapping(value = "add.do")	
-	public ResponseEntity<String> addMaterial( @RequestBody MaterialAddRequestBean bean,HttpServletRequest request ){
+	public ResponseEntity addMaterial( @RequestBody MaterialAddRequestBean bean,HttpServletRequest request ){
 		return materialService.addMaterial(super.getSessionUser(request).getAccount(),bean);
 	}
 	

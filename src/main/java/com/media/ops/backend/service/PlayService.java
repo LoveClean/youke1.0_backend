@@ -13,7 +13,7 @@ public interface PlayService {
 	
 	public ResponseEntity<List<Play>> GetPlays(String begintime, String endtime);
 	
-	public ResponseEntity<String> add(String createby,PlayAddRequestBean bean);
+	public ResponseEntity add(String createby,PlayAddRequestBean bean);
 	
 	public ResponseEntity<String> update(String updateby,PlayUpdateRequestBean bean);
 	

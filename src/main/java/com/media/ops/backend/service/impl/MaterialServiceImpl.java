@@ -1,7 +1,7 @@
 package com.media.ops.backend.service.impl;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.MaterialAddRequestBean;
@@ -112,7 +113,7 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public ResponseEntity<String> addMaterial(String createby,MaterialAddRequestBean bean) {
+	public ResponseEntity addMaterial(String createby,MaterialAddRequestBean bean) {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -125,8 +126,13 @@ public class MaterialServiceImpl implements MaterialService {
 		
 		int resultCount= materialMapper.insertSelective(material);
 		
+		if(resultCount==0) {
+			return ResponseEntityUtil.fail("添加素材失败");
+		}
 		
-		return ResponseEntityUtil.addMessage(resultCount);
+		Map<String, Object> result= Maps.newHashMap();
+		result.put("newMaterial", assembleMaterialVo(material));
+		return  ResponseEntityUtil.success(result);
 	}
 
 	@Override

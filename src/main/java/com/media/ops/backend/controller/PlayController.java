@@ -46,7 +46,7 @@ public class PlayController extends BaseController {
     
     @ApiOperation(value = "增加直播记录",notes = "增加直播记录")
     @PostMapping(value="addPlay.do")
-    public ResponseEntity<String> addPlay(@Valid @RequestBody PlayAddRequestBean bean,HttpServletRequest request) {
+    public ResponseEntity addPlay(@Valid @RequestBody PlayAddRequestBean bean,HttpServletRequest request) {
         return playService.add(super.getSessionUser(request).getAccount(),bean);
     }
     

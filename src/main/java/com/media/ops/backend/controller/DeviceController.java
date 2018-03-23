@@ -46,7 +46,7 @@ public class DeviceController {
 	}
 	@ApiOperation(value = "添加设备接口", notes = "设备新增")
 	@PostMapping(value = "add.do")
-	public ResponseEntity<String> addDevice(@RequestBody DeviceAddRequestBean bean){
+	public ResponseEntity addDevice(@RequestBody DeviceAddRequestBean bean){
 		return deviceService.addDevice(bean);
 	}
 	@ApiOperation(value = "修改设备信息接口", notes = "设备编辑")

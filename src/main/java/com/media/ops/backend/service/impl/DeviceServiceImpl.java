@@ -160,7 +160,7 @@ public class DeviceServiceImpl implements DeviceService {
 		}
 		
 		Map<String, Object> result= Maps.newHashMap();
-		result.put("newDevice",assembleDeviceVo(device));
+		result.put("newDevice",device);
 		return ResponseEntityUtil.success(result);
 	}
 

@@ -50,8 +50,8 @@
       #{playerid,jdbcType=INTEGER}, #{picpath,jdbcType=VARCHAR}, #{begintime,jdbcType=TIMESTAMP}, 
       #{endtime,jdbcType=TIMESTAMP}, #{streamaddress,jdbcType=VARCHAR}, #{playaddress,jdbcType=VARCHAR}, 
       #{replayaddress,jdbcType=VARCHAR}, #{realaddress,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}
+      #{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR}, 
+      now(), #{remarks,jdbcType=VARCHAR}, 0
       )
   </insert>
   <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Play">
@@ -153,19 +153,19 @@
         #{createBy,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null">
-        #{createDate,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="updateBy != null">
         #{updateBy,jdbcType=VARCHAR},
       </if>
       <if test="updateDate != null">
-        #{updateDate,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="remarks != null">
         #{remarks,jdbcType=VARCHAR},
       </if>
       <if test="delFlag != null">
-        #{delFlag,jdbcType=CHAR},
+        0,
       </if>
     </trim>
   </insert>
@@ -215,7 +215,7 @@
         update_by = #{updateBy,jdbcType=VARCHAR},
       </if>
       <if test="updateDate != null">
-        update_date = #{updateDate,jdbcType=TIMESTAMP},
+        update_date = now(),
       </if>
       <if test="remarks != null">
         remarks = #{remarks,jdbcType=VARCHAR},
@@ -242,7 +242,7 @@
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_date = now(),
       remarks = #{remarks,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}

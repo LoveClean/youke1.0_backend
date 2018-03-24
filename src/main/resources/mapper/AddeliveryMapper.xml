@@ -33,7 +33,7 @@
 		delete from tbaddelivery
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Addelivery">
+	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Addelivery"  useGeneratedKeys="true" keyProperty="id">
 		insert into tbaddelivery (id, adid, adtype,delivertype,
 		areaid, groupid, begintime,
 		endtime, create_by, create_date,
@@ -45,9 +45,9 @@
 		#{begintime,jdbcType=TIMESTAMP},
 		#{endtime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, now(),
 		#{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR},
-		#{delFlag,jdbcType=CHAR})
+		0)
 	</insert>
-	<insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Addelivery">
+	<insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Addelivery"  useGeneratedKeys="true" keyProperty="id">
 		insert into tbaddelivery
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -134,7 +134,7 @@
 				#{remarks,jdbcType=VARCHAR},
 			</if>
 			<if test="delFlag != null">
-				#{delFlag,jdbcType=CHAR},
+				0,
 			</if>
 		</trim>
 	</insert>

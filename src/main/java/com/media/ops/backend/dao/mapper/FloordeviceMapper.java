@@ -18,4 +18,6 @@ public interface FloordeviceMapper {
     int updateByPrimaryKey(Floordevice record);
     
     List<Floordevice>  selectByFloorno(Integer floorNo);
+    
+    int delDevicesByFloorId(Integer floorId);
 }

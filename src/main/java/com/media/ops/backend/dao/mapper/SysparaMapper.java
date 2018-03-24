@@ -1,5 +1,7 @@
 package com.media.ops.backend.dao.mapper;
 
+import java.util.List;
+
 import com.media.ops.backend.dao.entity.Syspara;
 
 public interface SysparaMapper {
@@ -14,4 +16,6 @@ public interface SysparaMapper {
     int updateByPrimaryKeySelective(Syspara record);
 
     int updateByPrimaryKey(Syspara record);
+    
+    List<Syspara>  selectAll();
 }

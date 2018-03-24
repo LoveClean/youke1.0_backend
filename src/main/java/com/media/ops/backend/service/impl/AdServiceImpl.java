@@ -51,8 +51,8 @@ public class AdServiceImpl implements AdService{
 		
 		int resultCount=adMapper.insert(ad);
 		if(resultCount>0) {
-			Map<String, Integer> result= Maps.newHashMap();
-			result.put("adId", ad.getId());
+			Map<String, Object> result= Maps.newHashMap();
+			result.put("ad", ad);
 			return  ResponseEntityUtil.success(result);
 		}
 

@@ -30,7 +30,7 @@
 		delete from tbbuildingfloor
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Buildingfloor">
+	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Buildingfloor"  useGeneratedKeys="true" keyProperty="id">
 		insert into tbbuildingfloor (id, buildingid, floorno,
 		path, create_by, create_date,
 		update_by, update_date, remarks,
@@ -39,9 +39,9 @@
 		#{floorno,jdbcType=INTEGER},
 		#{path,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, now(),
 		#{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR},
-		#{delFlag,jdbcType=CHAR})
+		0)
 	</insert>
-	<insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Buildingfloor">
+	<insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Buildingfloor"  useGeneratedKeys="true" keyProperty="id">
 		insert into tbbuildingfloor
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -104,7 +104,7 @@
 				#{remarks,jdbcType=VARCHAR},
 			</if>
 			<if test="delFlag != null">
-				#{delFlag,jdbcType=CHAR},
+				0,
 			</if>
 		</trim>
 	</insert>

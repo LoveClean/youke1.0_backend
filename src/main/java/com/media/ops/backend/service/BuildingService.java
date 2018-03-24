@@ -13,6 +13,7 @@ import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.vo.BuildingFloorVo;
 import com.media.ops.backend.vo.BuildingVo;
+import com.media.ops.backend.vo.FloorDeviceVo;
 
 public interface BuildingService {
 
@@ -47,10 +48,10 @@ public interface BuildingService {
 
 	public ResponseEntity<String> delFloorDevice(String updateby, Integer Id);
 
-	public ResponseEntity<String> delDevicesByFloorId(String updateby, Integer buildingId);
+	public ResponseEntity<String> delDevicesByFloorId(String updateby, Integer floorId);
 
-	public ResponseEntity<List<BuildingFloorVo>> selecDevicesByFloorId(Integer floorId);
+	public ResponseEntity<List<FloorDeviceVo>> selecDevicesByFloorId(Integer floorId);
 
-	public ResponseEntity<BuildingFloorVo> selectFloorDeviceById(Integer id);
+	public ResponseEntity<FloorDeviceVo> selectFloorDeviceById(Integer id);
 
 }

@@ -56,8 +56,7 @@ public class BuildingServiceImpl implements BuildingService {
 	private ProvinceMapper provinceMapper;
 	@Autowired
 	private BuildingfloorMapper buildingfloorMapper;
-	
-	
+
 	@Autowired
 	private FloordeviceMapper floordeviceMapper;
 	@Autowired
@@ -98,8 +97,8 @@ public class BuildingServiceImpl implements BuildingService {
 		delBuilding.setDelFlag(Const.DelFlagEnum.DELETED);
 
 		int resultCount = buildingMapper.updateByPrimaryKeySelective(delBuilding);
-		if(resultCount>0) {
-			return  this.delFloorByBuildingId(updateby, buildingId);
+		if (resultCount > 0) {
+			return this.delFloorByBuildingId(updateby, buildingId);
 		}
 		return ResponseEntityUtil.delMessage(resultCount);
 	}
@@ -111,11 +110,11 @@ public class BuildingServiceImpl implements BuildingService {
 
 		List<BuildingVo> buildingVos = Lists.newArrayList();
 		for (Building building : buildings) {
-			List<Buildingfloor> buildingfloorList= buildingfloorMapper.selectListByBuildingId(building.getId());
-			BuildingVo buildingVo= assembleBuildingVo(building, buildingfloorList);
+			List<Buildingfloor> buildingfloorList = buildingfloorMapper.selectListByBuildingId(building.getId());
+			BuildingVo buildingVo = assembleBuildingVo(building, buildingfloorList);
 			buildingVos.add(buildingVo);
 		}
-		PageInfo pageInfo=new PageInfo(buildings);
+		PageInfo pageInfo = new PageInfo(buildings);
 		pageInfo.setList(buildingVos);
 
 		return new PageResponseBean<BuildingVo>(pageInfo);
@@ -123,16 +122,15 @@ public class BuildingServiceImpl implements BuildingService {
 
 	@Override
 	public ResponseEntity<BuildingVo> selectBuildingById(Integer id) {
-		if(id==null) {
+		if (id == null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
-		Building building= buildingMapper.selectByPrimaryKey(id);
-		if(building!=null) {
-			List<Buildingfloor> buildingfloorList= buildingfloorMapper.selectListByBuildingId(building.getId() );
-			BuildingVo buildingVo=assembleBuildingVo(building, buildingfloorList);
+		Building building = buildingMapper.selectByPrimaryKey(id);
+		if (building != null) {
+			List<Buildingfloor> buildingfloorList = buildingfloorMapper.selectListByBuildingId(building.getId());
+			BuildingVo buildingVo = assembleBuildingVo(building, buildingfloorList);
 			return ResponseEntityUtil.success(buildingVo);
-		}
-		else {
+		} else {
 			return ResponseEntityUtil.fail("找不到该楼宇信息");
 		}
 	}
@@ -169,7 +167,7 @@ public class BuildingServiceImpl implements BuildingService {
 
 		return buildingFloorListVo;
 	}
-	
+
 	// 封装区域模型
 	private AreaVo assembleAreaVo(Area area) {
 		AreaVo areaVo = new AreaVo();
@@ -187,34 +185,34 @@ public class BuildingServiceImpl implements BuildingService {
 		return areaVo;
 	}
 
-///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * 添加楼层
 	 */
 	@Override
 	public ResponseEntity createBuildingFloor(String createby, BuildingFloorAddRequestBean bean) {
-		Buildingfloor buildingfloor= new Buildingfloor();
+		Buildingfloor buildingfloor = new Buildingfloor();
 		buildingfloor.setBuildingid(bean.getBuildingid());
 		buildingfloor.setFloorno(bean.getFloorno());
 		buildingfloor.setPath(bean.getPath());
 		buildingfloor.setCreateBy(createby);
 		buildingfloor.setUpdateBy(createby);
-		
+
 		int resultCount = buildingfloorMapper.insertSelective(buildingfloor);
 		return ResponseEntityUtil.addMessage(resultCount);
 	}
 
 	@Override
 	public ResponseEntity updateBuildingFloor(String updateby, BuildingFloorUptRequestBean bean) {
-		Buildingfloor buildingfloor=new Buildingfloor();
+		Buildingfloor buildingfloor = new Buildingfloor();
 		buildingfloor.setId(bean.getId());
 		buildingfloor.setBuildingid(bean.getBuildingid());
 		buildingfloor.setFloorno(bean.getFloorno());
 		buildingfloor.setPath(bean.getPath());
 		buildingfloor.setUpdateBy(updateby);
-		
-		int resultCount= buildingfloorMapper.updateByPrimaryKeySelective(buildingfloor);
+
+		int resultCount = buildingfloorMapper.updateByPrimaryKeySelective(buildingfloor);
 		return ResponseEntityUtil.updMessage(resultCount);
 	}
 
@@ -225,12 +223,12 @@ public class BuildingServiceImpl implements BuildingService {
 	public ResponseEntity<String> delBuildingFloor(String updateby, Integer Id) {
 		Buildingfloor delBuildingfloor = new Buildingfloor();
 		delBuildingfloor.setId(Id);
-		delBuildingfloor.setDelFlag( Const.DelFlagEnum.DELETED);
+		delBuildingfloor.setDelFlag(Const.DelFlagEnum.DELETED);
 		delBuildingfloor.setUpdateBy(updateby);
-		
-		int resultCount= buildingfloorMapper.updateByPrimaryKeySelective(delBuildingfloor);
+
+		int resultCount = buildingfloorMapper.updateByPrimaryKeySelective(delBuildingfloor);
 		return ResponseEntityUtil.delMessage(resultCount);
-		
+
 	}
 
 	/**
@@ -238,105 +236,140 @@ public class BuildingServiceImpl implements BuildingService {
 	 */
 	@Override
 	public ResponseEntity<String> delFloorByBuildingId(String updateby, Integer buildingId) {
-		if(buildingId==null) {
+		if (buildingId == null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
-		int resultCount= buildingfloorMapper.uptFloorByBuildingId(buildingId, Const.DelFlagEnum.DELETED, StringUtils.isBlank(updateby)?null:updateby);
-	    return ResponseEntityUtil.delMessage(resultCount);
+		int resultCount = buildingfloorMapper.uptFloorByBuildingId(buildingId, Const.DelFlagEnum.DELETED,
+				StringUtils.isBlank(updateby) ? null : updateby);
+		return ResponseEntityUtil.delMessage(resultCount);
 	}
 
 	@Override
 	public ResponseEntity<List<BuildingFloorVo>> selectFloorsByBuildingId(Integer buildingId) {
 		// TODO Auto-generated method stub
-		List<Buildingfloor> buildingfloors= buildingfloorMapper.selectListByBuildingId(buildingId);
-		if(buildingId==null) {
+		if (buildingId == null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
-		List<BuildingFloorVo> buildingFloorVos=Lists.newArrayList();
+
+		List<Buildingfloor> buildingfloors = buildingfloorMapper.selectListByBuildingId(buildingId);
+		List<BuildingFloorVo> buildingFloorVos = Lists.newArrayList();
 		for (Buildingfloor buildingfloor : buildingfloors) {
-			BuildingFloorVo buildingFloorVo=assembleBuildingFloorVo(buildingfloor);
+			BuildingFloorVo buildingFloorVo = assembleBuildingFloorVo(buildingfloor);
 			buildingFloorVos.add(buildingFloorVo);
 		}
-		
+
 		return ResponseEntityUtil.success(buildingFloorVos);
 	}
-	
-	public ResponseEntity<BuildingFloorVo>  selectFloorById(Integer id){
-		if(id==null) {
+
+	public ResponseEntity<BuildingFloorVo> selectFloorById(Integer id) {
+		if (id == null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
-		Buildingfloor buildingfloor= buildingfloorMapper.selectByPrimaryKey(id);
-		if(buildingfloor==null) {
+		Buildingfloor buildingfloor = buildingfloorMapper.selectByPrimaryKey(id);
+		if (buildingfloor == null) {
 			return ResponseEntityUtil.fail("找不到相关楼层");
 		}
 
-		BuildingFloorVo buildingFloorVo= assembleBuildingFloorVo(buildingfloor);
+		BuildingFloorVo buildingFloorVo = assembleBuildingFloorVo(buildingfloor);
 		return ResponseEntityUtil.success(buildingFloorVo);
 
 	}
-	
-	//封装BuildingFloor模型
-	private  BuildingFloorVo assembleBuildingFloorVo(Buildingfloor buildingfloor) {
-		BuildingFloorVo buildingFloorVo=new BuildingFloorVo();
+
+	// 封装BuildingFloor模型
+	private BuildingFloorVo assembleBuildingFloorVo(Buildingfloor buildingfloor) {
+		BuildingFloorVo buildingFloorVo = new BuildingFloorVo();
 		buildingFloorVo.setBuildingid(buildingfloor.getBuildingid());
 		buildingFloorVo.setFloorno(buildingfloor.getFloorno());
 		buildingFloorVo.setPath(buildingfloor.getPath());
-		//FloorDeviceList
-		
-		List<Floordevice> floordevices= floordeviceMapper.selectByFloorno(buildingfloor.getId());
-		List<FloorDeviceVo> floorDeviceVos= Lists.newArrayList();
+		// FloorDeviceList
+
+		List<Floordevice> floordevices = floordeviceMapper.selectByFloorno(buildingfloor.getId());
+		List<FloorDeviceVo> floorDeviceVos = Lists.newArrayList();
 		for (Floordevice floordevice : floordevices) {
-			FloorDeviceVo floorDeviceVo= assembleFloorDeviceVo(floordevice);
+			FloorDeviceVo floorDeviceVo = assembleFloorDeviceVo(floordevice);
 			floorDeviceVos.add(floorDeviceVo);
 		}
 		buildingFloorVo.setFloorDeviceVoList(floorDeviceVos);
 		return buildingFloorVo;
 	}
-	///////////////////////////楼层设备操作//////////////////////////////////////
+
+	/////////////////////////// 楼层设备操作//////////////////////////////////////
 	@Override
 	public ResponseEntity addFloorDevice(String createby, FloorDeviceAddRequestBean bean) {
-		Floordevice floordevice=new Floordevice();
+		Floordevice floordevice = new Floordevice();
 		floordevice.setDeviceid(bean.getDeviceid());
 		floordevice.setFloorid(bean.getFloorid());
 		floordevice.setX(bean.getX());
 		floordevice.setY(bean.getY());
 		floordevice.setMemo(bean.getMemo());
-		
-		int resultCount= floordeviceMapper.insertSelective(floordevice);
+
+		int resultCount = floordeviceMapper.insertSelective(floordevice);
 		return ResponseEntityUtil.addMessage(resultCount);
 	}
 
 	@Override
 	public ResponseEntity updateFloorDevice(String updateby, FloorDeviceUptRequestBean bean) {
-		// TODO Auto-generated method stub
-		return null;
+		Floordevice floordevice = new Floordevice();
+		floordevice.setId(bean.getId());
+		floordevice.setDeviceid(bean.getDeviceid());
+		floordevice.setFloorid(bean.getFloorid());
+		floordevice.setX(bean.getX());
+		floordevice.setY(bean.getY());
+		floordevice.setMemo(bean.getMemo());
+
+		int resultCount = floordeviceMapper.updateByPrimaryKeySelective(floordevice);
+		return ResponseEntityUtil.updMessage(resultCount);
 	}
 
 	@Override
 	public ResponseEntity<String> delFloorDevice(String updateby, Integer Id) {
-		// TODO Auto-generated method stub
-		return null;
+		if (Id == null) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		int resultCount = floordeviceMapper.deleteByPrimaryKey(Id);
+		return ResponseEntityUtil.delMessage(resultCount);
 	}
 
 	@Override
-	public ResponseEntity<String> delDevicesByFloorId(String updateby, Integer buildingId) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<String> delDevicesByFloorId(String updateby, Integer floorId) {
+		if (floorId == null) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		int resultCount = floordeviceMapper.delDevicesByFloorId(floorId);
+		return ResponseEntityUtil.delMessage(resultCount);
 	}
 
 	@Override
-	public ResponseEntity<List<BuildingFloorVo>> selecDevicesByFloorId(Integer floorId) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<List<FloorDeviceVo>> selecDevicesByFloorId(Integer floorId) {
+		if (floorId == null) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+
+		List<Floordevice> floordevices = floordeviceMapper.selectByFloorno(floorId);
+
+		List<FloorDeviceVo> floorDeviceVos = Lists.newArrayList();
+		for (Floordevice floordevice : floordevices) {
+              FloorDeviceVo floorDeviceVo=assembleFloorDeviceVo(floordevice);
+              floorDeviceVos.add(floorDeviceVo);
+		}
+		return ResponseEntityUtil.success(floorDeviceVos);
 	}
 
 	@Override
-	public ResponseEntity<BuildingFloorVo> selectFloorDeviceById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}	
-	
-	
+	public ResponseEntity<FloorDeviceVo> selectFloorDeviceById(Integer id) {
+
+		if (id == null) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		Floordevice floordevice= floordeviceMapper.selectByPrimaryKey(id);
+		if (floordevice == null) {
+			return ResponseEntityUtil.fail("找不到相关设备");
+		}
+
+		FloorDeviceVo floorDeviceVo= assembleFloorDeviceVo(floordevice);
+		return ResponseEntityUtil.success(floorDeviceVo);
+	}
+
 	// 封装楼层设备模型
 	private FloorDeviceVo assembleFloorDeviceVo(Floordevice floordevice) {
 		FloorDeviceVo floorDeviceVo = new FloorDeviceVo();
@@ -352,7 +385,7 @@ public class BuildingServiceImpl implements BuildingService {
 
 		return floorDeviceVo;
 	}
-	
+
 	// 封装设备模型
 	private DeviceVo assembleDeviceVo(Device device) {
 		DeviceVo deviceVo = new DeviceVo();
@@ -370,6 +403,5 @@ public class BuildingServiceImpl implements BuildingService {
 
 		return deviceVo;
 	}
-
 
 }

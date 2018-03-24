@@ -45,7 +45,7 @@
       #{brand,jdbcType=VARCHAR}, #{spec,jdbcType=VARCHAR}, #{areaid,jdbcType=VARCHAR}, 
       #{buildingid,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, now(), 
       #{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR}, 
-      #{delFlag,jdbcType=CHAR})
+      0)
   </insert>
   <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Device">
     insert into tbdevice
@@ -146,7 +146,7 @@
         #{remarks,jdbcType=VARCHAR},
       </if>
       <if test="delFlag != null">
-        #{delFlag,jdbcType=CHAR},
+        0,
       </if>
     </trim>
   </insert>

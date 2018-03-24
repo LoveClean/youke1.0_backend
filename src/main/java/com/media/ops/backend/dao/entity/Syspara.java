@@ -8,6 +8,8 @@ public class Syspara {
     private String name;
 
     private String value;
+    
+    private String note;
 
     private String createBy;
 
@@ -45,7 +47,15 @@ public class Syspara {
         this.value = value == null ? null : value.trim();
     }
 
-    public String getCreateBy() {
+    public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public String getCreateBy() {
         return createBy;
     }
 

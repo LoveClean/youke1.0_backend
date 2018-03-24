@@ -132,7 +132,7 @@ public class MaterialServiceImpl implements MaterialService {
 		}
 		
 		Map<String, Object> result= Maps.newHashMap();
-		result.put("newMaterial", assembleMaterialVo(material));
+		result.put("newMaterial",material);
 		return  ResponseEntityUtil.success(result);
 	}
 

@@ -2,6 +2,8 @@ package com.media.ops.backend.controller.request;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import io.swagger.annotations.ApiModelProperty;
 
 public class PlayAddRequestBean {
@@ -9,6 +11,7 @@ public class PlayAddRequestBean {
     private String title;
 	@ApiModelProperty(value = "类型：0普通直播；1插播")
     private Integer type;
+	@NotNull(message = "直播员不能为空")
 	@ApiModelProperty(value = "直播员ID", required = true)
     private Integer playerid;
 	@ApiModelProperty(value = "封面图片名")

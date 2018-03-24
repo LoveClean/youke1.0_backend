@@ -110,4 +110,9 @@
 		where floorid=#{floorNo}
 		order by id asc
 	</select>
+	
+	  <delete id="delDevicesByFloorId" parameterType="java.lang.Integer">
+    delete from tbfloordevice
+    where floorid = #{floorId,jdbcType=INTEGER}
+  </delete>
 </mapper>

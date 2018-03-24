@@ -31,7 +31,7 @@
 		tbbuilding
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Building">
+	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Building"  useGeneratedKeys="true" keyProperty="id">
 		insert into tbbuilding (id,
 		name, areaid,
 		address, create_by, create_date,
@@ -43,9 +43,9 @@
 		#{areaid,jdbcType=VARCHAR},
 		#{address,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, now(),
 		#{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR},
-		#{delFlag,jdbcType=CHAR})
+		0)
 	</insert>
-	<insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Building">
+	<insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Building"  useGeneratedKeys="true" keyProperty="id">
 		insert into tbbuilding
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -108,7 +108,7 @@
 				#{remarks,jdbcType=VARCHAR},
 			</if>
 			<if test="delFlag != null">
-				#{delFlag,jdbcType=CHAR},
+				0,
 			</if>
 		</trim>
 	</insert>

@@ -69,7 +69,7 @@ public class PlayServiceImpl implements PlayService{
 			}
 			
 			Map<String, Object> result= Maps.newHashMap();
-			result.put("newPlay",assemblePlayVo(play));
+			result.put("newPlay",play);
 			return ResponseEntityUtil.success(result);
 	}
 

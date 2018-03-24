@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
@@ -13,7 +14,7 @@
     <result column="del_flag" jdbcType="CHAR" property="delFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, value, create_by, create_date, update_by, update_date, remarks, del_flag
+    id, name, value,note, create_by, create_date, update_by, update_date, remarks, del_flag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -25,17 +26,17 @@
     delete from tbsyspara
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Syspara">
-    insert into tbsyspara (id, name, value, 
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Syspara" useGeneratedKeys="true" keyProperty="id">
+    insert into tbsyspara (id, name, value, note,
       create_by, create_date, update_by, 
       update_date, remarks, del_flag
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR}, 
-      now(), #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}
+      now(), #{remarks,jdbcType=VARCHAR}, 0
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Syspara">
+  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Syspara" useGeneratedKeys="true" keyProperty="id">
     insert into tbsyspara
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -46,6 +47,9 @@
       </if>
       <if test="value != null">
         value,
+      </if>
+      <if test="note != null">
+        note,
       </if>
       <if test="createBy != null">
         create_by,
@@ -76,6 +80,9 @@
       <if test="value != null">
         #{value,jdbcType=VARCHAR},
       </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
       <if test="createBy != null">
         #{createBy,jdbcType=VARCHAR},
       </if>
@@ -92,7 +99,7 @@
         #{remarks,jdbcType=VARCHAR},
       </if>
       <if test="delFlag != null">
-        #{delFlag,jdbcType=CHAR},
+        0,
       </if>
     </trim>
   </insert>
@@ -104,6 +111,9 @@
       </if>
       <if test="value != null">
         value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
       </if>
       <if test="createBy != null">
         create_by = #{createBy,jdbcType=VARCHAR},
@@ -130,6 +140,7 @@
     update tbsyspara
     set name = #{name,jdbcType=VARCHAR},
       value = #{value,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
       create_by = #{createBy,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
@@ -138,4 +149,8 @@
       del_flag = #{delFlag,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+    <select id="selectAll" resultMap="BaseResultMap">
+    select *  from tbsyspara
+  </select>
 </mapper>

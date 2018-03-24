@@ -14,6 +14,8 @@ import com.media.ops.backend.controller.request.BuildingAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorUptRequestBean;
 import com.media.ops.backend.controller.request.BuildingUptRequestBean;
+import com.media.ops.backend.controller.request.FloorDeviceAddRequestBean;
+import com.media.ops.backend.controller.request.FloorDeviceUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.service.BuildingService;
@@ -21,6 +23,7 @@ import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.BuildingFloorVo;
 import com.media.ops.backend.vo.BuildingVo;
+import com.media.ops.backend.vo.FloorDeviceVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -92,5 +95,38 @@ public class BuildingController extends BaseController{
 		return buildingService.selectFloorById(id);
 	}
 ///////////////////////////////////////楼层设备操作///////////////////////////////////////////////////////	
+	@ApiOperation(value = "添加楼层设备操作接口",notes = "添加楼层设备")
+	@PostMapping(value="addFloorDevice.do")
+	public ResponseEntity addFloorDevice(@RequestBody FloorDeviceAddRequestBean bean,HttpServletRequest request) {
+		return buildingService.addFloorDevice(super.getSessionUser(request).getAccount(), bean);
+	}
+
+	@ApiOperation(value = "修改楼层设备操作接口",notes = "修改楼层设备信息")
+	@PostMapping(value="uptFloorDevice.do")
+	public ResponseEntity uptFloorDevice(@RequestBody FloorDeviceUptRequestBean bean,HttpServletRequest request) {
+		return buildingService.updateFloorDevice(super.getSessionUser(request).getAccount(), bean);
+	}
+	@ApiOperation(value = "根据id删除楼层设备操作接口",notes = "根据id删除楼层设备信息")
+	@PostMapping(value="delFloorDevice.do")	
+	public ResponseEntity delFloorDevice(@RequestBody Integer id,HttpServletRequest request) {
+		return buildingService.delFloorDevice(super.getSessionUser(request).getAccount(), id);
+	}
 	
+	@ApiOperation(value = "删除某楼层所有设备操作接口",notes = "删除某楼层所有设备信息")
+	@PostMapping(value="del_device_floorid.do")	
+	public ResponseEntity delDeviceByFloorId(@RequestBody Integer floorId,HttpServletRequest request) {
+		return buildingService.delDevicesByFloorId(super.getSessionUser(request).getAccount(), floorId);
+	}	
+	
+	@ApiOperation(value = "根据楼层ID获取楼层设备列表接口", notes = "根据楼层ID获取楼层设备列表")
+	@PostMapping(value = "get_device_list.do")
+	public ResponseEntity<List<FloorDeviceVo>> getDeviceList(@RequestBody Integer floorId) {
+		return buildingService.selecDevicesByFloorId(floorId);
+	}
+	
+	@ApiOperation(value = "根据id查询楼层设备接口", notes = "根据id查询楼层设备信息")
+	@PostMapping(value = "get_Device.do")
+	public ResponseEntity<FloorDeviceVo> getFloorDevice(@RequestBody Integer id ){
+		return buildingService.selectFloorDeviceById(id);
+	}
 }

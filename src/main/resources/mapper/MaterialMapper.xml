@@ -36,7 +36,7 @@
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{groupid,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
       now(), #{updateBy,jdbcType=VARCHAR}, now(), 
-      #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR})
+      #{remarks,jdbcType=VARCHAR}, 0)
   </insert>
   <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Material">
     insert into tbmaterial
@@ -107,7 +107,7 @@
         #{remarks,jdbcType=VARCHAR},
       </if>
       <if test="delFlag != null">
-        #{delFlag,jdbcType=CHAR},
+        0,
       </if>
     </trim>
   </insert>

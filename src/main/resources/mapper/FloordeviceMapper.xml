@@ -22,13 +22,13 @@
     delete from tbfloordevice
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Floordevice">
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Floordevice"  useGeneratedKeys="true" keyProperty="id">
     insert into tbfloordevice (id, floorid, deviceid, 
       x, y, memo)
     values (#{id,jdbcType=INTEGER}, #{floorid,jdbcType=INTEGER}, #{deviceid,jdbcType=INTEGER}, 
       #{x,jdbcType=REAL}, #{y,jdbcType=REAL}, #{memo,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Floordevice">
+  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Floordevice"  useGeneratedKeys="true" keyProperty="id">
     insert into tbfloordevice
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

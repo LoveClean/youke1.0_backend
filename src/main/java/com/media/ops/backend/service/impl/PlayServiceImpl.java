@@ -74,7 +74,7 @@ public class PlayServiceImpl implements PlayService{
 	}
 
 	@Override
-	public ResponseEntity<String> update(String updateby,PlayUpdateRequestBean bean) {
+	public ResponseEntity update(String updateby,PlayUpdateRequestBean bean) {
 		if (bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -94,7 +94,10 @@ public class PlayServiceImpl implements PlayService{
 		 play.setPlayerid(bean.getPlayerid());
 		 
 		 int resultCount=playMapper.updateByPrimaryKeySelective(play);
-		 return ResponseEntityUtil.updMessage(resultCount);
+		 if(resultCount>0) {
+				return ResponseEntityUtil.success(playMapper.selectByPrimaryKey(play.getId()));
+			}
+			return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
 	}
 
 	@Override

@@ -53,7 +53,7 @@ public class DeviceController extends BaseController {
 	}
 	@ApiOperation(value = "修改设备信息接口", notes = "设备编辑")
 	@PostMapping(value = "update.do")
-	public ResponseEntity<String> uptDevice(@RequestBody DeviceUptRequestBean bean,HttpServletRequest request){
+	public ResponseEntity uptDevice(@RequestBody DeviceUptRequestBean bean,HttpServletRequest request){
 		return deviceService.uptDevice(super.getSessionUser(request).getAccount(),bean);
 	}
 	@ApiOperation(value = "删除设备接口", notes = "设备删除")

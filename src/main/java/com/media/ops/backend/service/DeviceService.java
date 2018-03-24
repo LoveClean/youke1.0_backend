@@ -22,7 +22,7 @@ public interface DeviceService {
 	
 	public ResponseEntity addDevice(String createby, DeviceAddRequestBean bean );
 	
-	public ResponseEntity<String> uptDevice(String updateby, DeviceUptRequestBean bean );
+	public ResponseEntity uptDevice(String updateby, DeviceUptRequestBean bean );
 	
 	public ResponseEntity<String> delDevice(Integer id,String updateby);
 }

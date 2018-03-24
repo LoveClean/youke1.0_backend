@@ -19,9 +19,9 @@ public interface MaterialService {
 	
 	public ResponseEntity<MaterialVo> selectMaterial(Integer id);
 	
-	public ResponseEntity<String> addMaterial(String createby,  MaterialAddRequestBean bean );
+	public ResponseEntity addMaterial(String createby,  MaterialAddRequestBean bean );
 	
-	public ResponseEntity<String> uptMaterial(String updateby, MaterialUptRequestBean bean );
+	public ResponseEntity uptMaterial(String updateby, MaterialUptRequestBean bean );
 	
 	public ResponseEntity<String> delMaterial(String updateby,Integer id);
 	

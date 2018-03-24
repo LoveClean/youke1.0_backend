@@ -1,6 +1,7 @@
 package com.media.ops.backend.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.BuildingAddRequestBean;
@@ -72,7 +74,13 @@ public class BuildingServiceImpl implements BuildingService {
 		building.setUpdateBy(createby);
 
 		int resultCount = buildingMapper.insertSelective(building);
-		return ResponseEntityUtil.addMessage(resultCount);
+		if(resultCount>0) {
+			Map<String, Object> result= Maps.newHashMap();
+			result.put("newData", building);
+			return ResponseEntityUtil.success(result);
+		}
+		
+		return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);
 	}
 
 	@Override
@@ -86,7 +94,10 @@ public class BuildingServiceImpl implements BuildingService {
 
 		int resultCount = buildingMapper.updateByPrimaryKeySelective(uptBuilding);
 
-		return ResponseEntityUtil.updMessage(resultCount);
+		if(resultCount>0) {
+			return ResponseEntityUtil.success(buildingMapper.selectByPrimaryKey(uptBuilding.getId()));
+		}
+		return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
 	}
 
 	@Override
@@ -200,7 +211,13 @@ public class BuildingServiceImpl implements BuildingService {
 		buildingfloor.setUpdateBy(createby);
 
 		int resultCount = buildingfloorMapper.insertSelective(buildingfloor);
-		return ResponseEntityUtil.addMessage(resultCount);
+		if(resultCount>0) {
+			Map<String, Object> result= Maps.newHashMap();
+			result.put("newData", buildingfloor);
+			return ResponseEntityUtil.success(result);
+		}
+		
+		return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);
 	}
 
 	@Override
@@ -213,7 +230,10 @@ public class BuildingServiceImpl implements BuildingService {
 		buildingfloor.setUpdateBy(updateby);
 
 		int resultCount = buildingfloorMapper.updateByPrimaryKeySelective(buildingfloor);
-		return ResponseEntityUtil.updMessage(resultCount);
+		if(resultCount>0) {
+			return ResponseEntityUtil.success(buildingfloorMapper.selectByPrimaryKey(buildingfloor.getId()));
+		}
+		return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
 	}
 
 	/**
@@ -304,7 +324,13 @@ public class BuildingServiceImpl implements BuildingService {
 		floordevice.setMemo(bean.getMemo());
 
 		int resultCount = floordeviceMapper.insertSelective(floordevice);
-		return ResponseEntityUtil.addMessage(resultCount);
+		if(resultCount>0) {
+			Map<String, Object> result= Maps.newHashMap();
+			result.put("newData", floordevice);
+			return ResponseEntityUtil.success(result);
+		}
+		
+		return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);
 	}
 
 	@Override
@@ -318,7 +344,10 @@ public class BuildingServiceImpl implements BuildingService {
 		floordevice.setMemo(bean.getMemo());
 
 		int resultCount = floordeviceMapper.updateByPrimaryKeySelective(floordevice);
-		return ResponseEntityUtil.updMessage(resultCount);
+		if(resultCount>0) {
+			return ResponseEntityUtil.success(floordeviceMapper.selectByPrimaryKey(floordevice.getId()));
+		}
+		return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
 	}
 
 	@Override

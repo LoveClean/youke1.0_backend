@@ -137,7 +137,7 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public ResponseEntity<String> uptMaterial(String updateby,MaterialUptRequestBean bean) {
+	public ResponseEntity uptMaterial(String updateby,MaterialUptRequestBean bean) {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -151,8 +151,10 @@ public class MaterialServiceImpl implements MaterialService {
 		
 		int resultCount= materialMapper.updateByPrimaryKeySelective(updateMaterial);
 		
-		
-		return ResponseEntityUtil.updMessage(resultCount);
+		if(resultCount>0) {
+			return ResponseEntityUtil.success(materialMapper.selectByPrimaryKey(updateMaterial.getId()));
+		}
+		return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
 	}
 
 	@Override

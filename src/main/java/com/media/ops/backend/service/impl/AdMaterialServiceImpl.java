@@ -43,7 +43,7 @@ public class AdMaterialServiceImpl implements AdMaterialService {
 		int resultCount= admaterialMapper.insert(admaterial);
 		if(resultCount>0) {
 			Map<String, Object> result=Maps.newHashMap();
-			result.put("admaterial", assembleAdMaterialVo(admaterial));
+			result.put("admaterial", admaterial);
 			return ResponseEntityUtil.success(result);
 		}
 		return ResponseEntityUtil.fail("广告素材插入失败");
@@ -82,7 +82,11 @@ public class AdMaterialServiceImpl implements AdMaterialService {
 		uptAdmaterial.setUpdateBy(updateby);
 		
 		int resultCount= admaterialMapper.updateByPrimaryKeySelective(uptAdmaterial);
-		return ResponseEntityUtil.updMessage(resultCount);
+		if(resultCount>0) {
+			return ResponseEntityUtil.success(admaterialMapper.selectByPrimaryKey(uptAdmaterial.getId()));
+		}
+		return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
+
 	}
 	
 	@Override

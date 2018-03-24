@@ -8,9 +8,9 @@ import com.media.ops.backend.vo.DeviceGroupVo;
 
 public interface DeviceGroupService {
 
-	ResponseEntity<String> addGroup(String groupName, Integer parentId);
+	ResponseEntity addGroup(String groupName, Integer parentId);
 	
-	ResponseEntity<String> updateGroupName(Integer groupId, String groupName);
+	ResponseEntity updateGroupName(Integer groupId, String groupName);
 	
 	ResponseEntity<String> deleteGroup(Integer groupId);
 	

@@ -1,6 +1,7 @@
 package com.media.ops.backend.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
@@ -37,7 +39,7 @@ public class MaterialGroupServiceImpl implements MaterialGroupService{
 	private MaterialMapper materialMapper;
 
 	@Override
-	public ResponseEntity<String> addGroup(String groupName, Integer parentId) {
+	public ResponseEntity addGroup(String groupName, Integer parentId) {
 
 		if(parentId==null || StringUtils.isBlank(groupName)) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
@@ -50,12 +52,18 @@ public class MaterialGroupServiceImpl implements MaterialGroupService{
 		materialgroup.setStatus(Const.GroupStatusEnum.NORMAL);
 		
 		int resultCount= materialgroupMapper.insert(materialgroup);
-		return ResponseEntityUtil.addMessage(resultCount);
+		if(resultCount>0) {
+			Map<String, Object> result= Maps.newHashMap();
+			result.put("newData", materialgroup);
+			return ResponseEntityUtil.success(result);
+		}
+		
+		return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);
       
 	}
 
 	@Override
-	public ResponseEntity<String> updateGroupName(Integer groupId, String groupName) {
+	public ResponseEntity updateGroupName(Integer groupId, String groupName) {
 		if(groupId==null || StringUtils.isBlank(groupName)) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -67,7 +75,10 @@ public class MaterialGroupServiceImpl implements MaterialGroupService{
 		
 		int resultCount= materialgroupMapper.updateByPrimaryKeySelective(materialgroup);
 		
-		return ResponseEntityUtil.updMessage(resultCount);
+		if(resultCount>0) {
+			return ResponseEntityUtil.success(materialgroupMapper.selectByPrimaryKey(materialgroup.getId()));
+		}
+		return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
 	}
 
 	@Override

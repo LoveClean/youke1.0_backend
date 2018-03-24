@@ -21,13 +21,13 @@
     delete from tbmaterialgroup
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Materialgroup">
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Materialgroup"  useGeneratedKeys="true" keyProperty="id">
     insert into tbmaterialgroup (id, name, parentid, 
       status, sortOrder)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT}, #{sortorder,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Materialgroup">
+  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Materialgroup"  useGeneratedKeys="true" keyProperty="id">
     insert into tbmaterialgroup
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

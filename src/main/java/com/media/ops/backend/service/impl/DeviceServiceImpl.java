@@ -165,7 +165,7 @@ public class DeviceServiceImpl implements DeviceService {
 	}
 
 	@Override
-	public ResponseEntity<String> uptDevice(String updateby,DeviceUptRequestBean bean) {
+	public ResponseEntity uptDevice(String updateby,DeviceUptRequestBean bean) {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -182,7 +182,10 @@ public class DeviceServiceImpl implements DeviceService {
 		updateDevice.setUpdateBy(updateby);
 		
 		int resultCount= deviceMapper.updateByPrimaryKeySelective(updateDevice);
-		return ResponseEntityUtil.updMessage(resultCount);
+		if(resultCount>0) {
+			return ResponseEntityUtil.success(deviceMapper.selectByPrimaryKey(updateDevice.getId()));
+		}
+		return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
 	}
 
 	@Override

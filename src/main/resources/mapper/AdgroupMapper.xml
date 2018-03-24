@@ -21,13 +21,13 @@
     delete from tbadgroup
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Adgroup">
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Adgroup" useGeneratedKeys="true" keyProperty="id">
     insert into tbadgroup (id, name, parentid, 
       status, sortOrder)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT}, #{sortorder,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Adgroup">
+  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Adgroup" useGeneratedKeys="true" keyProperty="id">
     insert into tbadgroup
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

@@ -1,6 +1,7 @@
 package com.media.ops.backend.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
+import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.AddeliveryAddRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryEmergentRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryUptRequestBean;
@@ -63,7 +66,13 @@ public class AddeliveryServiceImpl implements AddeliveryService {
 		addelivery.setUpdateBy(createby);
 		
 		int resultCount= addeliveryMapper.insertSelective(addelivery);
-		return ResponseEntityUtil.addMessage(resultCount);
+		
+		if(resultCount<=0) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);
+		}
+		Map<String, Object> result= Maps.newHashMap();
+		result.put("newData", addelivery);
+		return ResponseEntityUtil.success(result);
 	}
 	
 	public ResponseEntity updateAdDelivery(String updateby, AddeliveryUptRequestBean bean) {
@@ -78,8 +87,11 @@ public class AddeliveryServiceImpl implements AddeliveryService {
         uptAddelivery.setUpdateBy(updateby);
         
         int resultCount= addeliveryMapper.updateByPrimaryKeySelective(uptAddelivery);
-       
-        return ResponseEntityUtil.updMessage(resultCount);
+       if(resultCount>0) {
+    	   return ResponseEntityUtil.success(addeliveryMapper.selectByPrimaryKey(uptAddelivery.getId()));
+       }
+        
+        return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
 	}
 
 	@Override
@@ -93,7 +105,11 @@ public class AddeliveryServiceImpl implements AddeliveryService {
         
         int resultCount= addeliveryMapper.updateByPrimaryKeySelective(uptAddelivery);
        
-        return ResponseEntityUtil.updMessage(resultCount);
+        if(resultCount>0) {
+     	   return ResponseEntityUtil.success(addeliveryMapper.selectByPrimaryKey(uptAddelivery.getId()));
+        }
+         
+         return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
 	}
 
 	@Override

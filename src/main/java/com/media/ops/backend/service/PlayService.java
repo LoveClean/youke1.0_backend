@@ -15,7 +15,7 @@ public interface PlayService {
 	
 	public ResponseEntity add(String createby,PlayAddRequestBean bean);
 	
-	public ResponseEntity<String> update(String updateby,PlayUpdateRequestBean bean);
+	public ResponseEntity update(String updateby,PlayUpdateRequestBean bean);
 	
 	public ResponseEntity<String> delete(String updateby,Integer id);
 	

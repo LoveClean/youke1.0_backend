@@ -21,13 +21,13 @@
     delete from tbdevicegroup
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Devicegroup">
+  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Devicegroup"  useGeneratedKeys="true" keyProperty="id">
     insert into tbdevicegroup (id, name, parentid, 
       status, sortOrder)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT}, #{sortorder,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Devicegroup">
+  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Devicegroup"  useGeneratedKeys="true" keyProperty="id">
     insert into tbdevicegroup
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

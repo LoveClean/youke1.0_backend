@@ -148,7 +148,8 @@
 	<select id="selectList" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
-		from tbad
+		from tbad 
+		where del_flag='0'
 		ORDER BY id asc
 	</select>
 

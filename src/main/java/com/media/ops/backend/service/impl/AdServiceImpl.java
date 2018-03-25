@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
+import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.AdAddRequestBean;
 import com.media.ops.backend.controller.request.AdUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
@@ -106,6 +107,24 @@ public class AdServiceImpl implements AdService{
 		return new PageResponseBean<AdVo>(pageInfo);
 	}
 	
+	public ResponseEntity<AdVo> selectAd(Integer id){
+		if(id==null) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		Ad ad=adMapper.selectByPrimaryKey(id);
+		if(ad==null) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_DATA_NOT_FOUND);
+		}
+		List<Admaterial> admaterials= admaterialMapper.selectByAdId(ad.getId());
+		List<AdMaterialVo> adMaterialVos=Lists.newArrayList();
+		for (Admaterial admaterial : admaterials) {
+			AdMaterialVo adMaterialVo= assembleAdMaterialVo(admaterial);
+			adMaterialVos.add(adMaterialVo);
+		}
+		AdVo adVo= assembleAdVo(ad, adMaterialVos);
+		
+		return ResponseEntityUtil.success(adVo);
+	}
 	
 	private AdVo assembleAdVo(Ad ad, List<AdMaterialVo> adMaterialVos) {
 		AdVo adVo=new AdVo();

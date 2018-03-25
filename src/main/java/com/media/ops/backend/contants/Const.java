@@ -66,8 +66,8 @@ public class Const {
 	}
 
 	public interface Role{
-		int ROLE_HOST=0;  //直播员
-		int ROLE_ADMIN=1; //后台管理员
+		int ROLE_HOST=1;  //直播员
+		int ROLE_ADMIN=0; //后台管理员
 	}
 	
 	public interface GroupStatusEnum{

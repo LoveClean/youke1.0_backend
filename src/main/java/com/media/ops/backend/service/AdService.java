@@ -16,4 +16,6 @@ public interface AdService {
 	public ResponseEntity  uptAdName(String updateby, AdUptRequestBean bean);
 	
 	public PageResponseBean<AdVo> selectAdList(PageRequestBean bean);
+	
+	public ResponseEntity<AdVo> selectAd(Integer id);
 }

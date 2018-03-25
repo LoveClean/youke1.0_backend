@@ -52,6 +52,10 @@ public class AdController extends BaseController {
 	}
 	
 	//查看广告详情接口
-	
+	@ApiOperation(value = "根据id获取广告详情接口", notes = "根据id获取广告详情")
+	@PostMapping(value = "get_ad.do")
+	public ResponseEntity<AdVo> getAd(@RequestBody Integer id) {
+		return adService.selectAd(id);
+	}
 	
 }

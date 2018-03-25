@@ -1,5 +1,6 @@
 package com.media.ops.backend.controller;
 
+import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.controller.request.PagePlayRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.request.PlayAddRequestBean;
@@ -7,10 +8,15 @@ import com.media.ops.backend.controller.request.PlaySearchRequestBean;
 import com.media.ops.backend.controller.request.PlayUpdateRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Play;
+import com.media.ops.backend.dao.entity.User;
 import com.media.ops.backend.service.PlayService;
+import com.media.ops.backend.service.SmsService;
+import com.media.ops.backend.service.UserService;
+import com.media.ops.backend.util.DateUtil;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.PlayVo;
+import com.media.ops.backend.vo.UserVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +43,11 @@ public class PlayController extends BaseController {
 	
     @Autowired
     private PlayService playService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private SmsService smsService;
+    
     
     @ApiOperation(value = "获取时间段范围内的直播记录",notes = "获取时间段范围内的直播记录")
     @PostMapping(value="getPlaysByTime.do")
@@ -47,7 +58,20 @@ public class PlayController extends BaseController {
     @ApiOperation(value = "增加直播记录",notes = "增加直播记录")
     @PostMapping(value="addPlay.do")
     public ResponseEntity addPlay(@Valid @RequestBody PlayAddRequestBean bean,HttpServletRequest request) {
-        return playService.add(super.getSessionUser(request).getAccount(),bean);
+        ResponseEntity response= playService.add(super.getSessionUser(request).getAccount(),bean);
+        if(response.isSuccess()) {
+        	ResponseEntity respUser= userService.getInformation(bean.getPlayerid());
+        	if(respUser.isSuccess()) {
+        		UserVo userVo=(UserVo)respUser.getData();
+        		String mobile= userVo.getPhone();
+        		String account=userVo.getAccount();
+        		String trueName= userVo.getTruename();
+        		String time=DateUtil.format(bean.getBegintime(), DateUtil.DEFAULT_PATTERN);
+        		String content=trueName+"(工号："+account+"),您在"+time+"有直播任务，请登录APP查看";
+        		smsService.send(mobile, content);
+        	}
+        }
+        return response;
     }
     
     @ApiOperation(value = "删除直播记录",notes = "删除直播记录")

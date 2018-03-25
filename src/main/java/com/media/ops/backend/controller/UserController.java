@@ -26,6 +26,7 @@ import com.media.ops.backend.controller.request.UserUptRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Syslog;
 import com.media.ops.backend.dao.entity.User;
+import com.media.ops.backend.service.SmsService;
 import com.media.ops.backend.service.SysLogService;
 import com.media.ops.backend.service.UserService;
 import com.media.ops.backend.util.ResponseEntity;
@@ -44,6 +45,8 @@ public class UserController extends BaseController {
 	private UserService userService;
 	@Autowired
 	private SysLogService sysLogService;
+	@Autowired
+	private SmsService smsService;
 
 
 	
@@ -88,7 +91,12 @@ public class UserController extends BaseController {
 				bean.getEmail(), bean.getPhone(), bean.getQuestion(), bean.getAnswer(), 
 				bean.getType(), (byte) 1, super.getSessionUser(request).getAccount(), super.getSessionUser(request).getAccount());
 		
-				return userService.add(user);
+		ResponseEntity response= userService.add(user);
+		if(response.isSuccess()) {
+			//注册成功，发送短信，告知初始密码
+			smsService.send(bean.getPhone(), "您已成为系统的"+ (bean.getType()==0?"管理员":"直播员")+",初始密码为："+bean.getPassword());
+		}
+		return response;
 	}
 	
 	@ACS(allowAnonymous = true)

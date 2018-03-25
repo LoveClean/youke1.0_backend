@@ -19,7 +19,9 @@ import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.request.MaterialUptRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Material;
+import com.media.ops.backend.dao.entity.Materialgroup;
 import com.media.ops.backend.dao.mapper.MaterialMapper;
+import com.media.ops.backend.dao.mapper.MaterialgroupMapper;
 import com.media.ops.backend.service.MaterialService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
@@ -32,6 +34,8 @@ public class MaterialServiceImpl implements MaterialService {
 
 	@Autowired
 	private MaterialMapper materialMapper;
+	@Autowired
+	private MaterialgroupMapper materialgroupMapper;
 	
 	@Override
 	public PageResponseBean<MaterialVo> selectMaterialList(PageRequestBean bean) {
@@ -109,6 +113,12 @@ public class MaterialServiceImpl implements MaterialService {
 		materialVo.setPath(ma.getPath());
 		materialVo.setType(ma.getType());
 		
+		
+		Materialgroup materialgroup= materialgroupMapper.selectByPrimaryKey(ma.getGroupid());
+		if(materialgroup!=null) {
+			materialVo.setGroupId(materialgroup.getId());
+			materialVo.setGroupName(materialgroup.getName());
+		}
 		return materialVo;
 	}
 

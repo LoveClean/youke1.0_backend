@@ -8,6 +8,10 @@ public class MaterialVo {
     private String type;  //素材类型
 
     private String path;  //素材地址
+    
+    private Integer groupId;  //分组id
+    
+    private String groupName;  //分组名称
 
 	public Integer getId() {
 		return id;
@@ -39,6 +43,22 @@ public class MaterialVo {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public Integer getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(Integer groupId) {
+		this.groupId = groupId;
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
     
     

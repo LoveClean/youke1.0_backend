@@ -162,7 +162,7 @@ public class MaterialServiceImpl implements MaterialService {
 		int resultCount= materialMapper.updateByPrimaryKeySelective(updateMaterial);
 		
 		if(resultCount>0) {
-			return ResponseEntityUtil.success(materialMapper.selectByPrimaryKey(updateMaterial.getId()));
+			return ResponseEntityUtil.success(assembleMaterialVo(materialMapper.selectByPrimaryKey(updateMaterial.getId())));
 		}
 		return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
 	}

@@ -1,7 +1,7 @@
 package com.media.ops.backend.vo;
 
 public class DeviceListVo {
-	 
+	private Integer id; 
     private String code;    //设备编号 
     private String mac;     //设备物理地址
     
@@ -15,6 +15,14 @@ public class DeviceListVo {
     
     private Integer buildingid;  //楼宇id，还是楼层buildingFloorId?
     private String address;
+    
+    
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getCode() {
 		return code;
 	}

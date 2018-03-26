@@ -52,6 +52,7 @@ public class DeviceServiceImpl implements DeviceService {
 	
 	private DeviceListVo assembleDeviceListVo(Device device) {
 		DeviceListVo deviceListVo=new DeviceListVo();
+		deviceListVo.setId(device.getId());
 		deviceListVo.setCode(device.getCode());
 		deviceListVo.setMac(device.getMac());
 		deviceListVo.setType(device.getType());
@@ -119,6 +120,7 @@ public class DeviceServiceImpl implements DeviceService {
 
 	private DeviceVo assembleDeviceVo(Device device) {
 		DeviceVo deviceVo=new DeviceVo();
+		deviceVo.setId(device.getId());
 		deviceVo.setCode(device.getCode());
 		deviceVo.setMac(device.getMac());
 		

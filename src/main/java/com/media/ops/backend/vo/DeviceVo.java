@@ -2,6 +2,7 @@ package com.media.ops.backend.vo;
 
 public class DeviceVo {
  
+	private Integer id;
     private String code;    //设备编号 
     private String mac;     //设备物理地址
     
@@ -16,6 +17,15 @@ public class DeviceVo {
     
     private Integer buildingid;  //楼宇id，还是楼层buildingFloorId?
     private String address;   //设备区域地址，这字段要么？
+	
+    
+    
+    public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getCode() {
 		return code;
 	}

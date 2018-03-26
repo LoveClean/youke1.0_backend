@@ -171,5 +171,11 @@
 		where del_flag='0'
 		ORDER BY id asc
 	</select>
-
+	<select id="selectListByAreaId" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbbuilding
+		where del_flag='0' and areaid=#{areaId,jdbcType=VARCHAR}
+		ORDER BY id asc
+	</select>
 </mapper>

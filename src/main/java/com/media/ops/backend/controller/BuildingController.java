@@ -21,6 +21,7 @@ import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.service.BuildingService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.AreaBuildingVo;
 import com.media.ops.backend.vo.BuildingFloorVo;
 import com.media.ops.backend.vo.BuildingVo;
 import com.media.ops.backend.vo.FloorDeviceVo;
@@ -41,12 +42,17 @@ public class BuildingController extends BaseController{
 		return ResponseEntityUtil.success(buildingService.selectList(bean));
 	}
 	
-	@ApiOperation(value = "根据id查询楼宇列表接口", notes = "查询楼宇")
+	@ApiOperation(value = "根据id查询楼宇接口", notes = "查询楼宇")
 	@PostMapping(value = "get_building.do")
 	public ResponseEntity<BuildingVo> getBuilding(@RequestBody Integer buildingId ){
 		return buildingService.selectBuildingById(buildingId);
 	}
-	
+
+	@ApiOperation(value = "根据areaId查询楼宇列表接口", notes = "查询区域内楼宇列表")
+	@PostMapping(value = "get_building_areaId.do")
+	public ResponseEntity<List<AreaBuildingVo>> getBuildingByAreaId(@RequestBody String areaId ){
+		return buildingService.selectBuildingByAreaId(areaId);
+	}
 	
 	@ApiOperation(value = "添加楼宇操作接口",notes = "添加楼宇")
 	@PostMapping(value="addBuilding.do")

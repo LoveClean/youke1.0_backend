@@ -1,8 +1,11 @@
 package com.media.ops.backend.service.impl;
 
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +41,7 @@ import com.media.ops.backend.dao.mapper.ProvinceMapper;
 import com.media.ops.backend.service.BuildingService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.AreaBuildingVo;
 import com.media.ops.backend.vo.AreaVo;
 import com.media.ops.backend.vo.BuildingFloorListVo;
 import com.media.ops.backend.vo.BuildingFloorVo;
@@ -146,6 +150,36 @@ public class BuildingServiceImpl implements BuildingService {
 		}
 	}
 
+	public ResponseEntity<List<AreaBuildingVo>> selectBuildingByAreaId(String areaId){
+		if(StringUtils.isBlank(areaId)) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		
+		List<Building> buildings = buildingMapper.selectListByAreaId(areaId);
+
+		List<AreaBuildingVo> buildingVos = Lists.newArrayList();
+		for (Building building : buildings) {
+			AreaBuildingVo areaBuildingVo=assembleAreaBuildingVo(building);
+			buildingVos.add(areaBuildingVo);
+		}
+		
+		if(CollectionUtils.isEmpty(buildingVos)) {
+			return ResponseEntityUtil.fail("找不到该区域的楼宇信息");
+		}
+		
+		return ResponseEntityUtil.success(buildingVos);
+	}
+	
+	private AreaBuildingVo assembleAreaBuildingVo(Building building) {
+		AreaBuildingVo areaBuildingVo=new AreaBuildingVo();
+		areaBuildingVo.setId(building.getId());
+		areaBuildingVo.setName(building.getName());
+		areaBuildingVo.setAreaid(building.getAreaid());
+		areaBuildingVo.setAddress(building.getAddress());
+		
+		return areaBuildingVo;
+	}
+	
 	// 封装楼宇模型
 	private BuildingVo assembleBuildingVo(Building building, List<Buildingfloor> buildingfloorList) {
 		BuildingVo buildingVo = new BuildingVo();

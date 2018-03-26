@@ -11,6 +11,7 @@ import com.media.ops.backend.controller.request.FloorDeviceUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.util.ResponseEntity;
+import com.media.ops.backend.vo.AreaBuildingVo;
 import com.media.ops.backend.vo.BuildingFloorVo;
 import com.media.ops.backend.vo.BuildingVo;
 import com.media.ops.backend.vo.FloorDeviceVo;
@@ -25,6 +26,8 @@ public interface BuildingService {
 	public ResponseEntity<String> deleteBuilding(String updateby, Integer buildingId);
 
 	public PageResponseBean<BuildingVo> selectList(PageRequestBean bean);
+	
+	public ResponseEntity<List<AreaBuildingVo>> selectBuildingByAreaId(String areaId);
 
 	public ResponseEntity<BuildingVo> selectBuildingById(Integer id);
 

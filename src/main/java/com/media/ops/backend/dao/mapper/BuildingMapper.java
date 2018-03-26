@@ -19,5 +19,7 @@ public interface BuildingMapper {
     
     List<Building> selectList();
     
+    List<Building> selectListByAreaId(String areaId);
+    
     
 }

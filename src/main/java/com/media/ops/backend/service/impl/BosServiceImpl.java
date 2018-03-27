@@ -1,12 +1,7 @@
 package com.media.ops.backend.service.impl;
 
-import com.aliyun.oss.ClientException;
-import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.OSSException;
-import com.aliyun.oss.common.utils.BinaryUtil;
-import com.aliyun.oss.common.utils.IOUtils;
-import com.aliyun.oss.model.OSSObject;
-import com.aliyun.oss.model.ObjectMetadata;
+
+import com.media.ops.backend.config.BOSConfig;
 import com.media.ops.backend.config.OSSConfig;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.service.OssService;
@@ -20,6 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.aliyun.oss.common.utils.BinaryUtil;
+import com.aliyun.oss.common.utils.IOUtils;
+import com.baidubce.services.bos.BosClient;
+import com.baidubce.services.bos.model.BosObject;
+import com.baidubce.services.bos.model.ObjectMetadata;
+
 import javax.annotation.Resource;
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -29,15 +30,15 @@ import java.util.UUID;
 /**
  */
 @Service("ossService")
-public class OssServiceImpl implements OssService {
+public class BosServiceImpl implements OssService {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Resource
-    private OSSConfig ossConfig;
+    private BOSConfig bosConfig;
     @Resource
-    private OSSClient uploadOSSClient;
+    private BosClient uploadBOSClient;
     @Resource
-    private OSSClient downloadOSSClient;
+    private BosClient downloadBOSClient;
 
     /**
      * oss上传文件，返回文件访问路径
@@ -62,22 +63,24 @@ public class OssServiceImpl implements OssService {
         ObjectMetadata meta = new ObjectMetadata();
         // 设置上传文件长度
         meta.setContentLength(file.getSize());
+
         // 设置上传MD5校验
         String md5 = BinaryUtil.toBase64String(BinaryUtil.calculateMd5(fileContent));
-        meta.setContentMD5(md5);
+        meta.setContentMd5(md5);
         meta.setContentType(fileType);
 
         // 存储
         try {
-            uploadOSSClient.putObject(ossConfig.getBucketName(), filePathName, file.getInputStream(), meta);
-        } catch (OSSException | ClientException | IOException e) {
+        	
+            uploadBOSClient.putObject(bosConfig.getBucketName(), filePathName, file.getInputStream(), meta);
+        } catch (Exception e) {
             logger.error("OSS storage error", e);
             ExceptionUtil.throwException(Errors.SYSTEM_CUSTOM_ERROR.code, "OSS storage exception");
         }
-        String path = ossConfig.getDownloadEndpoint() + FileUtil.getFileSeparator() + filePathName;
+        String path = bosConfig.getDownloadEndpoint() + FileUtil.getFileSeparator() + filePathName;
         if (FileUtil.isImg(suffixName)) {
             // 图片访问处理样式，可在oss自定义,缩放、裁剪、压缩、旋转、格式、锐化、水印等
-            path += StringUtils.isNotBlank(ossConfig.getStyleName()) ? "?x-oss-process=style/" + ossConfig.getStyleName() : "";
+            path += StringUtils.isNotBlank(bosConfig.getStyleName()) ? "?x-oss-process=style/" + bosConfig.getStyleName() : "";
         }
         return path;
     }
@@ -98,19 +101,19 @@ public class OssServiceImpl implements OssService {
         meta.setContentLength(imageBytes.length);
         // 设置上传MD5校验
         String md5 = BinaryUtil.toBase64String(BinaryUtil.calculateMd5(imageBytes));
-        meta.setContentMD5(md5);
+        meta.setContentMd5(md5);
         meta.setContentType(fileType);
 
         // 存储
         try {
-            uploadOSSClient.putObject(ossConfig.getBucketName(), filePathName, new ByteArrayInputStream(imageBytes), meta);
+            uploadBOSClient.putObject(bosConfig.getBucketName(), filePathName, new ByteArrayInputStream(imageBytes), meta);
         } catch (Exception e) {
-            logger.error("OSS storage error", e);
-            ExceptionUtil.throwException(Errors.SYSTEM_CUSTOM_ERROR.code, "OSS storage exception");
+            logger.error("BOS storage error", e);
+            ExceptionUtil.throwException(Errors.SYSTEM_CUSTOM_ERROR.code, "BOS storage exception");
         }
-        String path = ossConfig.getDownloadEndpoint() + FileUtil.getFileSeparator() + filePathName;
+        String path = bosConfig.getDownloadEndpoint() + FileUtil.getFileSeparator() + filePathName;
         // 图片访问处理样式，可在oss自定义,缩放、裁剪、压缩、旋转、格式、锐化、水印等
-        return path + (StringUtils.isNotBlank(ossConfig.getStyleName()) ? "?x-oss-process=style/" + ossConfig.getStyleName() : "");
+        return path + (StringUtils.isNotBlank(bosConfig.getStyleName()) ? "?x-oss-process=style/" + bosConfig.getStyleName() : "");
     }
 
     /**
@@ -138,10 +141,10 @@ public class OssServiceImpl implements OssService {
             meta.setContentLength(file.length());
             // 设置上传MD5校验
             String md5 = BinaryUtil.toBase64String(BinaryUtil.calculateMd5(fileContent));
-            meta.setContentMD5(md5);
+            meta.setContentMd5(md5);
             meta.setContentType(fileType);
-            uploadOSSClient.putObject(ossConfig.getBucketName(), filePathName, new ByteArrayInputStream(fileContent), meta);
-            String path = ossConfig.getDownloadEndpoint() + FileUtil.getFileSeparator() + filePathName;
+            uploadBOSClient.putObject(bosConfig.getBucketName(), filePathName, new ByteArrayInputStream(fileContent), meta);
+            String path = bosConfig.getDownloadEndpoint() + FileUtil.getFileSeparator() + filePathName;
             return path;
         } catch (Exception e) {
             logger.error("OSS storage error", e);
@@ -168,9 +171,9 @@ public class OssServiceImpl implements OssService {
     public byte[] download(String url) {
         InputStream is = null;
         try {
-            String key = url.split(ossConfig.getDownloadEndpoint() + "/")[1];
-            OSSObject ossObject = downloadOSSClient.getObject(ossConfig.getBucketName(), key);
-            is = ossObject.getObjectContent();
+            String key = url.split(bosConfig.getDownloadEndpoint() + "/")[1];
+            BosObject bosObject = downloadBOSClient.getObject(bosConfig.getBucketName(), key);
+            is = bosObject.getObjectContent();
             byte[] data = IOUtils.readStreamAsByteArray(is);
             return data;
         } catch (Exception e) {
@@ -200,7 +203,7 @@ public class OssServiceImpl implements OssService {
         String time = yyyyMMddHH.format(new Date());
         String uuid = UUID.randomUUID().toString();
         StringBuilder sb = new StringBuilder();
-        String storagePath = this.ossConfig.getStoragePath();
+        String storagePath = this.bosConfig.getStoragePath();
         if (StringUtil.isNotBlank(storagePath)) {
             sb.append(storagePath).append("/");
         }

@@ -20,6 +20,14 @@ oss:
   bucketName: dev-proj
   # 下载地址的有效时长，单位为ms，默认为半小时
   download-url-expiration: 1800000
+  
+bos:
+  accessKeyId: 8607282ea90e46f98f4190c9a16d6bd3
+  accessKeySecret: fa01d89c2bf64c27b2a3516e40601aa2
+  bucketName: test45
+  upload-endpoint: http://bj.bcebos.com
+  download-endpoint: http://test45.bj.bcebos.com
+  download-url-expiration: 1800000
 
 spring:
   main:

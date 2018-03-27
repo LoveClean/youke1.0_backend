@@ -162,6 +162,12 @@
 			<version>${aliyun.sdk.oss.version}</version>
 		</dependency>
 		<!-- oss相关依赖 结束 -->
+		<!-- bce-java-sdk -->
+		<dependency>
+			<groupId>com.baidubce</groupId>
+			<artifactId>bce-java-sdk</artifactId>
+			<version>0.10.28</version>
+		</dependency>
 
 	</dependencies>
 

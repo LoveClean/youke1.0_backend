@@ -1,14 +1,11 @@
 ﻿package com.media.ops.backend.controller;
 
-import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.controller.request.PagePlayRequestBean;
-import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.request.PlayAddRequestBean;
 import com.media.ops.backend.controller.request.PlaySearchRequestBean;
 import com.media.ops.backend.controller.request.PlayUpdateRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Play;
-import com.media.ops.backend.dao.entity.User;
 import com.media.ops.backend.service.PlayService;
 import com.media.ops.backend.service.SmsService;
 import com.media.ops.backend.service.UserService;
@@ -43,8 +40,10 @@ public class PlayController extends BaseController {
 	
     @Autowired
     private PlayService playService;
+    
     @Autowired
     private UserService userService;
+    
     @Autowired
     private SmsService smsService;
     

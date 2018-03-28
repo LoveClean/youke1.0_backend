@@ -114,6 +114,8 @@ public class AppBeanFactary {
 					AddrUtil.getAddresses(memcachedConfig.getServers()));
 		}
 
+		
+		//return
 		return memcachedClient;
 	}
 

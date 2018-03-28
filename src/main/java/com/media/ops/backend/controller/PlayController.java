@@ -1,4 +1,4 @@
-package com.media.ops.backend.controller;
+﻿package com.media.ops.backend.controller;
 
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.controller.request.PagePlayRequestBean;
@@ -69,6 +69,7 @@ public class PlayController extends BaseController {
         		String time=DateUtil.format(bean.getBegintime(), DateUtil.DEFAULT_PATTERN);
         		String content=trueName+"(工号："+account+"),您在"+time+"有直播任务，请登录APP查看";
         		smsService.send(mobile, content);
+                                //test
         	}
         }
         return response;

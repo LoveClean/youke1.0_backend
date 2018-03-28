@@ -191,7 +191,6 @@ public class BosServiceImpl implements OssService {
         }
         return null;
     }
-
     /**
      * 获取存储的相对路径 规则path + / + yyyyMMddHH + uuid
      *

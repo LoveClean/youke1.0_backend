@@ -87,7 +87,7 @@ public class UserController extends BaseController {
 	@PostMapping(value="add.do")	
 	public ResponseEntity add(@Valid @RequestBody UserAddRequestBean bean, 
 			HttpServletRequest request){
-		User user= new User(bean.getName(), bean.getTrueName(), bean.getPassword(),
+		User user= new User(bean.getAccount(), bean.getTrueName(), bean.getPassword(),
 				bean.getEmail(), bean.getPhone(), bean.getQuestion(), bean.getAnswer(), 
 				bean.getType(), (byte) 1, super.getSessionUser(request).getAccount(), super.getSessionUser(request).getAccount());
 		

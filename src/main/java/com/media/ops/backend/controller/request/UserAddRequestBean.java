@@ -16,7 +16,7 @@ public class UserAddRequestBean {
      */
     @NotBlank(message = "用户名不能为空")
     @ApiModelProperty(value = "用户", required = true)
-    private String name;
+    private String account;
 
     /**
      * 密码
@@ -43,12 +43,12 @@ public class UserAddRequestBean {
     @ApiModelProperty(value = "找回密码答案，选填")
     private String answer;
 
-    public String getName() {
-        return name;
+    public String getAccount() {
+        return account;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public String getPassword() {

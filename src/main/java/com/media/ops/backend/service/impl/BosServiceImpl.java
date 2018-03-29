@@ -202,7 +202,7 @@ public class BosServiceImpl implements OssService {
     private String generateRelativeStoragePath(String suffixName) {
         SimpleDateFormat yyyyMMddHH = new SimpleDateFormat("yyyyMMddHH");
         String time = yyyyMMddHH.format(new Date());
-        String uuid = StringUtil.getUUID(6);
+        String uuid = StringUtil.getUUID(8);
         StringBuilder sb = new StringBuilder();
         String storagePath = this.bosConfig.getStoragePath();
         if (StringUtil.isNotBlank(storagePath)) {

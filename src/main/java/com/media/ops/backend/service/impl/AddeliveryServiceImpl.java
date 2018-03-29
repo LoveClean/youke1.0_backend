@@ -30,6 +30,7 @@ import com.media.ops.backend.dao.mapper.BuildingMapper;
 import com.media.ops.backend.dao.mapper.CityMapper;
 import com.media.ops.backend.dao.mapper.DevicegroupMapper;
 import com.media.ops.backend.service.AddeliveryService;
+import com.media.ops.backend.util.DateUtil;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.AddeliveryDetailVo;
@@ -159,7 +160,6 @@ public class AddeliveryServiceImpl implements AddeliveryService {
 	    	Devicegroup devicegroup= devicegroupMapper.selectByPrimaryKey(addelivery.getGroupid());
 	    	addeliveryDetailVo.setBuildingOrGroupName(devicegroup.getName());
 	    }
-	    
 	    addeliveryDetailVo.setBegintime(addelivery.getBegintime());
 	    addeliveryDetailVo.setEndtime(addelivery.getEndtime());
 	

@@ -29,6 +29,12 @@ bos:
   download-endpoint: http://test45.bj.bcebos.com
   download-url-expiration: 1800000
 
+#直播
+lss:
+  accessKeyId: 8607282ea90e46f98f4190c9a16d6bd3
+  accessKeySecret: fa01d89c2bf64c27b2a3516e40601aa2
+  playDomain: play.urwork.cn  
+
 spring:
   main:
     banner-mode: console
@@ -83,4 +89,6 @@ sms:
   privateKey: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALs+tAAOaNlKrlgVTyRF3AhOj71Q1bcgoA4rn/6vj1dj48CI5lQWyHTMcuZcYKcSut3cmpeHG2Cb2KJCVRaH4sL1IeCsdCkUGHa29NkiEsfNF+VCjlvoNQAh2jkKPu9Ptm3lnqa1ryvJNydu+kgnGrO8JdrMCVnnTyczSQsicUWfAgMBAAECgYA0MAPHSDzc4z24eyf1uirbfdn+L/uA8OzrRilvuMrA1qxxyzY3FaqFMz6LChA+QLAoigXkWdm9kXJNtyM0Bmei6JoBNU3STKqoyTOCWxdpz6jJrYPGXSw+5yBhlR5Qqv4QrKasfrERcgdngdExM5IiFCgKWJTGKkHA3guyrxyfkQJBAOk0DSjWkASfsLL2/1XiLZFlZjqHdJLyw4KFrOAsuw/OXB5UNFZVMjT2RKJE3azzFl+AOhvLBW8vRKpHxv/eBXUCQQDNjIk3OAWdWOkq3YnDTrjpR66tsXgftmSaLsfnXFGpvQUK79ZH882HPEukwXuQncRZDrS4qjUzesyXH88Ry3hDAkEAsO6ACXr5G7j4/F9wDH4lKoovTLrW1GMBuPao2hC2AGEF/TDP4KyVAh/SpPbw5TYtxFlqPQoE3n2TcEozDpApvQJBAJD7eaWbPEqZ9g0oKg26ry7MQud88C/eJOOj75i/Q1KoYrAuL0SdMPEclHZnitKclWwDtXEzjUb8bOaDpzjz/aUCQA+ulgWWI1yMgMPDzhygaymTTf4lG6X5uzpGeN7xDXTDVg2hg/SK8A49qcjYv+9wXMACbXVHvk+unxY85Itmy/M=
   publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7PrQADmjZSq5YFU8kRdwITo+9UNW3IKAOK5/+r49XY+PAiOZUFsh0zHLmXGCnErrd3JqXhxtgm9iiQlUWh+LC9SHgrHQpFBh2tvTZIhLHzRflQo5b6DUAIdo5Cj7vT7Zt5Z6mta8ryTcnbvpIJxqzvCXazAlZ508nM0kLInFFnwIDAQAB  
   url: http://211.144.5.130:8073/smsPlatform/
+
+
 

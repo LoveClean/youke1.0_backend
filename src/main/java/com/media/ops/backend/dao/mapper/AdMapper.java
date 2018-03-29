@@ -13,15 +13,10 @@ import org.apache.ibatis.annotations.Param;
 
 public interface AdMapper {
     int deleteByPrimaryKey(Integer id);
-
     int insert(Ad record);
-
     int insertSelective(Ad record);
-
     Ad selectByPrimaryKey(Integer id);
-
     int updateByPrimaryKeySelective(Ad record);
-
     int updateByPrimaryKey(Ad record);
 
     ////////////////////以上是自动生成的////////////////////////////

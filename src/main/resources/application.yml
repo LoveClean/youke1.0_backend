@@ -33,7 +33,9 @@ bos:
 lss:
   accessKeyId: 8607282ea90e46f98f4190c9a16d6bd3
   accessKeySecret: fa01d89c2bf64c27b2a3516e40601aa2
-  playDomain: play.urwork.cn  
+  playDomain: play.urwork.cn
+  pushDomain: live.urwork.cn  
+  vodEndpoint: http://vod.bj.baidubce.com
 
 spring:
   main:

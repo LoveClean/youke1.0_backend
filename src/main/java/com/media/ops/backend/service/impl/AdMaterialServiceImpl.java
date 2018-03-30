@@ -149,9 +149,9 @@ public class AdMaterialServiceImpl implements AdMaterialService {
 		adMaterialVo.setMaterialType(material.getType());
 		adMaterialVo.setMaterialPath(material.getPath());
 		
-		adMaterialVo.setOrderIndex(admaterial.getOrderindex());
-		adMaterialVo.setLoadStep(admaterial.getLoadstep());
-		adMaterialVo.setDisplayTime(admaterial.getDisplaytime());
+		adMaterialVo.setOrderIndex(admaterial.getOrderindex()==null?1:admaterial.getOrderindex());
+		adMaterialVo.setLoadStep(admaterial.getLoadstep()==null?0:admaterial.getLoadstep());
+		adMaterialVo.setDisplayTime(admaterial.getDisplaytime()==null?0:admaterial.getDisplaytime());
 		adMaterialVo.setMusicPath(admaterial.getMusicpath());
 		
 		return adMaterialVo;

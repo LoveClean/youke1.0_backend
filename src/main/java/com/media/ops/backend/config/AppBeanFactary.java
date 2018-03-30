@@ -1,9 +1,12 @@
 package com.media.ops.backend.config;
 
 import com.aliyun.oss.OSSClient;
+import com.baidubce.BceClientConfiguration;
 import com.baidubce.auth.DefaultBceCredentials;
 import com.baidubce.services.bos.BosClient;
 import com.baidubce.services.bos.BosClientConfiguration;
+import com.baidubce.services.lss.LssClient;
+import com.baidubce.services.vod.VodClient;
 import com.media.ops.backend.interceptor.CrossDomainFilter;
 import net.spy.memcached.AddrUtil;
 import net.spy.memcached.ConnectionFactoryBuilder;
@@ -30,10 +33,40 @@ public class AppBeanFactary {
 	private OSSConfig ossConfig;
 	@Resource
 	private BOSConfig bosConfig;
+	@Resource
+	private LSSConfig lssConfig;
 
 	@Resource
 	private MemcachedConfig memcachedConfig;
 
+	
+	
+	/**
+	 * LSSClient
+	 * 
+	 * @return
+	 */
+	@Bean(name = "LssClient")
+	public LssClient lssClient() {
+		BceClientConfiguration config = new BceClientConfiguration();
+		config.setCredentials(new DefaultBceCredentials(lssConfig.getAccessKeyId(), lssConfig.getAccessKeySecret()));
+		return new LssClient(config);
+	}	
+	
+	
+	/**
+	 * VODClient
+	 * 
+	 * @return
+	 */
+	@Bean(name = "VodClient")
+	public VodClient vodClient() {
+		BceClientConfiguration config = new BceClientConfiguration();
+		config.setCredentials(new DefaultBceCredentials(lssConfig.getAccessKeyId(), lssConfig.getAccessKeySecret()));
+		config.setEndpoint(lssConfig.getVodEndpoint());
+		return new VodClient(config);
+	}		
+	
 	/**
 	 * BOS存储-下载
 	 * 

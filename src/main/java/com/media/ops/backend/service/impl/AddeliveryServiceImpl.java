@@ -35,8 +35,6 @@ import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.AddeliveryDetailVo;
 
-
-
 @Service
 public class AddeliveryServiceImpl implements AddeliveryService {
 
@@ -52,118 +50,118 @@ public class AddeliveryServiceImpl implements AddeliveryService {
 	private DevicegroupMapper devicegroupMapper;
 	@Autowired
 	private BuildingMapper buildingMapper;
-	
+
 	public ResponseEntity createAdDelivery(String createby, AddeliveryAddRequestBean bean) {
-		
-		Addelivery addelivery =new Addelivery();
+
+		Addelivery addelivery = new Addelivery();
 		addelivery.setAdid(bean.getAdid());
 		addelivery.setAdtype(bean.getAdtype());
 		addelivery.setDelivertype(bean.getDelivertype());
 		addelivery.setAreaid(bean.getAreaid());
 		addelivery.setGroupid(bean.getGroupid());
-		addelivery.setBegintime(bean.getBegintime());
-		addelivery.setEndtime(bean.getEndtime());
+		addelivery.setBegintime(DateUtil.stringToDate(bean.getBegintime(), DateUtil.DEFAULT_PATTERN));
+		addelivery.setEndtime(DateUtil.stringToDate(bean.getEndtime(), DateUtil.DEFAULT_PATTERN));
 		addelivery.setCreateBy(createby);
 		addelivery.setUpdateBy(createby);
-		
-		int resultCount= addeliveryMapper.insertSelective(addelivery);
-		
-		if(resultCount<=0) {
+
+		int resultCount = addeliveryMapper.insertSelective(addelivery);
+
+		if (resultCount <= 0) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);
 		}
-		Map<String, Object> result= Maps.newHashMap();
+		Map<String, Object> result = Maps.newHashMap();
 		result.put("newData", addelivery);
 		return ResponseEntityUtil.success(result);
 	}
-	
+
 	public ResponseEntity updateAdDelivery(String updateby, AddeliveryUptRequestBean bean) {
-        Addelivery uptAddelivery= new Addelivery();
-        uptAddelivery.setId(bean.getId());
-        uptAddelivery.setAdtype(bean.getAdtype());
-        uptAddelivery.setDelivertype(bean.getDelivertype());
-        uptAddelivery.setAreaid(bean.getAreaid());
-        uptAddelivery.setGroupid(bean.getGroupid());
-        uptAddelivery.setBegintime(bean.getBegintime());
-        uptAddelivery.setEndtime(bean.getEndtime());
-        uptAddelivery.setUpdateBy(updateby);
-        
-        int resultCount= addeliveryMapper.updateByPrimaryKeySelective(uptAddelivery);
-       if(resultCount>0) {
-    	   return ResponseEntityUtil.success(addeliveryMapper.selectByPrimaryKey(uptAddelivery.getId()));
-       }
-        
-        return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
+		Addelivery uptAddelivery = new Addelivery();
+		uptAddelivery.setId(bean.getId());
+		uptAddelivery.setAdtype(bean.getAdtype());
+		uptAddelivery.setDelivertype(bean.getDelivertype());
+		uptAddelivery.setAreaid(bean.getAreaid());
+		uptAddelivery.setGroupid(bean.getGroupid());
+		uptAddelivery.setBegintime(DateUtil.stringToDate(bean.getBegintime(), DateUtil.DEFAULT_PATTERN));
+		uptAddelivery.setEndtime(DateUtil.stringToDate(bean.getEndtime(), DateUtil.DEFAULT_PATTERN));
+		uptAddelivery.setUpdateBy(updateby);
+
+		int resultCount = addeliveryMapper.updateByPrimaryKeySelective(uptAddelivery);
+		if (resultCount > 0) {
+			return ResponseEntityUtil.success(addeliveryMapper.selectByPrimaryKey(uptAddelivery.getId()));
+		}
+
+		return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
 	}
 
 	@Override
 	public ResponseEntity emergentAdDelivery(String account, AddeliveryEmergentRequestBean bean) {
-		Addelivery uptAddelivery= new Addelivery();
-        uptAddelivery.setId(bean.getId());
-        uptAddelivery.setAdtype(Const.AdTypeEnum.EMERGENT_PLAY);
-        uptAddelivery.setBegintime(bean.getBegintime());
-        uptAddelivery.setEndtime(bean.getEndtime());
-        uptAddelivery.setUpdateBy(account);
-        
-        int resultCount= addeliveryMapper.updateByPrimaryKeySelective(uptAddelivery);
-       
-        if(resultCount>0) {
-     	   return ResponseEntityUtil.success(addeliveryMapper.selectByPrimaryKey(uptAddelivery.getId()));
-        }
-         
-         return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
+		Addelivery uptAddelivery = new Addelivery();
+		uptAddelivery.setId(bean.getId());
+		uptAddelivery.setAdtype(Const.AdTypeEnum.EMERGENT_PLAY);
+		uptAddelivery.setBegintime(DateUtil.stringToDate(bean.getBegintime(), DateUtil.DEFAULT_PATTERN));
+		uptAddelivery.setEndtime(DateUtil.stringToDate(bean.getEndtime(), DateUtil.DEFAULT_PATTERN));
+		uptAddelivery.setUpdateBy(account);
+
+		int resultCount = addeliveryMapper.updateByPrimaryKeySelective(uptAddelivery);
+
+		if (resultCount > 0) {
+			return ResponseEntityUtil.success(addeliveryMapper.selectByPrimaryKey(uptAddelivery.getId()));
+		}
+
+		return ResponseEntityUtil.fail(Errors.SYSTEM_UPDATE_ERROR);
 	}
 
 	@Override
 	public PageResponseBean<AddeliveryDetailVo> selectList(PageRequestBean bean) {
 		PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
-		List<Addelivery> addeliveries= addeliveryMapper.selectList();
-		List<AddeliveryDetailVo> addeliveryDetailVos= Lists.newArrayList();
-		for(Addelivery addelivery: addeliveries) {
-			AddeliveryDetailVo addeliveryDetailVo= assembleAddeliveryDetailVo(addelivery);
+		List<Addelivery> addeliveries = addeliveryMapper.selectList();
+		List<AddeliveryDetailVo> addeliveryDetailVos = Lists.newArrayList();
+		for (Addelivery addelivery : addeliveries) {
+			AddeliveryDetailVo addeliveryDetailVo = assembleAddeliveryDetailVo(addelivery);
 			addeliveryDetailVos.add(addeliveryDetailVo);
 		}
-		PageInfo pageInfo=new PageInfo(addeliveries);
+		PageInfo pageInfo = new PageInfo(addeliveries);
 		pageInfo.setList(addeliveryDetailVos);
-		
+
 		return new PageResponseBean<AddeliveryDetailVo>(pageInfo);
 	}
-	
+
 	private AddeliveryDetailVo assembleAddeliveryDetailVo(Addelivery addelivery) {
-		AddeliveryDetailVo addeliveryDetailVo=new AddeliveryDetailVo();
+		AddeliveryDetailVo addeliveryDetailVo = new AddeliveryDetailVo();
 		addeliveryDetailVo.setId(addelivery.getId());
-		
-		Ad ad= adMapper.selectByPrimaryKey(addelivery.getAdid());
-		if(ad!=null) {
+
+		Ad ad = adMapper.selectByPrimaryKey(addelivery.getAdid());
+		if (ad != null) {
 			addeliveryDetailVo.setAdid(ad.getId());
 			addeliveryDetailVo.setAdName(ad.getName());
 		}
-		
-	    addeliveryDetailVo.setAdtype(addelivery.getAdtype());
-	    addeliveryDetailVo.setDelivertype(addelivery.getDelivertype());
-	    
-        //获取区域名称，城市名称
-	    Area area= areaMapper.selectByAreaId(addelivery.getAreaid());
-	    if(area!=null) {
-	    	addeliveryDetailVo.setAreaid(area.getAreaid());
-	    	addeliveryDetailVo.setAreaName(area.getArea());
-	    }
-	    City city=cityMapper.selectByCityId(addelivery.getAreaid().substring(0, 4)+"00");
-	    if(city!=null) {
-	    	addeliveryDetailVo.setCityName(city.getCity());
-	    }
-	    
-	    addeliveryDetailVo.setBuildingOrGroupId(addelivery.getGroupid());
-	    if(addelivery.getDelivertype().intValue()== Const.AdDeliveryTypeEnum.BY_BUILDING) {
-	    	Building building= buildingMapper.selectByPrimaryKey(addelivery.getGroupid());
-	        addeliveryDetailVo.setBuildingOrGroupName(building.getName());
-	    }else {
-	    	Devicegroup devicegroup= devicegroupMapper.selectByPrimaryKey(addelivery.getGroupid());
-	    	addeliveryDetailVo.setBuildingOrGroupName(devicegroup.getName());
-	    }
-	    addeliveryDetailVo.setBegintime(addelivery.getBegintime());
-	    addeliveryDetailVo.setEndtime(addelivery.getEndtime());
-	
+
+		addeliveryDetailVo.setAdtype(addelivery.getAdtype());
+		addeliveryDetailVo.setDelivertype(addelivery.getDelivertype());
+
+		// 获取区域名称，城市名称
+		Area area = areaMapper.selectByAreaId(addelivery.getAreaid());
+		if (area != null) {
+			addeliveryDetailVo.setAreaid(area.getAreaid());
+			addeliveryDetailVo.setAreaName(area.getArea());
+
+			City city = cityMapper.selectByCityId(addelivery.getAreaid().substring(0, 4) + "00");
+			if (city != null) {
+				addeliveryDetailVo.setCityName(city.getCity());
+			}
+		}
+		addeliveryDetailVo.setBuildingOrGroupId(addelivery.getGroupid());
+		if (addelivery.getDelivertype().intValue() == Const.AdDeliveryTypeEnum.BY_BUILDING) {
+			Building building = buildingMapper.selectByPrimaryKey(addelivery.getGroupid());
+			addeliveryDetailVo.setBuildingOrGroupName(building.getName());
+		} else {
+			Devicegroup devicegroup = devicegroupMapper.selectByPrimaryKey(addelivery.getGroupid());
+			addeliveryDetailVo.setBuildingOrGroupName(devicegroup.getName());
+		}
+		addeliveryDetailVo.setBegintime(addelivery.getBegintime());
+		addeliveryDetailVo.setEndtime(addelivery.getEndtime());
+
 		return addeliveryDetailVo;
 	}
-	
+
 }

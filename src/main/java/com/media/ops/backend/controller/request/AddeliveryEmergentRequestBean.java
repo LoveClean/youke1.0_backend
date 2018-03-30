@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import io.swagger.annotations.ApiModelProperty;
 
 public class AddeliveryEmergentRequestBean {
@@ -11,13 +13,13 @@ public class AddeliveryEmergentRequestBean {
 	@ApiModelProperty(value = "id，必填", required = true)
 	private Integer id; //id
 	
-	@NotNull(message = "开始播放时间不能空")
+	@NotBlank(message = "开始播放时间不能空")
 	@ApiModelProperty(value = "开始投放时间，必填", required = true)
-    private Date begintime;  //开始时间
+    private String begintime;  //开始时间
 
-	@NotNull(message = "结束投放时间不能空")
+	@NotBlank(message = "结束投放时间不能空")
 	@ApiModelProperty(value = "结束投放时间，必填", required = true)
-    private Date endtime;  //结束时间
+    private String endtime;  //结束时间
 
 	public Integer getId() {
 		return id;
@@ -27,19 +29,19 @@ public class AddeliveryEmergentRequestBean {
 		this.id = id;
 	}
 
-	public Date getBegintime() {
+	public String getBegintime() {
 		return begintime;
 	}
 
-	public void setBegintime(Date begintime) {
+	public void setBegintime(String begintime) {
 		this.begintime = begintime;
 	}
 
-	public Date getEndtime() {
+	public String getEndtime() {
 		return endtime;
 	}
 
-	public void setEndtime(Date endtime) {
+	public void setEndtime(String endtime) {
 		this.endtime = endtime;
 	}
 	

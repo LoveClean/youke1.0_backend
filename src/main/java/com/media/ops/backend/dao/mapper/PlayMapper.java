@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.media.ops.backend.dao.entity.Play;
+import com.media.ops.backend.util.ResponseEntity;
+import com.media.ops.backend.vo.PlayerVo;
 
 public interface PlayMapper {
     int deleteByPrimaryKey(Integer id);
@@ -28,5 +30,6 @@ public interface PlayMapper {
     List<Play> selectList();
     //通过playerId查询直播
     List<Play> selectByPlayerId(@Param("playerId")Integer playerId);
+
 
 }

@@ -24,6 +24,7 @@ import com.media.ops.backend.util.DateUtil;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.PlayVo;
+import com.media.ops.backend.vo.PlayerVo;
 import com.media.ops.backend.vo.UserVo;
 
 import io.swagger.annotations.Api;
@@ -88,6 +89,12 @@ public class PlayController extends BaseController {
     @PostMapping(value="selectLists.do")
     public ResponseEntity<List<PlayVo>> selectPlayList() {
         return playService.selectPlayList();
+    }
+ 
+    @ApiOperation(value = "获取所有直播员列表",notes = "获取所有直播员")
+    @PostMapping(value="selectPlayerList.do")
+    public ResponseEntity<List<PlayerVo>> selectPlayerList() {
+        return playService.selectPlayerList();
     }
     
     @ApiOperation(value = "通过playerId获取直播记录",notes = "通过playerId获取直播记录")

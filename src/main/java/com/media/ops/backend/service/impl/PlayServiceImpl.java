@@ -138,11 +138,7 @@ public class PlayServiceImpl implements PlayService {
 		User user = userMapper.selectByPrimaryKey(play.getPlayerid());
 		if (user != null) {
 			playVo.setPlayerid(play.getPlayerid());
-			PlayerVo playerVo = new PlayerVo();
-			playerVo.setAccount(user.getAccount());
-			playerVo.setEmail(user.getEmail());
-			playerVo.setPhone(user.getPhone());
-			playerVo.setTruename(user.getTruename());
+			PlayerVo playerVo = assemblePlayerVo(user);
 
 			playVo.setPlayerVo(playerVo);
 		}
@@ -203,6 +199,25 @@ public class PlayServiceImpl implements PlayService {
 			playVos.add(playVo2);
 		}
 		return ResponseEntityUtil.success(playVos);
+	}
+	
+	public ResponseEntity<List<PlayerVo>> selectPlayerList(){
+		List<User> players= userMapper.selectPlayerList();
+		List<PlayerVo> playerVos=Lists.newArrayList();
+		for (User user : players) {
+			PlayerVo playerVo= assemblePlayerVo(user);
+			playerVos.add(playerVo);
+		}
+		return ResponseEntityUtil.success(playerVos);
+	}
+	
+	private PlayerVo  assemblePlayerVo(User user) {
+		PlayerVo playerVo = new PlayerVo();
+		playerVo.setAccount(user.getAccount());
+		playerVo.setEmail(user.getEmail());
+		playerVo.setPhone(user.getPhone());
+		playerVo.setTruename(user.getTruename());
+		return playerVo;
 	}
 
 }

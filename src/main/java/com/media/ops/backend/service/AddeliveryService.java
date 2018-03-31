@@ -19,4 +19,6 @@ public interface AddeliveryService {
 	public ResponseEntity emergentAdDelivery(String account, AddeliveryEmergentRequestBean bean);
 	
 	public PageResponseBean<AddeliveryDetailVo> selectList(PageRequestBean bean);
+	
+	public ResponseEntity<String> delAddelivery(Integer id,String updateby);
 }

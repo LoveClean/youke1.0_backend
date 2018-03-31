@@ -20,9 +20,11 @@
 		<result column="del_flag" jdbcType="CHAR" property="delFlag" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, account, truename, password, email, phone, question, answer,
+		id, account, truename, password, email, phone, question,
+		answer,
 		type,status, create_by,
-		create_date, update_by, update_date, remarks, del_flag
+		create_date, update_by, update_date,
+		remarks, del_flag
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
 		select
@@ -33,10 +35,13 @@
 	<delete id="deleteByPrimaryKey" parameterType="map">
 		delete from tbuser
 		where id = #{id,jdbcType=INTEGER}
-		and account = #{account,jdbcType=VARCHAR}
+		and account =
+		#{account,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.User" useGeneratedKeys="true" keyProperty="id">
-		insert into tbuser (id, account, truename,
+	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.User"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into tbuser (id, account,
+		truename,
 		password, email, phone,
 		question, answer, type,status,
 		create_by, create_date, update_by,
@@ -44,11 +49,14 @@
 		)
 		values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR},
 		#{truename,jdbcType=VARCHAR},
-		#{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
 		#{question,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR},
 		#{type,jdbcType=INTEGER},
-		#{status,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, now(),
-		#{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}
+		#{status,jdbcType=TINYINT},
+		#{createBy,jdbcType=VARCHAR}, now(),
+		#{updateBy,jdbcType=VARCHAR},
+		now(), #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.User">
@@ -204,30 +212,40 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.User">
 		update tbuser
-		set truename = #{truename,jdbcType=VARCHAR},
-		password = #{password,jdbcType=VARCHAR},
+		set
+		truename = #{truename,jdbcType=VARCHAR},
+		password =
+		#{password,jdbcType=VARCHAR},
 		email = #{email,jdbcType=VARCHAR},
-		phone = #{phone,jdbcType=VARCHAR},
+		phone =
+		#{phone,jdbcType=VARCHAR},
 		question = #{question,jdbcType=VARCHAR},
 		answer = #{answer,jdbcType=VARCHAR},
 		type = #{type,jdbcType=INTEGER},
 		status = #{status,jdbcType=TINYINT},
-		create_by = #{createBy,jdbcType=VARCHAR},
-		create_date = #{createDate,jdbcType=TIMESTAMP},
-		update_by = #{updateBy,jdbcType=VARCHAR},
+		create_by =
+		#{createBy,jdbcType=VARCHAR},
+		create_date =
+		#{createDate,jdbcType=TIMESTAMP},
+		update_by =
+		#{updateBy,jdbcType=VARCHAR},
 		update_date = now(),
-		remarks = #{remarks,jdbcType=VARCHAR},
+		remarks =
+		#{remarks,jdbcType=VARCHAR},
 		del_flag = #{delFlag,jdbcType=CHAR}
-		where id = #{id,jdbcType=INTEGER}
+		where
+		id = #{id,jdbcType=INTEGER}
 	</update>
 
 	<select id="checkAccount" resultType="int" parameterType="string">
-		select count(1) from tbuser
+		select
+		count(1) from tbuser
 		where account = #{account}
 	</select>
 
 	<select id="checkEmail" resultType="int" parameterType="string">
-		select count(1) from tbuser
+		select
+		count(1) from tbuser
 		where email = #{email}
 	</select>
 
@@ -278,7 +296,8 @@
 	<update id="updatePasswordByAccount" parameterType="map">
 		update tbuser
 		SET password = #{passwordNew},update_date = now()
-		where account = #{account}
+		where account =
+		#{account}
 	</update>
 
 	<select id="checkPassword" resultType="int" parameterType="map">
@@ -286,7 +305,8 @@
 		count(1)
 		from tbuser
 		where password = #{password}
-		and id = #{userId}
+		and id =
+		#{userId}
 	</select>
 
 
@@ -299,7 +319,8 @@
 
 	<select id="findByMobile" parameterType="string" resultMap="BaseResultMap">
 		SELECT * FROM tbuser
-		where del_flag = '0' and mobile = #{mobile,jdbcType=VARCHAR}
+		where del_flag = '0' and mobile =
+		#{mobile,jdbcType=VARCHAR}
 	</select>
 
 	<select id="selectList" resultMap="BaseResultMap">
@@ -312,7 +333,8 @@
 
 	<update id="updateStatusById" parameterType="map">
 		update tbuser
-		SET status = #{status},update_date = now()
+		SET
+		status = #{status},update_date = now()
 		where account = #{account}
 	</update>
 
@@ -335,5 +357,13 @@
 		<include refid="Base_Column_List" />
 		from tbuser
 		where account = #{account}
+	</select>
+
+	<select id="selectPlayerList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbuser
+		where type=1
+		ORDER BY id asc
 	</select>
 </mapper>

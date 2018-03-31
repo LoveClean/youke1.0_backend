@@ -50,4 +50,7 @@ public interface UserMapper {
  	User selectByAccountEmail(@Param("account") String account,@Param("email") String email);
  	
  	User selectByName(@Param("account") String account);
+ 	
+ 	List<User> selectPlayerList();
+ 	
 }

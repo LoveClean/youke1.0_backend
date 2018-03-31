@@ -164,4 +164,13 @@ public class AddeliveryServiceImpl implements AddeliveryService {
 		return addeliveryDetailVo;
 	}
 
+	@Override
+	public ResponseEntity<String> delAddelivery(Integer id, String updateby) {
+		if(id==null) {
+			return ResponseEntityUtil.fail("没有该条投放记录");
+		}
+		int resultCount=addeliveryMapper.deleteByPrimaryKey(id);
+		return ResponseEntityUtil.delMessage(resultCount);
+	}
+
 }

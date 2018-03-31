@@ -53,4 +53,10 @@ public class AddeliveryController extends BaseController {
 	public ResponseEntity<PageResponseBean<AddeliveryDetailVo>> getList(@RequestBody PageRequestBean bean){
 		return ResponseEntityUtil.success(addeliveryService.selectList(bean));
 	}
+	
+	@ApiOperation(value = "删除投放记录接口", notes = "删除投放记录")
+	@PostMapping(value = "delete.do")
+	public ResponseEntity<String> delAddelivery(@RequestBody Integer id,HttpServletRequest request){
+		return addeliveryService.delAddelivery(id,super.getSessionUser(request).getAccount());
+	}
 }

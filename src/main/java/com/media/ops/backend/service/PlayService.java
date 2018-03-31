@@ -8,6 +8,7 @@ import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Play;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.vo.PlayVo;
+import com.media.ops.backend.vo.PlayerVo;
 
 public interface PlayService {
 	
@@ -24,6 +25,8 @@ public interface PlayService {
 	public ResponseEntity<List<PlayVo>> selectPlayListWithStatusAndPlayerId(Integer playerId,Integer status);
 	
 	public ResponseEntity<List<PlayVo>> selectPlayList();
+	
+	public ResponseEntity<List<PlayerVo>> selectPlayerList();
 
 	public PageResponseBean<PlayVo> selectPlayListByPlayerId(int pageNum, int pageSize, Integer playerId);
 }

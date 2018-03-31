@@ -214,6 +214,7 @@ public class PlayServiceImpl implements PlayService {
 	
 	private PlayerVo  assemblePlayerVo(User user) {
 		PlayerVo playerVo = new PlayerVo();
+		playerVo.setId(user.getId());
 		playerVo.setAccount(user.getAccount());
 		playerVo.setEmail(user.getEmail());
 		playerVo.setPhone(user.getPhone());

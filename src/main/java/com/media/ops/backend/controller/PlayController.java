@@ -59,7 +59,7 @@ public class PlayController extends BaseController {
         		String mobile= userVo.getPhone();
         		String account=userVo.getAccount();
         		String trueName= userVo.getTruename();
-        		String time=DateUtil.format(bean.getBegintime(), DateUtil.DEFAULT_PATTERN);
+        		String time=bean.getBegintime();
         		String content=trueName+"(工号："+account+"),您在"+time+"有直播任务，请登录APP查看";
         		smsService.send(mobile, content);
         	}

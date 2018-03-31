@@ -284,6 +284,30 @@ public class BuildingServiceImpl implements BuildingService {
 		
 		return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);
 	}
+	
+	public ResponseEntity batchInsertFloor(String createby, List<BuildingFloorAddRequestBean> beans) {
+		int resultCount=0;
+		for (BuildingFloorAddRequestBean bean : beans) {
+			Buildingfloor buildingfloor=new Buildingfloor();
+			buildingfloor.setBuildingid(bean.getBuildingid());
+			buildingfloor.setFloorno(bean.getFloorno());
+			buildingfloor.setPath(bean.getPath());
+			buildingfloor.setCreateBy(createby);
+			buildingfloor.setUpdateBy(createby);
+			
+			try {
+				buildingfloorMapper.insert(buildingfloor);
+				resultCount++;
+			} catch (Exception e) {
+				return ResponseEntityUtil.fail("批量处理有异常");
+			}
+		}
+		if(beans.size() == resultCount) {
+			return ResponseEntityUtil.success("楼层批量添加成功！");
+		}else {
+			return ResponseEntityUtil.fail("部分操作失败，请检查!");
+		}
+	}
 
 	@Override
 	public ResponseEntity updateBuildingFloor(String updateby, BuildingFloorUptRequestBean bean) {

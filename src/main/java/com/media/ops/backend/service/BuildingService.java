@@ -3,6 +3,7 @@ package com.media.ops.backend.service;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
+import com.media.ops.backend.controller.request.AdMaterialAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorUptRequestBean;
@@ -38,6 +39,8 @@ public interface BuildingService {
 
 	///////////////////////////// 楼层操作///////////////////////////////////
 	public ResponseEntity createBuildingFloor(String createby, BuildingFloorAddRequestBean bean);
+	
+	public ResponseEntity batchInsertFloor(String createby, List<BuildingFloorAddRequestBean> beans);
 
 	public ResponseEntity updateBuildingFloor(String updateby, BuildingFloorUptRequestBean bean);
 

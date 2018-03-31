@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.media.ops.backend.controller.request.AdMaterialAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorUptRequestBean;
@@ -84,6 +85,12 @@ public class BuildingController extends BaseController{
 		return buildingService.createBuildingFloor(super.getSessionUser(request).getAccount(), bean);
 	}
 
+	@ApiOperation(value = "批量添加楼层操作接口",notes = "批量添加楼层")
+	@PostMapping(value="batch_add_floor.do")
+	public ResponseEntity batchAddFloor(@RequestBody List<BuildingFloorAddRequestBean> beans,HttpServletRequest request) {
+		return buildingService.batchInsertFloor(super.getSessionUser(request).getAccount(), beans);
+	}
+	
 	@ApiOperation(value = "修改楼层操作接口",notes = "修改楼层信息")
 	@PostMapping(value="uptFloor.do")
 	public ResponseEntity uptFloor(@RequestBody BuildingFloorUptRequestBean bean,HttpServletRequest request) {

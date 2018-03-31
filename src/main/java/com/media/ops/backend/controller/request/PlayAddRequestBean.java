@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import io.swagger.annotations.ApiModelProperty;
 
 public class PlayAddRequestBean {
@@ -16,10 +18,13 @@ public class PlayAddRequestBean {
     private Integer playerid;
 	@ApiModelProperty(value = "封面图片名")
     private String picpath;
-	@ApiModelProperty(value = "直播开始时间")
-    private Date begintime;
-	@ApiModelProperty(value = "直播结束时间")
-    private Date endtime;
+	@NotBlank(message = "开始时间不能空")
+	@ApiModelProperty(value = "开始时间，必填", required = true)
+    private String begintime;  //开始时间
+
+	@NotBlank(message = "结束时间不能空")
+	@ApiModelProperty(value = "结束时间，必填", required = true)
+    private String endtime;  //结束时间
 	@ApiModelProperty(value = "直播地点")
     private String realaddress;
 	
@@ -54,20 +59,20 @@ public class PlayAddRequestBean {
 	public void setRealaddress(String realaddress) {
 		this.realaddress = realaddress;
 	}
-
-	public Date getBegintime() {
+	public String getBegintime() {
 		return begintime;
 	}
-	public void setBegintime(Date begintime) {
+	public void setBegintime(String begintime) {
 		this.begintime = begintime;
 	}
-	public Date getEndtime() {
+	public String getEndtime() {
 		return endtime;
 	}
-	public void setEndtime(Date endtime) {
+	public void setEndtime(String endtime) {
 		this.endtime = endtime;
 	}
-	
+
+
 	
 
 }

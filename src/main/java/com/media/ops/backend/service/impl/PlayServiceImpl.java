@@ -20,6 +20,7 @@ import com.media.ops.backend.dao.entity.User;
 import com.media.ops.backend.dao.mapper.PlayMapper;
 import com.media.ops.backend.dao.mapper.UserMapper;
 import com.media.ops.backend.service.PlayService;
+import com.media.ops.backend.util.DateUtil;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.PlayVo;
@@ -58,8 +59,8 @@ public class PlayServiceImpl implements PlayService {
 		play.setType(bean.getType());
 		play.setUpdateBy(createby);
 		play.setDelFlag(Const.DelFlagEnum.NORMAL);
-		play.setBegintime(bean.getBegintime());
-		play.setEndtime(bean.getEndtime());
+		play.setBegintime(DateUtil.stringToDate(bean.getBegintime(), DateUtil.DEFAULT_PATTERN));
+		play.setEndtime(DateUtil.stringToDate(bean.getEndtime(), DateUtil.DEFAULT_PATTERN));
 		int resultCount = playMapper.insert(play);
 
 		if (resultCount == 0) {
@@ -92,8 +93,8 @@ public class PlayServiceImpl implements PlayService {
 		play.setUpdateBy(updateby);
 		play.setId(bean.getId());
 		play.setTitle(bean.getTitle());
-		play.setBegintime(bean.getBegintime());
-		play.setEndtime(bean.getEndtime());
+		play.setBegintime(DateUtil.stringToDate(bean.getBegintime(), DateUtil.DEFAULT_PATTERN));
+		play.setEndtime(DateUtil.stringToDate(bean.getEndtime(), DateUtil.DEFAULT_PATTERN));
 		play.setPlayerid(bean.getPlayerid());
 
 		int resultCount = playMapper.updateByPrimaryKeySelective(play);

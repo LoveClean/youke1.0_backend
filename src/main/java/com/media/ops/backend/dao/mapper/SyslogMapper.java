@@ -2,6 +2,8 @@ package com.media.ops.backend.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.media.ops.backend.dao.entity.Syslog;
 
 public interface SyslogMapper {
@@ -20,4 +22,6 @@ public interface SyslogMapper {
     int updateByPrimaryKey(Syslog record);
     
     List<Syslog> selectBySyslog();
+    
+    List<Syslog> selectLogbyKey(@Param("createBy")String createBy);
 }

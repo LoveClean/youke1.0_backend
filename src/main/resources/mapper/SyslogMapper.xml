@@ -172,5 +172,18 @@
     select 
     <include refid="Base_Column_List" />
     from sys_log
+    ORDER BY create_date desc
   </select>
+  
+  <select id="selectLogbyKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_log
+    <where>
+		<if test="createBy != null">
+			and create_by = #{createBy}
+		</if>
+    </where>
+    ORDER BY create_date desc
+  </select>  
 </mapper>

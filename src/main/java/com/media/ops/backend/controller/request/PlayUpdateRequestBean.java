@@ -26,13 +26,7 @@ public class PlayUpdateRequestBean {
 	@ApiModelProperty(value = "直播结束时间")
     private Date endtime;
 	
-	@ApiModelProperty(value = "推流地址")
-    private String streamaddress;
-	@ApiModelProperty(value = "播放地址")
-    private String playaddress;
-	@ApiModelProperty(value = "重播地址")
-    private String replayaddress;
-	@ApiModelProperty(value = "直播地点")
+    @ApiModelProperty(value = "直播地点")
     private String realaddress;
 	@ApiModelProperty(value = "状态(0,未开放；1,预告中；2,直播中；3,直播结束)")
     private Integer status;
@@ -60,24 +54,6 @@ public class PlayUpdateRequestBean {
 	}
 	public void setPicpath(String picpath) {
 		this.picpath = picpath;
-	}
-	public String getStreamaddress() {
-		return streamaddress;
-	}
-	public void setStreamaddress(String streamaddress) {
-		this.streamaddress = streamaddress;
-	}
-	public String getPlayaddress() {
-		return playaddress;
-	}
-	public void setPlayaddress(String playaddress) {
-		this.playaddress = playaddress;
-	}
-	public String getReplayaddress() {
-		return replayaddress;
-	}
-	public void setReplayaddress(String replayaddress) {
-		this.replayaddress = replayaddress;
 	}
 	public String getRealaddress() {
 		return realaddress;

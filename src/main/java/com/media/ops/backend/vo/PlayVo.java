@@ -18,8 +18,6 @@ public class PlayVo {
 	    
 	    private Date endtime;
 	    
-	    private String playaddress;
-
 	    private String replayaddress;
 
 	    private String realaddress;
@@ -51,14 +49,6 @@ public class PlayVo {
 
 		public void setPlayerid(Integer playerid) {
 			this.playerid = playerid;
-		}
-
-		public String getPlayaddress() {
-			return playaddress;
-		}
-
-		public void setPlayaddress(String playaddress) {
-			this.playaddress = playaddress;
 		}
 
 		public String getReplayaddress() {

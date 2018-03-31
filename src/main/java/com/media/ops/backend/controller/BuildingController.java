@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.media.ops.backend.controller.request.BuildingAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorUptRequestBean;
+import com.media.ops.backend.controller.request.BuildingSearchRequestBean;
 import com.media.ops.backend.controller.request.BuildingUptRequestBean;
 import com.media.ops.backend.controller.request.FloorDeviceAddRequestBean;
 import com.media.ops.backend.controller.request.FloorDeviceUptRequestBean;
@@ -51,6 +52,12 @@ public class BuildingController extends BaseController{
 	@PostMapping(value = "get_building_areaId.do")
 	public ResponseEntity<List<AreaBuildingVo>> getBuildingByAreaId(@RequestBody String areaId ){
 		return buildingService.selectBuildingByAreaId(areaId);
+	}
+	
+	@ApiOperation(value = "根据areaId,楼宇名称查询楼宇列表接口", notes = "根据区域、名称查询楼宇列表")
+	@PostMapping(value = "get_building_areaId_name.do")
+	public ResponseEntity getBuildingByAreaIdBuildingName(@RequestBody BuildingSearchRequestBean bean){
+		return buildingService.selectBuildingsbyKey(bean);
 	}
 	
 	@ApiOperation(value = "添加楼宇操作接口",notes = "添加楼宇")

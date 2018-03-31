@@ -31,9 +31,11 @@
 		tbbuilding
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Building"  useGeneratedKeys="true" keyProperty="id">
+	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Building"
+		useGeneratedKeys="true" keyProperty="id">
 		insert into tbbuilding (id,
-		name, areaid,
+		name,
+		areaid,
 		address, create_by, create_date,
 		update_by, update_date,
 		remarks,
@@ -45,7 +47,8 @@
 		#{updateBy,jdbcType=VARCHAR}, now(), #{remarks,jdbcType=VARCHAR},
 		0)
 	</insert>
-	<insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Building"  useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Building"
+		useGeneratedKeys="true" keyProperty="id">
 		insert into tbbuilding
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -175,7 +178,21 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		from tbbuilding
-		where del_flag='0' and areaid=#{areaId,jdbcType=VARCHAR}
+		where del_flag='0' and
+		areaid=#{areaId,jdbcType=VARCHAR}
+		ORDER BY id asc
+	</select>
+	<select id="selectListByAreaIdBuildingKey" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbbuilding
+		where del_flag='0'
+		<if test="areaId != null">
+			and areaid = #{areaId}
+		</if>
+		<if test="buildingName != null">
+			and name like #{buildingName}
+		</if>
 		ORDER BY id asc
 	</select>
 </mapper>

@@ -2,6 +2,8 @@ package com.media.ops.backend.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.media.ops.backend.dao.entity.Building;
 
 public interface BuildingMapper {
@@ -21,5 +23,5 @@ public interface BuildingMapper {
     
     List<Building> selectListByAreaId(String areaId);
     
-    
+    List<Building> selectListByAreaIdBuildingKey(@Param("areaId")String areaId, @Param("buildingName")String buildingName);
 }

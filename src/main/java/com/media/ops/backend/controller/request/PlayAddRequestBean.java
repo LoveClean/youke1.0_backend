@@ -16,19 +16,12 @@ public class PlayAddRequestBean {
     private Integer playerid;
 	@ApiModelProperty(value = "封面图片名")
     private String picpath;
-    
+	@ApiModelProperty(value = "直播开始时间")
     private Date begintime;
-    
+	@ApiModelProperty(value = "直播结束时间")
     private Date endtime;
-	
-	@ApiModelProperty(value = "推流地址")
-    private String streamaddress;
-	@ApiModelProperty(value = "播放地址")
-    private String playaddress;
 	@ApiModelProperty(value = "直播地点")
     private String realaddress;
-	@ApiModelProperty(value = "状态(0,未开放；1,预告中；2,直播中；3,直播结束)")
-    private Integer status;
 	
 	public String getTitle() {
 		return title;
@@ -54,30 +47,14 @@ public class PlayAddRequestBean {
 	public void setPicpath(String picpath) {
 		this.picpath = picpath;
 	}
-	public String getStreamaddress() {
-		return streamaddress;
-	}
-	public void setStreamaddress(String streamaddress) {
-		this.streamaddress = streamaddress;
-	}
-	public String getPlayaddress() {
-		return playaddress;
-	}
-	public void setPlayaddress(String playaddress) {
-		this.playaddress = playaddress;
-	}
+
 	public String getRealaddress() {
 		return realaddress;
 	}
 	public void setRealaddress(String realaddress) {
 		this.realaddress = realaddress;
 	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+
 	public Date getBegintime() {
 		return begintime;
 	}

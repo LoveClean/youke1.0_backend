@@ -17,6 +17,7 @@ import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.BuildingAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorUptRequestBean;
+import com.media.ops.backend.controller.request.BuildingSearchRequestBean;
 import com.media.ops.backend.controller.request.BuildingUptRequestBean;
 import com.media.ops.backend.controller.request.FloorDeviceAddRequestBean;
 import com.media.ops.backend.controller.request.FloorDeviceUptRequestBean;
@@ -166,6 +167,38 @@ public class BuildingServiceImpl implements BuildingService {
 		}
 		
 		return ResponseEntityUtil.success(buildingVos);
+	}
+	
+	//楼宇搜索
+	public ResponseEntity<PageInfo> selectBuildingsbyKey(BuildingSearchRequestBean bean){
+		String buildingKey=bean.getBuildingKey();
+		String areaId=bean.getAreaId();
+		Integer pageNum=bean.getPageNum();
+		Integer pageSize=bean.getPageSize();
+		
+		if(StringUtils.isBlank(buildingKey)&& StringUtils.isBlank(areaId)) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		
+		if(StringUtils.isNotBlank(buildingKey)) {
+			buildingKey=new StringBuilder().append("%").append(buildingKey).append("%").toString();
+		}
+		
+		PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
+		List<Building> buildings = buildingMapper.selectListByAreaIdBuildingKey(StringUtils.isBlank(areaId)?null:areaId, buildingKey);
+
+		List<BuildingVo> buildingVos = Lists.newArrayList();
+		for (Building building : buildings) {
+			List<Buildingfloor> buildingfloorList = buildingfloorMapper.selectListByBuildingId(building.getId());
+			BuildingVo buildingVo = assembleBuildingVo(building, buildingfloorList);
+			buildingVos.add(buildingVo);
+		}
+		PageInfo pageInfo = new PageInfo(buildings);
+		pageInfo.setList(buildingVos);
+
+		return ResponseEntityUtil.success(pageInfo);
+		
+		
 	}
 	
 	private AreaBuildingVo assembleAreaBuildingVo(Building building) {

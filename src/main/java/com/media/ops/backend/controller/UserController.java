@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.media.ops.backend.annotation.ACS;
+import com.media.ops.backend.controller.request.BuildingSearchRequestBean;
 import com.media.ops.backend.controller.request.InfoCheckRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.request.PasswordQARequestBean;
 import com.media.ops.backend.controller.request.PasswordQAResetRequestBean;
 import com.media.ops.backend.controller.request.PasswordResetRequestBean;
+import com.media.ops.backend.controller.request.SyslogSearchReqeustBean;
 import com.media.ops.backend.controller.request.UserAccountStatusRequestBean;
 import com.media.ops.backend.controller.request.UserAddRequestBean;
 import com.media.ops.backend.controller.request.UserInfoUptRequestBean;
@@ -31,6 +33,7 @@ import com.media.ops.backend.service.SysLogService;
 import com.media.ops.backend.service.UserService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.SyslogVo;
 import com.media.ops.backend.vo.UserVo;
 
 import io.swagger.annotations.Api;
@@ -208,9 +211,16 @@ public class UserController extends BaseController {
 	
     @ApiOperation(value = "操作记录", notes = "")
     @PostMapping(value = "/records")
-    public ResponseEntity<PageResponseBean<Syslog>> records(@RequestBody PageRequestBean bean) {
+    public ResponseEntity<PageResponseBean<SyslogVo>> records(@RequestBody PageRequestBean bean) {
         return ResponseEntityUtil.success(sysLogService.sysLog(bean));
     }
+    
+	@ApiOperation(value = "根据工号或邮箱查询管理员操作日志接口", notes = "根据工号或邮箱查询管理员操作日志")
+	@PostMapping(value = "search_syslog.do")
+	public ResponseEntity searchSyslog(@RequestBody SyslogSearchReqeustBean bean){
+		return sysLogService.selectLogbyKey(bean);
+	}
+    
     
 	@ApiOperation(value = "登录禁用接口",notes = "登录禁用")
 	@PostMapping(value="login_forbidden.do")

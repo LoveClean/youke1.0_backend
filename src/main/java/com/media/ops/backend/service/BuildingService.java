@@ -2,10 +2,13 @@ package com.media.ops.backend.service;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
 import com.media.ops.backend.controller.request.BuildingAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorUptRequestBean;
+import com.media.ops.backend.controller.request.BuildingSearchRequestBean;
 import com.media.ops.backend.controller.request.BuildingUptRequestBean;
+import com.media.ops.backend.controller.request.DeviceSearchRequestBean;
 import com.media.ops.backend.controller.request.FloorDeviceAddRequestBean;
 import com.media.ops.backend.controller.request.FloorDeviceUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
@@ -30,6 +33,8 @@ public interface BuildingService {
 	public ResponseEntity<List<AreaBuildingVo>> selectBuildingByAreaId(String areaId);
 
 	public ResponseEntity<BuildingVo> selectBuildingById(Integer id);
+	
+	public ResponseEntity<PageInfo> selectBuildingsbyKey(BuildingSearchRequestBean bean);
 
 	///////////////////////////// 楼层操作///////////////////////////////////
 	public ResponseEntity createBuildingFloor(String createby, BuildingFloorAddRequestBean bean);

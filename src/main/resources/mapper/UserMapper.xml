@@ -330,5 +330,10 @@
 			</if>
 		</where>
 	</select>
-
+	<select id="selectByName" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbuser
+		where account = #{account}
+	</select>
 </mapper>

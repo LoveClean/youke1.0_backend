@@ -40,6 +40,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/building/")
 public class BuildingController extends BaseController{
+	
 	@Autowired
 	private BuildingService buildingService;
 	

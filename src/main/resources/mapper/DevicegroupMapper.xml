@@ -103,7 +103,7 @@
 		where parentid = #{parentId}
 	</select>
 
-	<select id="selectGroupByName" resultMap="BaseResultMap"
+	<select id="selectGroupsByName" resultMap="BaseResultMap"
 		parameterType="string">
 		select
 		<include refid="Base_Column_List" />

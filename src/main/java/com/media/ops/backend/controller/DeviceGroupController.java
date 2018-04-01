@@ -51,4 +51,11 @@ public class DeviceGroupController {
 	public ResponseEntity getGroupAndDeepChildCategory(@RequestBody Integer groupId) {
 		return deviceGroupService.selectGroupAndChildrenById(groupId);
 	}
+	
+
+	@ApiOperation(value = "设备分组搜索操作接口",notes = "搜索设备分组")
+	@PostMapping(value="search.do")
+	public ResponseEntity searchGroups(@RequestBody String groupName) {
+		return deviceGroupService.searchGroupsbyName(groupName);
+	}
 }

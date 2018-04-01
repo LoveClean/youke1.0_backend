@@ -17,11 +17,14 @@ import com.google.common.collect.Sets;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.dao.entity.Adgroup;
+import com.media.ops.backend.dao.entity.Devicegroup;
 import com.media.ops.backend.dao.mapper.AdgroupMapper;
 import com.media.ops.backend.service.AdGroupService;
 import com.media.ops.backend.util.ListSortUtil;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.AdGroupVo;
+import com.media.ops.backend.vo.DeviceGroupVo;
 @Service
 public class AdGroupServiceImpl implements AdGroupService {
 
@@ -136,5 +139,30 @@ public class AdGroupServiceImpl implements AdGroupService {
 			}
 		}
 		return ResponseEntityUtil.success(groupIdList);
+	}
+
+	@Override
+	public ResponseEntity<List<AdGroupVo>> searchGroupsbyName(String groupName) {
+		if(StringUtils.isBlank(groupName)) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		
+		groupName=new StringBuilder().append("%").append(groupName).append("%").toString();
+		List<Adgroup> adgroups= adgroupMapper.selectGroupsByName(groupName);
+		List<AdGroupVo> adGroupVos=Lists.newArrayList();
+		for (Adgroup adgroup : adgroups) {
+			AdGroupVo adGroupVo=assembleAdGroupVo(adgroup);
+			adGroupVos.add(adGroupVo);
+		}
+		
+		return ResponseEntityUtil.success(adGroupVos);
+	}
+	
+	private AdGroupVo assembleAdGroupVo(Adgroup adgroup) {
+		AdGroupVo adGroupVo= new AdGroupVo();
+		adGroupVo.setId(adgroup.getId());
+		adGroupVo.setName(adgroup.getName());
+		adGroupVo.setParentid(adgroup.getParentid());
+		return adGroupVo;
 	}
 }

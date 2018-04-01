@@ -20,5 +20,7 @@ public interface DeviceGroupService {
 	
 	ResponseEntity<List<Integer>> selectGroupAndChildrenById(Integer groupId);
 	
+	ResponseEntity<List<DeviceGroupVo>> searchGroupsbyName(String groupName);
+	
 	
 }

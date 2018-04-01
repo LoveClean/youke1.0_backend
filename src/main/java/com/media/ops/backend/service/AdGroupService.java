@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.media.ops.backend.dao.entity.Adgroup;
 import com.media.ops.backend.util.ResponseEntity;
+import com.media.ops.backend.vo.AdGroupVo;
+import com.media.ops.backend.vo.DeviceGroupVo;
 
 public interface AdGroupService {
 
@@ -18,4 +20,6 @@ public interface AdGroupService {
 	ResponseEntity<List<Adgroup>> getChildParallelGroup(Integer groupId, String sortField,String sortRule);
 	
 	ResponseEntity<List<Integer>> selectGroupAndChildrenById(Integer groupId);
+	
+	ResponseEntity<List<AdGroupVo>> searchGroupsbyName(String groupName);
 }

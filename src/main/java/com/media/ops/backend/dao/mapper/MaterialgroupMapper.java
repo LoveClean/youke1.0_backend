@@ -2,6 +2,8 @@ package com.media.ops.backend.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.media.ops.backend.dao.entity.Materialgroup;
 
 public interface MaterialgroupMapper {
@@ -18,4 +20,6 @@ public interface MaterialgroupMapper {
     int updateByPrimaryKey(Materialgroup record);
     
     List<Materialgroup> selectGroupChildrenByParentId(Integer parentId);
+    
+    List<Materialgroup> selectGroupsByName(@Param("groupName")String groupName);
 }

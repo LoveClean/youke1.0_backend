@@ -2,6 +2,8 @@ package com.media.ops.backend.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.media.ops.backend.dao.entity.Adgroup;
 
 public interface AdgroupMapper {
@@ -18,4 +20,6 @@ public interface AdgroupMapper {
     int updateByPrimaryKey(Adgroup record);
 
     List<Adgroup> selectGroupChildrenByParentId(Integer parentId);
+    
+    List<Adgroup> selectGroupsByName(@Param("groupName")String groupName);
 }

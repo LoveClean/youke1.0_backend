@@ -160,5 +160,22 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
 		return ResponseEntityUtil.success(groupIdList);
 	}
 
+	@Override
+	public ResponseEntity<List<DeviceGroupVo>> searchGroupsbyName(String groupName) {
+		if(StringUtils.isBlank(groupName)) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		
+		groupName=new StringBuilder().append("%").append(groupName).append("%").toString();
+		List<Devicegroup> devicegroups= devicegroupMapper.selectGroupsByName(groupName);
+		List<DeviceGroupVo> deviceGroupVos=Lists.newArrayList();
+		for (Devicegroup devicegroup : devicegroups) {
+			DeviceGroupVo deviceGroupVo=assembleDeviceGroupVo(devicegroup);
+			deviceGroupVos.add(deviceGroupVo);
+		}
+		
+		return ResponseEntityUtil.success(deviceGroupVos);
+	}
+
 
 }

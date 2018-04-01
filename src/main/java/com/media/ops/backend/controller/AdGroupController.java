@@ -52,4 +52,9 @@ public class AdGroupController {
 	}	
 	
 
+	@ApiOperation(value = "广告分组搜索操作接口",notes = "搜索广告分组")
+	@PostMapping(value="search.do")
+	public ResponseEntity searchGroups(@RequestBody String groupName) {
+		return adGroupService.searchGroupsbyName(groupName);
+	}
 }

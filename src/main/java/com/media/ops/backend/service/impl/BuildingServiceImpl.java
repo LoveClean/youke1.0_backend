@@ -78,9 +78,9 @@ public class BuildingServiceImpl implements BuildingService {
 
 		int resultCount = buildingMapper.insertSelective(building);
 		if(resultCount>0) {
-			Map<String, Object> result= Maps.newHashMap();
-			result.put("newData", building);
-			return ResponseEntityUtil.success(result);
+			//Map<String, Object> result= Maps.newHashMap();
+			//result.put("newData", building);
+			return ResponseEntityUtil.success(building);
 		}
 		
 		return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);

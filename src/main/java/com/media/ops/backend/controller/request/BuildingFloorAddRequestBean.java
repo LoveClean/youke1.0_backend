@@ -8,8 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class BuildingFloorAddRequestBean {
 	
-	@NotNull(message = "楼宇Id不能为空")
-	@ApiModelProperty(value = "楼宇Id，必填", required = true)
+	@ApiModelProperty(value = "楼宇Id")
     private Integer buildingid;
 
 	@NotNull(message = "楼层不能为空")

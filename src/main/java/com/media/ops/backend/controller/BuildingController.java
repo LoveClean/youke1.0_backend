@@ -1,9 +1,12 @@
 package com.media.ops.backend.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.media.ops.backend.controller.request.AdMaterialAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingAddRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorAddRequestBean;
+import com.media.ops.backend.controller.request.BuildingFloorBatchRequestBean;
 import com.media.ops.backend.controller.request.BuildingFloorUptRequestBean;
 import com.media.ops.backend.controller.request.BuildingSearchRequestBean;
 import com.media.ops.backend.controller.request.BuildingUptRequestBean;
@@ -20,6 +24,7 @@ import com.media.ops.backend.controller.request.FloorDeviceAddRequestBean;
 import com.media.ops.backend.controller.request.FloorDeviceUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
+import com.media.ops.backend.dao.entity.Building;
 import com.media.ops.backend.service.BuildingService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
@@ -65,6 +70,32 @@ public class BuildingController extends BaseController{
 	@PostMapping(value="addBuilding.do")
 	public ResponseEntity addBuilding(@RequestBody BuildingAddRequestBean bean,HttpServletRequest request) {
 		return buildingService.createBuilding(super.getSessionUser(request).getAccount(), bean);
+	}
+	
+	@ApiOperation(value = "楼宇楼层同时添加操作接口",notes = "同时添加楼宇楼层")
+	@PostMapping(value="batchBuilding_Floor.do")
+	public ResponseEntity batchBuildingAndFloor(@RequestBody BuildingFloorBatchRequestBean bean,HttpServletRequest request) {
+		BuildingAddRequestBean  buildingBean=new BuildingAddRequestBean();
+		buildingBean.setName(bean.getName());
+		buildingBean.setAreaid(bean.getAreaid());
+		buildingBean.setAddress(bean.getAddress());
+		
+		ResponseEntity  buildingResponse=buildingService.createBuilding(super.getSessionUser(request).getAccount(), buildingBean);
+		if(buildingResponse.isSuccess()) {
+			Building building= (Building)buildingResponse.getData();
+			if(building!=null) {
+				Integer buildingId= building.getId();
+				
+				List<BuildingFloorAddRequestBean> floorBeans= bean.getBuildingFloorAddRequestBeans();
+				for (BuildingFloorAddRequestBean floorBean : floorBeans) {
+					floorBean.setBuildingid(buildingId);
+				}
+			   return 	buildingService.batchInsertFloor(super.getSessionUser(request).getAccount(), floorBeans);
+			}
+		}
+		return ResponseEntityUtil.fail("添加失败");
+		
+		
 	}
 
 	@ApiOperation(value = "修改楼宇操作接口",notes = "修改楼宇信息")

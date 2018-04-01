@@ -18,12 +18,15 @@ import com.media.ops.backend.controller.request.DeviceSearchRequestBean;
 import com.media.ops.backend.controller.request.DeviceUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
+import com.media.ops.backend.dao.entity.Area;
 import com.media.ops.backend.dao.entity.Device;
+import com.media.ops.backend.dao.mapper.AreaMapper;
 import com.media.ops.backend.dao.mapper.DeviceMapper;
 import com.media.ops.backend.dao.mapper.DevicegroupMapper;
 import com.media.ops.backend.service.DeviceService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.AreaVo;
 import com.media.ops.backend.vo.DeviceListVo;
 import com.media.ops.backend.vo.DeviceVo;
 @Service
@@ -33,6 +36,8 @@ public class DeviceServiceImpl implements DeviceService {
 	private DeviceMapper deviceMapper;
 	@Autowired
 	private DevicegroupMapper devicegroupMapper;
+	@Autowired
+	private CityServiceImpl cityServiceImpl;
 	
 	@Override
 	public PageResponseBean<DeviceListVo> selectDeviceList(PageRequestBean bean) {
@@ -59,6 +64,13 @@ public class DeviceServiceImpl implements DeviceService {
 		deviceListVo.setBrand(device.getBrand());
 		deviceListVo.setSpec(device.getSpec());
 		deviceListVo.setAreaid(device.getAreaid());
+		
+		ResponseEntity responseEntity=cityServiceImpl.selectByAreaId(device.getAreaid());
+		if(responseEntity.isSuccess()) {
+			AreaVo areaVo= (AreaVo)responseEntity.getData();
+			deviceListVo.setAreaFullName(areaVo.getFullName());
+		}
+		
 		deviceListVo.setBuildingid(device.getBuildingid());
 		deviceListVo.setAddress(device.getAddress());
 		
@@ -130,6 +142,13 @@ public class DeviceServiceImpl implements DeviceService {
 		deviceVo.setBrand(device.getBrand());
 		deviceVo.setSpec(device.getSpec());
 		deviceVo.setAreaid(device.getAreaid());
+		
+		ResponseEntity responseEntity=cityServiceImpl.selectByAreaId(device.getAreaid());
+		if(responseEntity.isSuccess()) {
+			AreaVo areaVo= (AreaVo)responseEntity.getData();
+			deviceVo.setAreaFullName(areaVo.getFullName());
+		}
+		
 		deviceVo.setBuildingid(device.getBuildingid());
 		deviceVo.setAddress(device.getAddress());
 		

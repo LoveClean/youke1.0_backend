@@ -133,6 +133,7 @@ public class PlayServiceImpl implements PlayService {
 	private PlayVo assemblePlayVo(Play play) {
 		PlayVo playVo = new PlayVo();
 
+		playVo.setId(play.getId());
 		playVo.setTitle(play.getTitle());
 		playVo.setType(play.getType());
 

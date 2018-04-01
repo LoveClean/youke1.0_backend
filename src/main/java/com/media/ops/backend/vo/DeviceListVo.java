@@ -11,6 +11,7 @@ public class DeviceListVo {
     private String spec;    //设备规格
     
     private String areaid;   //保留？？
+    private String areaFullName;
     //private ProvinceCityAreaVo provinceCityAreaVo;  //区域对象模型
     
     private Integer buildingid;  //楼宇id，还是楼层buildingFloorId?
@@ -58,6 +59,14 @@ public class DeviceListVo {
 	}
 	public void setAreaid(String areaid) {
 		this.areaid = areaid;
+	}
+	
+	
+	public String getAreaFullName() {
+		return areaFullName;
+	}
+	public void setAreaFullName(String areaFullName) {
+		this.areaFullName = areaFullName;
 	}
 	public Integer getBuildingid() {
 		return buildingid;

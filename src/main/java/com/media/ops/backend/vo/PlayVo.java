@@ -3,7 +3,9 @@ package com.media.ops.backend.vo;
 import java.util.Date;
 
 public class PlayVo {
-
+	
+	    private Integer id;
+	    
 	    private String title;
 
 	    private Integer type;
@@ -26,6 +28,15 @@ public class PlayVo {
 
 	    private Integer status;
 	    
+	    
+
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
+		}
 
 		public String getTitle() {
 			return title;

@@ -120,26 +120,26 @@ public class UserController extends BaseController {
 		return ResponseEntityUtil.fail("用户未登录，无法获取当前用户信息");
 	}
 	
-	@ACS(allowAnonymous = true)
-	@ApiOperation(value = "密保提示问题接口",notes = "获取密保提示问题")
-	@PostMapping(value="forget_get_question.do")
-	public ResponseEntity<String> selectQuestion(@RequestBody String username) {
-		return userService.selectQuestion(username);
-	}
-	
-	@ACS(allowAnonymous = true)
-	@ApiOperation(value = "确认密保问题答案接口",notes = "确认密保问题答案")
-	@PostMapping(value="forget_check_answer.do")
-	public ResponseEntity<String> forgetCheckAnswer(@RequestBody PasswordQARequestBean bean){
-		return userService.checkAnswer(bean.getUsername(), bean.getQuestion(), bean.getAnswer());
-	}
-	
-	@ACS(allowAnonymous = true)
-	@ApiOperation(value = "重置密码接口",notes = "重置密码")
-	@PostMapping(value="forget_reset_password.do")
-	public ResponseEntity<String> forgetResetPassword(@RequestBody PasswordQAResetRequestBean bean){
-		return userService.forgetResetPassword(bean.getUsername(), bean.getPasswordNew(), bean.getForgetToken());
-	}
+//	@ACS(allowAnonymous = true)
+//	@ApiOperation(value = "密保提示问题接口",notes = "获取密保提示问题")
+//	@PostMapping(value="forget_get_question.do")
+//	public ResponseEntity<String> selectQuestion(@RequestBody String username) {
+//		return userService.selectQuestion(username);
+//	}
+//	
+//	@ACS(allowAnonymous = true)
+//	@ApiOperation(value = "确认密保问题答案接口",notes = "确认密保问题答案")
+//	@PostMapping(value="forget_check_answer.do")
+//	public ResponseEntity<String> forgetCheckAnswer(@RequestBody PasswordQARequestBean bean){
+//		return userService.checkAnswer(bean.getUsername(), bean.getQuestion(), bean.getAnswer());
+//	}
+//	
+//	@ACS(allowAnonymous = true)
+//	@ApiOperation(value = "重置密码接口",notes = "重置密码")
+//	@PostMapping(value="forget_reset_password.do")
+//	public ResponseEntity<String> forgetResetPassword(@RequestBody PasswordQAResetRequestBean bean){
+//		return userService.forgetResetPassword(bean.getUsername(), bean.getPasswordNew(), bean.getForgetToken());
+//	}
 	
 	@ApiOperation(value = "登录状态下重置密码接口",notes = "登录状态下重置密码")
 	@PostMapping(value="reset_password.do")	

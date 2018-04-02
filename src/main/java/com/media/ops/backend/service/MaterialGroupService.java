@@ -19,4 +19,6 @@ public interface MaterialGroupService {
 	ResponseEntity<List<MaterialGroupVo>> getChildParallelGroup(Integer groupId, String sortField,String sortRule);
 	
 	ResponseEntity<List<Integer>> selectGroupAndChildrenById(Integer groupId);
+	
+	ResponseEntity<List<MaterialGroupVo>> searchGroupsbyName(String groupName);
 }

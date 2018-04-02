@@ -50,4 +50,11 @@ public class MaterialGroupController extends BaseController{
 	public ResponseEntity getGroupAndDeepChildCategory(@RequestBody Integer groupId) {
 			return materialGroupService.selectGroupAndChildrenById(groupId);
 	}
+	
+
+	@ApiOperation(value = "素材分组搜索操作接口",notes = "搜索素材分组")
+	@PostMapping(value="search.do")
+	public ResponseEntity searchGroups(@RequestBody String groupName) {
+		return materialGroupService.searchGroupsbyName(groupName);
+	}
 }

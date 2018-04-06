@@ -46,6 +46,13 @@ public class DeviceController extends BaseController {
 	public ResponseEntity<DeviceVo> getOne(@RequestBody Integer id) {
 		return deviceService.selectDevice(id);
 	}
+	
+	@ApiOperation(value = "设备解除绑定接口", notes = "设备解除绑定")
+	@PostMapping(value = "unbound.do")
+	public ResponseEntity unbound(@RequestBody Integer id,HttpServletRequest request) {
+		return deviceService.unboundDevice(id,super.getSessionUser(request).getAccount());
+	}	
+	
 	@ApiOperation(value = "添加设备接口", notes = "设备新增")
 	@PostMapping(value = "add.do")
 	public ResponseEntity addDevice(@RequestBody DeviceAddRequestBean bean,HttpServletRequest request){

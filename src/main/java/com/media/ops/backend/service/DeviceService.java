@@ -25,4 +25,6 @@ public interface DeviceService {
 	public ResponseEntity uptDevice(String updateby, DeviceUptRequestBean bean );
 	
 	public ResponseEntity<String> delDevice(Integer id,String updateby);
+
+	public ResponseEntity unboundDevice(Integer id,String updateby);
 }

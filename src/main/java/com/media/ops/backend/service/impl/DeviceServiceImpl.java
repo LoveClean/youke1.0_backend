@@ -224,4 +224,19 @@ public class DeviceServiceImpl implements DeviceService {
 		return ResponseEntityUtil.delMessage(resultCount);
 	}
 
+	@Override
+	public ResponseEntity unboundDevice(Integer id,String updateby) {
+		if(id==null) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		
+		Device device=new Device();
+		device.setId(id);
+		device.setMac("");
+		device.setUpdateBy(updateby);
+		
+		int resultCount= deviceMapper.updateByPrimaryKeySelective(device);
+		return ResponseEntityUtil.updMessage(resultCount);
+	}
+
 }

@@ -237,6 +237,7 @@ public class BuildingServiceImpl implements BuildingService {
 	// 封装楼层模型
 	private BuildingFloorListVo assembleBuildingFloorListVo(Buildingfloor buildingfloor) {
 		BuildingFloorListVo buildingFloorListVo = new BuildingFloorListVo();
+		buildingFloorListVo.setId(buildingfloor.getId());
 		buildingFloorListVo.setBuildingid(buildingfloor.getBuildingid());
 		buildingFloorListVo.setFloorno(buildingfloor.getFloorno());
 		buildingFloorListVo.setPath(buildingfloor.getPath());
@@ -286,7 +287,8 @@ public class BuildingServiceImpl implements BuildingService {
 	}
 	
 	public ResponseEntity batchInsertFloor(String createby, List<BuildingFloorAddRequestBean> beans) {
-		int resultCount=0;
+
+		List<Buildingfloor> buildingfloors=Lists.newArrayList();
 		for (BuildingFloorAddRequestBean bean : beans) {
 			Buildingfloor buildingfloor=new Buildingfloor();
 			buildingfloor.setBuildingid(bean.getBuildingid());
@@ -297,13 +299,16 @@ public class BuildingServiceImpl implements BuildingService {
 			
 			try {
 				buildingfloorMapper.insert(buildingfloor);
-				resultCount++;
+				buildingfloors.add(buildingfloor);
 			} catch (Exception e) {
 				return ResponseEntityUtil.fail("批量处理有异常");
 			}
 		}
-		if(beans.size() == resultCount) {
-			return ResponseEntityUtil.success("楼层批量添加成功！");
+		if(beans.size() == buildingfloors.size()) {
+			Building building= buildingMapper.selectByPrimaryKey(buildingfloors.get(0).getBuildingid());
+			BuildingVo buildingVo=assembleBuildingVo(building, buildingfloors);
+			
+			return ResponseEntityUtil.success(buildingVo);
 		}else {
 			return ResponseEntityUtil.fail("部分操作失败，请检查!");
 		}

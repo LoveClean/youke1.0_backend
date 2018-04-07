@@ -1,6 +1,7 @@
 package com.media.ops.backend.controller;
 
 import com.media.ops.backend.annotation.ACS;
+import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.contants.SmsConstants.SmsCaptchaType;
 import com.media.ops.backend.controller.request.CaptchaRequestBean;
@@ -110,8 +111,8 @@ public class CommonController {
 		}
 		
 		//5将验证码信息保存到Session中
-        request.getSession().setAttribute("piccode", str);
-        System.out.println("verifyCode:---------------"+str);
+        request.getSession().setAttribute(Const.VERIFY_CODE, str);
+        //System.out.println("verifyCode:---------------"+str);
 		//6使用ImageIO输出图片
        ImageIO.write(bImage, "JPG", response.getOutputStream());
 	}
@@ -121,7 +122,7 @@ public class CommonController {
 	@PostMapping(value = "valid_verify_code.do")	
 	public ResponseEntity<Boolean> validVerifyCode(@RequestBody String code, HttpServletRequest request){
 		Boolean flag=false;
-		String randomCode= (String)request.getSession().getAttribute("piccode");
+		String randomCode= (String)request.getSession().getAttribute(Const.VERIFY_CODE);
 		if(code.toUpperCase().equals(randomCode.toUpperCase())) {
 			flag=true;
 		}

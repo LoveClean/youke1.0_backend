@@ -6,6 +6,7 @@ public class Const {
 	public static final String CURRENT_USER="currentUser";
 	public static final String USERNAME = "account";
 	public static final String EMAIL = "email";
+	public static final String VERIFY_CODE="verifyCode";
 	
 	/**
 	 * 默认的访问Token的HTTP请求头的名字

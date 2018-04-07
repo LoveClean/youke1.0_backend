@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.media.ops.backend.annotation.ACS;
+import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.controller.request.BuildingSearchRequestBean;
 import com.media.ops.backend.controller.request.InfoCheckRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
@@ -58,6 +59,17 @@ public class UserController extends BaseController {
 	@PostMapping(value="login.do")
 	public ResponseEntity<User> login(@Valid @RequestBody UserLoginRequestBean bean, 
 			HttpServletRequest request) {
+		
+		Boolean flag=false;
+		String randomCode= (String)request.getSession().getAttribute(Const.VERIFY_CODE);
+		if(bean.getVerifyCode().toUpperCase().equals(randomCode.toUpperCase())) {
+			flag=true;
+		}
+		
+		if(!flag) {
+			return ResponseEntityUtil.fail("验证码错误");
+		}
+		
 		ResponseEntity<User> response=userService.adminLogin(bean.getLoginName(), bean.getLoginPwd());
 		if(response.isSuccess()) {
 			User user= response.getData();

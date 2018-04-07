@@ -426,6 +426,35 @@ public class BuildingServiceImpl implements BuildingService {
 		
 		return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);
 	}
+	
+	@Override
+	public ResponseEntity batchFloorDevice(String createby, List<FloorDeviceAddRequestBean> beans) {
+
+
+		List<FloorDeviceVo> floordevices= Lists.newArrayList();
+		for (FloorDeviceAddRequestBean bean : beans) {
+			Floordevice floordevice=new Floordevice();
+			floordevice.setDeviceid(bean.getDeviceid());
+			floordevice.setFloorid(bean.getFloorid());
+			floordevice.setX(bean.getX());
+			floordevice.setY(bean.getY());
+			floordevice.setMemo(bean.getMemo());
+			
+			try {
+				floordeviceMapper.insert(floordevice);
+				floordevices.add(assembleFloorDeviceVo(floordevice));
+			} catch (Exception e) {
+				return ResponseEntityUtil.fail("批量处理有异常");
+			}
+		}		
+		
+		if(floordevices.size() == beans.size()) {
+			return ResponseEntityUtil.success(floordevices);
+		}else {
+			return ResponseEntityUtil.fail("部分操作失败，请检查!");
+		}
+
+	}
 
 	@Override
 	public ResponseEntity updateFloorDevice(String updateby, FloorDeviceUptRequestBean bean) {
@@ -512,6 +541,7 @@ public class BuildingServiceImpl implements BuildingService {
 	// 封装设备模型
 	private DeviceVo assembleDeviceVo(Device device) {
 		DeviceVo deviceVo = new DeviceVo();
+		deviceVo.setId(device.getId());
 		deviceVo.setCode(device.getCode());
 		deviceVo.setMac(device.getMac());
 
@@ -526,5 +556,7 @@ public class BuildingServiceImpl implements BuildingService {
 
 		return deviceVo;
 	}
+
+
 
 }

@@ -54,6 +54,8 @@ public interface BuildingService {
 
 	////////////////////////////// 楼层设备操作//////////////////////////////////////////
 	public ResponseEntity addFloorDevice(String createby, FloorDeviceAddRequestBean bean);
+	
+	public ResponseEntity batchFloorDevice(String createby, List<FloorDeviceAddRequestBean> beans);
 
 	public ResponseEntity updateFloorDevice(String updateby, FloorDeviceUptRequestBean bean);
 

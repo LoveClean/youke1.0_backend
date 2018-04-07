@@ -151,6 +151,12 @@ public class BuildingController extends BaseController{
 	public ResponseEntity addFloorDevice(@RequestBody FloorDeviceAddRequestBean bean,HttpServletRequest request) {
 		return buildingService.addFloorDevice(super.getSessionUser(request).getAccount(), bean);
 	}
+	
+	@ApiOperation(value = "批量添加设备点操作接口",notes = "批量添加设备点")
+	@PostMapping(value="batch_floor_device.do")
+	public ResponseEntity batchFloorDevice(@RequestBody List<FloorDeviceAddRequestBean> beans,HttpServletRequest request) {
+		return buildingService.batchFloorDevice(super.getSessionUser(request).getAccount(), beans);
+	}
 
 	@ApiOperation(value = "修改楼层设备操作接口",notes = "修改楼层设备信息")
 	@PostMapping(value="uptFloorDevice.do")

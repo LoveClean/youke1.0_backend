@@ -112,7 +112,7 @@ public class CommonController {
 		
 		//5将验证码信息保存到Session中
         request.getSession().setAttribute(Const.VERIFY_CODE, str);
-        //System.out.println("verifyCode:---------------"+str);
+        System.out.println("verifyCode:---------------"+str);
 		//6使用ImageIO输出图片
        ImageIO.write(bImage, "JPG", response.getOutputStream());
 	}

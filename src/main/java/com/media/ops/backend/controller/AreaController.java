@@ -21,7 +21,6 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/area/")
 public class AreaController {
-
 	@Autowired
 	private CityService cityService;
 	

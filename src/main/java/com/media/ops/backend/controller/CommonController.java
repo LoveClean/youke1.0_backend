@@ -125,6 +125,7 @@ public class CommonController {
 		String randomCode= (String)request.getSession().getAttribute(Const.VERIFY_CODE);
 		if(code.toUpperCase().equals(randomCode.toUpperCase())) {
 			flag=true;
+			request.getSession().removeAttribute(Const.VERIFY_CODE);
 		}
 
 		return ResponseEntity.ok(flag);

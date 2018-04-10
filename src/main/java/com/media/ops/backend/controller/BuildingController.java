@@ -46,8 +46,8 @@ public class BuildingController extends BaseController{
 	
 	@ApiOperation(value = "获取楼宇列表接口", notes = "楼宇列表")
 	@PostMapping(value = "get_building_list.do")
-	public ResponseEntity<PageResponseBean<BuildingVo>> getBuildingList(@RequestBody PageRequestBean bean) {
-		return ResponseEntityUtil.success(buildingService.selectList(bean));
+	public ResponseEntity getBuildingList(@RequestBody PageRequestBean bean) {
+		return buildingService.selectList(bean);
 	}
 	
 	@ApiOperation(value = "根据id查询楼宇接口", notes = "查询楼宇")

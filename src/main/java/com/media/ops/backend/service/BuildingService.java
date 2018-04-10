@@ -29,7 +29,7 @@ public interface BuildingService {
 
 	public ResponseEntity<String> deleteBuilding(String updateby, Integer buildingId);
 
-	public PageResponseBean<BuildingVo> selectList(PageRequestBean bean);
+	public ResponseEntity<PageInfo> selectList(PageRequestBean bean);
 	
 	public ResponseEntity<List<AreaBuildingVo>> selectBuildingByAreaId(String areaId);
 

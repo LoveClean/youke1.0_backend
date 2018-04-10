@@ -118,7 +118,7 @@ public class BuildingServiceImpl implements BuildingService {
 	}
 
 	@Override
-	public PageResponseBean<BuildingVo> selectList(PageRequestBean bean) {
+	public ResponseEntity<PageInfo> selectList(PageRequestBean bean) {
 		PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
 		List<Building> buildings = buildingMapper.selectList();
 
@@ -131,7 +131,7 @@ public class BuildingServiceImpl implements BuildingService {
 		PageInfo pageInfo = new PageInfo(buildings);
 		pageInfo.setList(buildingVos);
 
-		return new PageResponseBean<BuildingVo>(pageInfo);
+		return  ResponseEntityUtil.success(pageInfo);
 	}
 
 	@Override
@@ -185,7 +185,7 @@ public class BuildingServiceImpl implements BuildingService {
 		}
 		
 		PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
-		List<Building> buildings = buildingMapper.selectListByAreaIdBuildingKey(StringUtils.isBlank(areaId)?null:areaId, buildingKey);
+		List<Building> buildings = buildingMapper.selectListByAreaIdBuildingKey(StringUtils.isBlank(areaId)?null:areaId, StringUtils.isBlank(buildingKey)?null:buildingKey);
 
 		List<BuildingVo> buildingVos = Lists.newArrayList();
 		for (Building building : buildings) {

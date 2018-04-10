@@ -8,9 +8,11 @@ import com.media.ops.backend.controller.request.CaptchaRequestBean;
 import com.media.ops.backend.controller.request.CaptchaVerifyRequestBean;
 import com.media.ops.backend.controller.response.CaptchaResponseBean;
 import com.media.ops.backend.exception.BusinessException;
+import com.media.ops.backend.service.MemcachedService;
 import com.media.ops.backend.service.MobileCaptchaService;
 import com.media.ops.backend.util.ExceptionUtil;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.util.StringUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,6 +48,8 @@ public class CommonController {
 
 	@Resource
 	private MobileCaptchaService mobileCaptchaService;
+	@Resource
+	private MemcachedService memcachedService;
 
 	/**
 	 * 发送验证码
@@ -83,8 +87,8 @@ public class CommonController {
 		}
 		return ResponseEntity.ok(result);
 	}
-	
-	@ACS(allowAnonymous = true)	
+
+	@ACS(allowAnonymous = true)
 	@ApiOperation(value = "随机验证码接口", notes = "随机验证码")
 	@GetMapping(value = "get_verify_code.do")
 	public void createVerifyCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -109,25 +113,33 @@ public class CommonController {
 
 			str += ch[index];
 		}
-		
-		//5将验证码信息保存到Session中
-        request.getSession().setAttribute(Const.VERIFY_CODE, str);
-        System.out.println("verifyCode:---------------"+str);
-		//6使用ImageIO输出图片
-       ImageIO.write(bImage, "JPG", response.getOutputStream());
-	}
-	
-	@ACS(allowAnonymous = true)	
-	@ApiOperation(value = "校验随机验证码接口", notes = "校验随机验证码")
-	@PostMapping(value = "valid_verify_code.do")	
-	public ResponseEntity<Boolean> validVerifyCode(@RequestBody String code, HttpServletRequest request){
-		Boolean flag=false;
-		String randomCode= (String)request.getSession().getAttribute(Const.VERIFY_CODE);
-		if(code.toUpperCase().equals(randomCode.toUpperCase())) {
-			flag=true;
-			request.getSession().removeAttribute(Const.VERIFY_CODE);
-		}
 
+		// 5将验证码信息保存到Session中
+		// request.getSession().setAttribute(Const.VERIFY_CODE, str);
+		memcachedService.set(Const.VERIFY_CODE, 600, str);
+
+		System.out.println("verifyCode:---------------" + str);
+		// 6使用ImageIO输出图片
+		ImageIO.write(bImage, "JPG", response.getOutputStream());
+	}
+
+	@ACS(allowAnonymous = true)
+	@ApiOperation(value = "校验随机验证码接口", notes = "校验随机验证码")
+	@PostMapping(value = "valid_verify_code.do")
+	public ResponseEntity<Boolean> validVerifyCode(@RequestBody String code, HttpServletRequest request) {
+		Boolean flag = false;
+		// String randomCode=
+		// (String)request.getSession().getAttribute(Const.VERIFY_CODE);
+
+		if (memcachedService.get(Const.VERIFY_CODE) != null) {
+			String randomCode = memcachedService.get(Const.VERIFY_CODE).toString();
+
+			if (StringUtil.isNotBlank(randomCode) && code.toUpperCase().equals(randomCode.toUpperCase())) {
+				flag = true;
+				// request.getSession().removeAttribute(Const.VERIFY_CODE);
+				memcachedService.delete(Const.VERIFY_CODE);
+			}
+		}
 		return ResponseEntity.ok(flag);
 	}
 }

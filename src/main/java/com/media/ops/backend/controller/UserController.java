@@ -1,5 +1,6 @@
 package com.media.ops.backend.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -29,11 +30,13 @@ import com.media.ops.backend.controller.request.UserUptRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Syslog;
 import com.media.ops.backend.dao.entity.User;
+import com.media.ops.backend.service.MemcachedService;
 import com.media.ops.backend.service.SmsService;
 import com.media.ops.backend.service.SysLogService;
 import com.media.ops.backend.service.UserService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.util.StringUtil;
 import com.media.ops.backend.vo.SyslogVo;
 import com.media.ops.backend.vo.UserVo;
 
@@ -51,6 +54,8 @@ public class UserController extends BaseController {
 	private SysLogService sysLogService;
 	@Autowired
 	private SmsService smsService;
+	@Resource
+	private MemcachedService memcachedService;
 
 
 	
@@ -61,9 +66,13 @@ public class UserController extends BaseController {
 			HttpServletRequest request) {
 		
 		Boolean flag=false;
-		String randomCode= (String)request.getSession().getAttribute(Const.VERIFY_CODE);
-		if(bean.getVerifyCode().toUpperCase().equals(randomCode.toUpperCase())) {
-			flag=true;
+		if (memcachedService.get(Const.VERIFY_CODE) != null) {
+			String randomCode = memcachedService.get(Const.VERIFY_CODE).toString();
+
+			if (StringUtil.isNotBlank(randomCode) && bean.getVerifyCode().toUpperCase().equals(randomCode.toUpperCase())) {
+				flag = true;
+				memcachedService.delete(Const.VERIFY_CODE);
+			}
 		}
 		
 		if(!flag) {

@@ -29,7 +29,6 @@ public class AreaController {
 	public ResponseEntity<CityVo> getCity(@RequestBody Integer id){
 		return cityService.selectCityById(id);
 	}
-
 	@ApiOperation(value = "根据cityId查找城市接口",notes = "根据cityId查找城市")
 	@PostMapping(value="get_by_cityId.do")	
 	public ResponseEntity<CityVo> getByCityId(@RequestBody String cityId){

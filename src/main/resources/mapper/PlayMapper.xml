@@ -260,6 +260,7 @@
     <include refid="Base_Column_List" />
     from tbplay
     where del_flag='0'
+     order by id desc
   </select>
   
   <select id="selectByPlayIdAndStatus" parameterType="map" resultMap="BaseResultMap">

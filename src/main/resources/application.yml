@@ -52,9 +52,9 @@ spring:
   datasource:
     name: datasource
     initialize: false
-    url: jdbc:mysql://ilovemldu.mysql.rds.aliyuncs.com:3506/media_dev?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF8
-    username: media_dev
-    password: media_dev123
+    url: jdbc:mysql://ilovemldu.mysql.rds.aliyuncs.com:3506/media_test?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF8
+    username: media_test
+    password: media_test123
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     max-active: 2

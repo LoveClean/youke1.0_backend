@@ -142,4 +142,5 @@ public class CommonController {
 		}
 		return ResponseEntity.ok(flag);
 	}
+	
 }

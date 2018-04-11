@@ -18,5 +18,7 @@ public interface SysparaService {
 	
 	public ResponseEntity<List<SysparaVo>> selectAll();
 	
+	public ResponseEntity<SysparaVo> selectByName(String sysName);
+	
 
 }

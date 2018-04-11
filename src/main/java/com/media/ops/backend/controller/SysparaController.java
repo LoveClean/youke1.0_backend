@@ -49,4 +49,10 @@ public class SysparaController extends BaseController {
 	public ResponseEntity<List<SysparaVo>> getList(){
 		return sysparaService.selectAll();
 	}
+	
+	@ApiOperation(value = "根据name获取参数接口", notes = "查询参数")
+	@PostMapping(value = "get_syspara.do")
+	public ResponseEntity<SysparaVo> getSysparaByName(@RequestBody String name){
+		return sysparaService.selectByName(name);
+	}
 }

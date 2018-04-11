@@ -13,11 +13,13 @@ import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.SysparaAddRequestBean;
 import com.media.ops.backend.controller.request.SysparaUptRequestBean;
+import com.media.ops.backend.dao.entity.Play;
 import com.media.ops.backend.dao.entity.Syspara;
 import com.media.ops.backend.dao.mapper.SysparaMapper;
 import com.media.ops.backend.service.SysparaService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.PlayVo;
 import com.media.ops.backend.vo.SysparaVo;
 
 @Service
@@ -97,6 +99,20 @@ public class SysparaServiceImpl implements SysparaService {
 		sysparaVo.setNote(syspara.getNote());
 		
 		return sysparaVo;
+	}
+
+	@Override
+	public ResponseEntity<SysparaVo> selectByName(String sysName) {
+	
+		if (StringUtils.isEmpty(sysName)) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		Syspara syspara= sysparaMapper.selectByName(sysName);
+		if (syspara == null) {
+			return ResponseEntityUtil.fail("没有这个参数");
+		}
+		SysparaVo sysparaVo= assembleSysparaVo(syspara);
+		return ResponseEntityUtil.success(sysparaVo);
 	}
 
 

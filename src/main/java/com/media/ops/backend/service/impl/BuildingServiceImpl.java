@@ -149,17 +149,38 @@ public class BuildingServiceImpl implements BuildingService {
 		}
 	}
 
-	public ResponseEntity<List<AreaBuildingVo>> selectBuildingByAreaId(String areaId){
+//	public ResponseEntity<List<AreaBuildingVo>> selectBuildingByAreaId(String areaId){
+//		if(StringUtils.isBlank(areaId)) {
+//			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+//		}
+//		
+//		List<Building> buildings = buildingMapper.selectListByAreaId(areaId);
+//
+//		List<AreaBuildingVo> buildingVos = Lists.newArrayList();
+//		for (Building building : buildings) {
+//			AreaBuildingVo areaBuildingVo=assembleAreaBuildingVo(building);
+//			buildingVos.add(areaBuildingVo);
+//		}
+//		
+//		if(CollectionUtils.isEmpty(buildingVos)) {
+//			return ResponseEntityUtil.fail("找不到该区域的楼宇信息");
+//		}
+//		
+//		return ResponseEntityUtil.success(buildingVos);
+//	}
+
+	public ResponseEntity<List<BuildingVo>> selectBuildingByAreaId(String areaId){
 		if(StringUtils.isBlank(areaId)) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
 		
 		List<Building> buildings = buildingMapper.selectListByAreaId(areaId);
 
-		List<AreaBuildingVo> buildingVos = Lists.newArrayList();
+		List<BuildingVo> buildingVos = Lists.newArrayList();
 		for (Building building : buildings) {
-			AreaBuildingVo areaBuildingVo=assembleAreaBuildingVo(building);
-			buildingVos.add(areaBuildingVo);
+			List<Buildingfloor> buildingfloorList = buildingfloorMapper.selectListByBuildingId(building.getId());
+			BuildingVo buildingVo = assembleBuildingVo(building, buildingfloorList);
+			buildingVos.add(buildingVo);
 		}
 		
 		if(CollectionUtils.isEmpty(buildingVos)) {
@@ -167,8 +188,7 @@ public class BuildingServiceImpl implements BuildingService {
 		}
 		
 		return ResponseEntityUtil.success(buildingVos);
-	}
-	
+	}	
 	//楼宇搜索
 	public ResponseEntity<PageInfo> selectBuildingsbyKey(BuildingSearchRequestBean bean){
 		String buildingKey=bean.getBuildingKey();

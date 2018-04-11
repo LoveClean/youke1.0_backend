@@ -57,7 +57,7 @@ public class BuildingController extends BaseController{
 	}
 	@ApiOperation(value = "根据areaId查询楼宇列表接口", notes = "查询区域内楼宇列表")
 	@PostMapping(value = "get_building_areaId.do")
-	public ResponseEntity<List<AreaBuildingVo>> getBuildingByAreaId(@RequestBody String areaId ){
+	public ResponseEntity<List<BuildingVo>> getBuildingByAreaId(@RequestBody String areaId ){
 		return buildingService.selectBuildingByAreaId(areaId);
 	}
 	

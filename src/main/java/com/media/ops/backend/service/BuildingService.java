@@ -31,7 +31,7 @@ public interface BuildingService {
 
 	public ResponseEntity<PageInfo> selectList(PageRequestBean bean);
 	
-	public ResponseEntity<List<AreaBuildingVo>> selectBuildingByAreaId(String areaId);
+	public ResponseEntity<List<BuildingVo>> selectBuildingByAreaId(String areaId);
 
 	public ResponseEntity<BuildingVo> selectBuildingById(Integer id);
 	

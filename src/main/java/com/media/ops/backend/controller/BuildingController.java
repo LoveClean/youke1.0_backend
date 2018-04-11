@@ -186,4 +186,10 @@ public class BuildingController extends BaseController{
 	public ResponseEntity<FloorDeviceVo> getFloorDevice(@RequestBody Integer id ){
 		return buildingService.selectFloorDeviceById(id);
 	}
+	
+	@ApiOperation(value = "批量删除设备点操作接口",notes = "批量删除设备点")
+	@PostMapping(value="batch_del_floor_device.do")
+	public ResponseEntity batchDelFloorDevice(@RequestBody List<Integer> ids,HttpServletRequest request) {
+		return buildingService.delFloorDevices(super.getSessionUser(request).getAccount(), ids);
+	}
 }

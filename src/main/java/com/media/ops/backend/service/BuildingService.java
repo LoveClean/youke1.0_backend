@@ -60,6 +60,8 @@ public interface BuildingService {
 	public ResponseEntity updateFloorDevice(String updateby, FloorDeviceUptRequestBean bean);
 
 	public ResponseEntity<String> delFloorDevice(String updateby, Integer Id);
+	
+	public ResponseEntity<String> delFloorDevices(String updateby, List<Integer> ids);
 
 	public ResponseEntity<String> delDevicesByFloorId(String updateby, Integer floorId);
 

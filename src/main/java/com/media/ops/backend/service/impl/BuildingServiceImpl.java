@@ -557,6 +557,17 @@ public class BuildingServiceImpl implements BuildingService {
 		return deviceVo;
 	}
 
+	@Override
+	public ResponseEntity<String> delFloorDevices(String updateby, List<Integer> ids) {
+		
+		if(CollectionUtils.isEmpty(ids)) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+
+		int resultCount = floordeviceMapper.deleteByIds(ids);
+		return ResponseEntityUtil.delMessage(resultCount);
+	}
+
 
 
 }

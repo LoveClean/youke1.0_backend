@@ -62,6 +62,10 @@ public class UserServiceImpl implements UserService {
 			return ResponseEntityUtil.fail("账号或密码错误");
 		}
 		
+		if(user.getStatus()==0) {
+			return ResponseEntityUtil.fail("该账号已被禁用");
+		}
+		
 		if(this.checkAdminRole(user).isSuccess() && this.checkUserStatus(user).isSuccess()) {
 			user.setPassword(StringUtils.EMPTY);
 			return ResponseEntityUtil.success(user);

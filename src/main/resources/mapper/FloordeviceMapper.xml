@@ -115,4 +115,16 @@
     delete from tbfloordevice
     where floorid = #{floorId,jdbcType=INTEGER}
   </delete>
+  
+  
+    <delete id="deleteByIds" parameterType="map">
+    delete from tbfloordevice
+    where 1=1
+    <if test="idList != null">
+     and id in
+      <foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
 </mapper>

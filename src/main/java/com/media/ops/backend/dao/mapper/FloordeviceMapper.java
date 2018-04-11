@@ -2,6 +2,8 @@ package com.media.ops.backend.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.media.ops.backend.dao.entity.Floordevice;
 
 public interface FloordeviceMapper {
@@ -20,4 +22,6 @@ public interface FloordeviceMapper {
     List<Floordevice>  selectByFloorno(Integer floorNo);
     
     int delDevicesByFloorId(Integer floorId);
+    
+    int deleteByIds(@Param("idList")List<Integer> idList);
 }

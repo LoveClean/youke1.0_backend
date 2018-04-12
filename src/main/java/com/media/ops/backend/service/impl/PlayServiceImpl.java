@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import com.beust.jcommander.internal.Lists;
 import com.github.pagehelper.PageHelper;
@@ -18,6 +20,7 @@ import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Play;
 import com.media.ops.backend.dao.entity.User;
 import com.media.ops.backend.dao.mapper.PlayMapper;
+import com.media.ops.backend.dao.mapper.SysparaMapper;
 import com.media.ops.backend.dao.mapper.UserMapper;
 import com.media.ops.backend.service.PlayService;
 import com.media.ops.backend.util.DateUtil;
@@ -34,6 +37,8 @@ public class PlayServiceImpl implements PlayService {
 	private PlayMapper playMapper;
 	@Resource
 	private UserMapper userMapper;
+	@Resource
+	private SysparaMapper sysparaMapper;
 
 	@Override
 	public ResponseEntity<List<Play>> GetPlays(String begintime, String endtime) {
@@ -49,6 +54,12 @@ public class PlayServiceImpl implements PlayService {
 		if (bean == null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
+		
+		List<Play>  plays =playMapper.selectByBeginEndTime(bean.getBegintime(), bean.getEndtime());
+		if(CollectionUtils.isNotEmpty(plays)) {
+			return ResponseEntityUtil.fail("该时段还有尚未结束的直播，请检查！");
+		}
+		
 		Play play = new Play();
 		play.setPicpath(bean.getPicpath());
 		play.setCreateBy(createby);
@@ -66,7 +77,14 @@ public class PlayServiceImpl implements PlayService {
 		if (resultCount == 0) {
 			return ResponseEntityUtil.fail("添加直播失败");
 		}
+		
+		play.setStreamaddress(sysparaMapper.selectByName("PRE_STREAM").getValue()+play.getId());
+		resultCount=playMapper.updateStreamAddressById(play.getStreamaddress(), play.getId());
 
+		if (resultCount == 0) {
+			return ResponseEntityUtil.fail("推流地址修改失败");
+		}
+		
 		Map<String, Object> result = Maps.newHashMap();
 		result.put("newPlay", play);
 		return ResponseEntityUtil.success(result);
@@ -77,6 +95,7 @@ public class PlayServiceImpl implements PlayService {
 		if (bean==null || bean.getId()==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
+		
 		Play playInfo = playMapper.selectByPrimaryKey(bean.getId());
 		if (playInfo == null) {
 			return ResponseEntityUtil.fail("该直播不存在或已删除");
@@ -84,6 +103,12 @@ public class PlayServiceImpl implements PlayService {
 		if(playInfo.getStatus()>=2) {
 			return ResponseEntityUtil.fail("该直播在进行中或已完成，不可以修改");
 		}
+		
+		List<Play>  plays =playMapper.selectByBeginEndTime(bean.getBegintime(), bean.getEndtime());
+		if(CollectionUtils.isNotEmpty(plays)) {
+			return ResponseEntityUtil.fail("该时段还有尚未结束的直播，请检查！");
+		}
+		
 		Play play = new Play();
 		play.setPicpath(bean.getPicpath());
 		play.setRealaddress(bean.getRealaddress());

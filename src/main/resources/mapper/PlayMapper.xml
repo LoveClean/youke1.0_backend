@@ -1,280 +1,305 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.media.ops.backend.dao.mapper.PlayMapper">
-  <resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.Play">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="playerid" jdbcType="INTEGER" property="playerid" />
-    <result column="picpath" jdbcType="VARCHAR" property="picpath" />
-    <result column="begintime" jdbcType="TIMESTAMP" property="begintime" />
-    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
-    <result column="streamaddress" jdbcType="VARCHAR" property="streamaddress" />
-    <result column="playaddress" jdbcType="VARCHAR" property="playaddress" />
-    <result column="replayaddress" jdbcType="VARCHAR" property="replayaddress" />
-    <result column="realaddress" jdbcType="VARCHAR" property="realaddress" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
-    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
-    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
-    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
-    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, title, type, playerid, picpath, begintime, endtime, streamaddress, playaddress, 
-    replayaddress, realaddress, status, create_by, create_date, update_by, update_date, 
-    remarks, del_flag
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from tbplay
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  
-  
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tbplay
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.media.ops.backend.dao.entity.Play"  useGeneratedKeys="true" keyProperty="id">
-    insert into tbplay (id, title, type, 
-      playerid, picpath, begintime, 
-      endtime, streamaddress, playaddress, 
-      replayaddress, realaddress, status, 
-      create_by, create_date, update_by, 
-      update_date, remarks, del_flag
-      )
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{playerid,jdbcType=INTEGER}, #{picpath,jdbcType=VARCHAR}, #{begintime,jdbcType=TIMESTAMP}, 
-      #{endtime,jdbcType=TIMESTAMP}, #{streamaddress,jdbcType=VARCHAR}, #{playaddress,jdbcType=VARCHAR}, 
-      #{replayaddress,jdbcType=VARCHAR}, #{realaddress,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR}, 
-      now(), #{remarks,jdbcType=VARCHAR}, 0
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Play">
-    insert into tbplay
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="playerid != null">
-        playerid,
-      </if>
-      <if test="picpath != null">
-        picpath,
-      </if>
-      <if test="begintime != null">
-        begintime,
-      </if>
-      <if test="endtime != null">
-        endtime,
-      </if>
-      <if test="streamaddress != null">
-        streamaddress,
-      </if>
-      <if test="playaddress != null">
-        playaddress,
-      </if>
-      <if test="replayaddress != null">
-        replayaddress,
-      </if>
-      <if test="realaddress != null">
-        realaddress,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="createBy != null">
-        create_by,
-      </if>
-      <if test="createDate != null">
-        create_date,
-      </if>
-      <if test="updateBy != null">
-        update_by,
-      </if>
-      <if test="updateDate != null">
-        update_date,
-      </if>
-      <if test="remarks != null">
-        remarks,
-      </if>
-      <if test="delFlag != null">
-        del_flag,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
-      </if>
-      <if test="playerid != null">
-        #{playerid,jdbcType=INTEGER},
-      </if>
-      <if test="picpath != null">
-        #{picpath,jdbcType=VARCHAR},
-      </if>
-      <if test="begintime != null">
-        #{begintime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endtime != null">
-        #{endtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="streamaddress != null">
-        #{streamaddress,jdbcType=VARCHAR},
-      </if>
-      <if test="playaddress != null">
-        #{playaddress,jdbcType=VARCHAR},
-      </if>
-      <if test="replayaddress != null">
-        #{replayaddress,jdbcType=VARCHAR},
-      </if>
-      <if test="realaddress != null">
-        #{realaddress,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="createBy != null">
-        #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null">
-        now(),
-      </if>
-      <if test="updateBy != null">
-        #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updateDate != null">
-        now(),
-      </if>
-      <if test="remarks != null">
-        #{remarks,jdbcType=VARCHAR},
-      </if>
-      <if test="delFlag != null">
-        0,
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.media.ops.backend.dao.entity.Play">
-    update tbplay
-    <set>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="playerid != null">
-        playerid = #{playerid,jdbcType=INTEGER},
-      </if>
-      <if test="picpath != null">
-        picpath = #{picpath,jdbcType=VARCHAR},
-      </if>
-      <if test="begintime != null">
-        begintime = #{begintime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endtime != null">
-        endtime = #{endtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="streamaddress != null">
-        streamaddress = #{streamaddress,jdbcType=VARCHAR},
-      </if>
-      <if test="playaddress != null">
-        playaddress = #{playaddress,jdbcType=VARCHAR},
-      </if>
-      <if test="replayaddress != null">
-        replayaddress = #{replayaddress,jdbcType=VARCHAR},
-      </if>
-      <if test="realaddress != null">
-        realaddress = #{realaddress,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="createBy != null">
-        create_by = #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null">
-        create_date = #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null">
-        update_by = #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updateDate != null">
-        update_date = now(),
-      </if>
-      <if test="remarks != null">
-        remarks = #{remarks,jdbcType=VARCHAR},
-      </if>
-      <if test="delFlag != null">
-        del_flag = #{delFlag,jdbcType=CHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Play">
-    update tbplay
-    set title = #{title,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
-      playerid = #{playerid,jdbcType=INTEGER},
-      picpath = #{picpath,jdbcType=VARCHAR},
-      begintime = #{begintime,jdbcType=TIMESTAMP},
-      endtime = #{endtime,jdbcType=TIMESTAMP},
-      streamaddress = #{streamaddress,jdbcType=VARCHAR},
-      playaddress = #{playaddress,jdbcType=VARCHAR},
-      replayaddress = #{replayaddress,jdbcType=VARCHAR},
-      realaddress = #{realaddress,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_by = #{updateBy,jdbcType=VARCHAR},
-      update_date = now(),
-      remarks = #{remarks,jdbcType=VARCHAR},
-      del_flag = #{delFlag,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  
-  <select id="selectByTime" parameterType="map" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from tbplay
-    where `status`>0 and #{endtime}>=begintime and begintime>=#{begintime} and del_flag='0'
-  </select>
-  
-  <select id="selectList" parameterType="map" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from tbplay
-    where del_flag='0'
-     order by id desc
-  </select>
-  
-  <select id="selectByPlayIdAndStatus" parameterType="map" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from tbplay
-    where playerid=#{playerId} and status=#{status} and del_flag='0'
-  </select>
-  
-  <select id="selectByPlayerId" parameterType="map" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from tbplay
-    where playerid=#{playerId} and del_flag='0'
-  </select>
-  
+	<resultMap id="BaseResultMap" type="com.media.ops.backend.dao.entity.Play">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="playerid" jdbcType="INTEGER" property="playerid" />
+		<result column="picpath" jdbcType="VARCHAR" property="picpath" />
+		<result column="begintime" jdbcType="TIMESTAMP" property="begintime" />
+		<result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+		<result column="streamaddress" jdbcType="VARCHAR" property="streamaddress" />
+		<result column="playaddress" jdbcType="VARCHAR" property="playaddress" />
+		<result column="replayaddress" jdbcType="VARCHAR" property="replayaddress" />
+		<result column="realaddress" jdbcType="VARCHAR" property="realaddress" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+		<result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+		<result column="remarks" jdbcType="VARCHAR" property="remarks" />
+		<result column="del_flag" jdbcType="CHAR" property="delFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, title, type, playerid, picpath, begintime, endtime, streamaddress,
+		playaddress,
+		replayaddress, realaddress, status, create_by, create_date, update_by, update_date,
+		remarks, del_flag
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbplay
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from tbplay
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Play"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into tbplay (id, title, type,
+		playerid, picpath, begintime,
+		endtime, streamaddress, playaddress,
+		replayaddress, realaddress, status,
+		create_by, create_date, update_by,
+		update_date, remarks, del_flag
+		)
+		values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER},
+		#{playerid,jdbcType=INTEGER}, #{picpath,jdbcType=VARCHAR}, #{begintime,jdbcType=TIMESTAMP},
+		#{endtime,jdbcType=TIMESTAMP}, #{streamaddress,jdbcType=VARCHAR},
+		#{playaddress,jdbcType=VARCHAR},
+		#{replayaddress,jdbcType=VARCHAR}, #{realaddress,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+		#{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR},
+		now(), #{remarks,jdbcType=VARCHAR}, 0
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.media.ops.backend.dao.entity.Play">
+		insert into tbplay
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="playerid != null">
+				playerid,
+			</if>
+			<if test="picpath != null">
+				picpath,
+			</if>
+			<if test="begintime != null">
+				begintime,
+			</if>
+			<if test="endtime != null">
+				endtime,
+			</if>
+			<if test="streamaddress != null">
+				streamaddress,
+			</if>
+			<if test="playaddress != null">
+				playaddress,
+			</if>
+			<if test="replayaddress != null">
+				replayaddress,
+			</if>
+			<if test="realaddress != null">
+				realaddress,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="playerid != null">
+				#{playerid,jdbcType=INTEGER},
+			</if>
+			<if test="picpath != null">
+				#{picpath,jdbcType=VARCHAR},
+			</if>
+			<if test="begintime != null">
+				#{begintime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				#{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="streamaddress != null">
+				#{streamaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="playaddress != null">
+				#{playaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="replayaddress != null">
+				#{replayaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="realaddress != null">
+				#{realaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				now(),
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				now(),
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="delFlag != null">
+				0,
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.media.ops.backend.dao.entity.Play">
+		update tbplay
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="playerid != null">
+				playerid = #{playerid,jdbcType=INTEGER},
+			</if>
+			<if test="picpath != null">
+				picpath = #{picpath,jdbcType=VARCHAR},
+			</if>
+			<if test="begintime != null">
+				begintime = #{begintime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				endtime = #{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="streamaddress != null">
+				streamaddress = #{streamaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="playaddress != null">
+				playaddress = #{playaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="replayaddress != null">
+				replayaddress = #{replayaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="realaddress != null">
+				realaddress = #{realaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = now(),
+			</if>
+			<if test="remarks != null">
+				remarks = #{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=CHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Play">
+		update tbplay
+		set title = #{title,jdbcType=VARCHAR},
+		type = #{type,jdbcType=INTEGER},
+		playerid = #{playerid,jdbcType=INTEGER},
+		picpath = #{picpath,jdbcType=VARCHAR},
+		begintime = #{begintime,jdbcType=TIMESTAMP},
+		endtime = #{endtime,jdbcType=TIMESTAMP},
+		streamaddress = #{streamaddress,jdbcType=VARCHAR},
+		playaddress = #{playaddress,jdbcType=VARCHAR},
+		replayaddress = #{replayaddress,jdbcType=VARCHAR},
+		realaddress = #{realaddress,jdbcType=VARCHAR},
+		status = #{status,jdbcType=INTEGER},
+		create_by = #{createBy,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		update_date = now(),
+		remarks = #{remarks,jdbcType=VARCHAR},
+		del_flag = #{delFlag,jdbcType=CHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateStreamAddressById" parameterType="map">
+		update tbplay
+		set streamaddress = #{streamaddress,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectByTime" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbplay
+		where `status`>0 and #{endtime}>=begintime and begintime>=#{begintime} and
+		del_flag='0'
+	</select>
+
+	<select id="selectByBeginEndTime" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbplay
+		where `status`!=3 and del_flag='0' and 
+		(
+			(begintime > #{begintime} AND  #{endtime}>begintime) OR
+			( #{begintime}>begintime AND endtime > #{endtime}) OR
+			(endtime > #{begintime} AND #{endtime}>endtime)
+		)
+	</select>
+
+	<select id="selectList" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbplay
+		where del_flag='0'
+		order by id desc
+	</select>
+
+	<select id="selectByPlayIdAndStatus" parameterType="map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbplay
+		where playerid=#{playerId} and status=#{status} and del_flag='0'
+	</select>
+
+	<select id="selectByPlayerId" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbplay
+		where playerid=#{playerId} and del_flag='0'
+	</select>
+
 </mapper>

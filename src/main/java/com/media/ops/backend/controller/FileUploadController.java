@@ -1,6 +1,7 @@
 package com.media.ops.backend.controller;
 
 import com.media.ops.backend.annotation.ACS;
+import com.media.ops.backend.config.ImageConfig;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.UploadImageBase64RequestBean;
 import com.media.ops.backend.service.OssService;
@@ -29,6 +30,8 @@ import java.io.PrintWriter;
 public class FileUploadController   {
   @Resource
   private OssService ossService;
+  @Resource
+  private ImageConfig imageConfig;
 
   /**
    * 上传图片
@@ -116,7 +119,7 @@ public class FileUploadController   {
     }
     int owidth = source.getWidth();
     int oheight = source.getHeight();
-    if (owidth > 1000 || oheight > 1000) {
+    if (owidth > imageConfig.getWidth() || oheight > imageConfig.getHeight()) {
       ExceptionUtil.throwException(Errors.SYSTEM_CUSTOM_ERROR.code, "图片尺寸过大");
     }
   }

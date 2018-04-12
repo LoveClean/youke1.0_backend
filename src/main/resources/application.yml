@@ -92,5 +92,7 @@ sms:
   publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7PrQADmjZSq5YFU8kRdwITo+9UNW3IKAOK5/+r49XY+PAiOZUFsh0zHLmXGCnErrd3JqXhxtgm9iiQlUWh+LC9SHgrHQpFBh2tvTZIhLHzRflQo5b6DUAIdo5Cj7vT7Zt5Z6mta8ryTcnbvpIJxqzvCXazAlZ508nM0kLInFFnwIDAQAB  
   url: http://211.144.5.130:8073/smsPlatform/
 
-
+img:
+  width: 2000
+  height: 2000 
 

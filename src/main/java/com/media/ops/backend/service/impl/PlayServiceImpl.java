@@ -90,6 +90,7 @@ public class PlayServiceImpl implements PlayService {
 		return ResponseEntityUtil.success(result);
 	}
 
+	
 	@Override
 	public ResponseEntity update(String updateby, PlayUpdateRequestBean bean) {
 		if (bean==null || bean.getId()==null) {

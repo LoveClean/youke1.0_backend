@@ -1,5 +1,6 @@
 package com.media.ops.backend.controller;
 
+import com.media.ops.backend.annotation.ACS;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.UploadImageBase64RequestBean;
 import com.media.ops.backend.service.OssService;
@@ -37,6 +38,7 @@ public class FileUploadController   {
    * @return
    * @throws IOException
    */
+  @ACS(allowAnonymous = true)
   @ApiOperation(value = "上传图片", notes = "上传图片<br/>http://aligreen.alibaba.com/porn.html,在此检测rate超过80的为涉黄图片，会上传失败")
   @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
   public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
@@ -53,6 +55,7 @@ public class FileUploadController   {
    * @return
    * @throws IOException
    */
+  @ACS(allowAnonymous = true)
   @ApiOperation(value = "上传图片ie浏览器", notes = "上传图片ie浏览器", consumes = "application/json")
   @RequestMapping(value = "/uploadImageIe", method = RequestMethod.POST)
   public void uploadImageIe(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response)
@@ -74,6 +77,7 @@ public class FileUploadController   {
    * @return
    * @throws IOException
    */
+  @ACS(allowAnonymous = true)
   @ApiOperation(value = "上传图片base64Code方式", notes = "上传图片base64Code方式压缩", consumes = "application/json")
   @RequestMapping(value = "/uploadImageBase64", method = RequestMethod.POST)
   public ResponseEntity<String> uploadImageBase64(@RequestBody UploadImageBase64RequestBean bean, HttpServletRequest request)
@@ -92,6 +96,7 @@ public class FileUploadController   {
    * @param request
    * @return
    */
+  @com.media.ops.backend.annotation.ACS(allowAnonymous = true)
   @ApiOperation(value = "上传音频", notes = "上传音频", consumes = "application/json")
   @RequestMapping(value = "/uploadAudio", method = RequestMethod.POST)
   public ResponseEntity<String> uploadAudio(@RequestParam("file") MultipartFile file, HttpServletRequest request) {

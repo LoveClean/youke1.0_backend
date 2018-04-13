@@ -202,18 +202,41 @@ public class UserServiceImpl implements UserService {
 		updateUser.setTruename(user.getTruename());
 		updateUser.setEmail(user.getEmail());
 		updateUser.setPhone(user.getPhone());
-		updateUser.setQuestion(user.getQuestion());
-		updateUser.setAnswer(user.getAnswer());   
 		updateUser.setUpdateBy(user.getUpdateBy());
 		updateUser.setType(user.getType());
 		updateUser.setStatus(user.getStatus());
 		
+	
 		int updateCount= userMapper.updateByPrimaryKeySelective(updateUser);
 		if(updateCount>0) {
 			return ResponseEntityUtil.success(userMapper.selectByPrimaryKey(updateUser.getId()));
 		}
 		return ResponseEntityUtil.fail("更新个人信息失败");
 	}
+	
+	public ResponseEntity<User> updateSelfInfo(User user) {
+		int resultCount= userMapper.checkEmailByUserId(user.getEmail(), user.getId());
+		if(resultCount>0) {
+			return ResponseEntityUtil.fail("Email已存在，请修改");
+		}
+		User updateUser= new User();
+		updateUser.setId(user.getId());
+		updateUser.setTruename(user.getTruename());
+		updateUser.setEmail(user.getEmail());
+		updateUser.setPhone(user.getPhone());
+		updateUser.setUpdateBy(user.getUpdateBy());
+		
+		if(StringUtils.isNotEmpty(user.getPassword())) {
+			updateUser.setPassword(MD5Util.MD5(user.getPassword()));
+		}
+		
+		
+		int updateCount= userMapper.updateByPrimaryKeySelective(updateUser);
+		if(updateCount>0) {
+			return ResponseEntityUtil.success(userMapper.selectByPrimaryKey(updateUser.getId()));
+		}
+		return ResponseEntityUtil.fail("更新自己个人信息失败");
+	}	
 	
 	public ResponseEntity<String> updateStatusById(String account, Integer status){
 		int resultCount= userMapper.updateStatusById(account,status);

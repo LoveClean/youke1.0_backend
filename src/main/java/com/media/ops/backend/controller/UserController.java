@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -183,17 +184,27 @@ public class UserController extends BaseController {
 	@PostMapping(value="update_information.do")
 	public ResponseEntity<User> update_information(HttpServletRequest request, 
 			@Valid @RequestBody UserUptRequestBean bean){
-		User user= super.getSessionUser(request);
+		User myUser= super.getSessionUser(request);
+		User user=new User();
+		user.setId(myUser.getId());
+		user.setAccount(myUser.getAccount());
 		
 		user.setTruename(bean.getTrueName());
 		user.setEmail(bean.getEmail());
 		user.setPhone(bean.getPhone());
-		user.setQuestion(bean.getQuestion());
-		user.setAnswer(bean.getAnswer());
-		
+
+		if(StringUtils.isNotEmpty(bean.getOldPwd())) {
+			if(userService.adminLogin(user.getAccount(), bean.getOldPwd()).isSuccess()) {
+				user.setPassword(bean.getNewPwd());
+			}
+			else {
+				return ResponseEntityUtil.fail("旧密码输入错误");
+			}
+		}
+
 		user.setUpdateBy(user.getAccount());
 
-		ResponseEntity<User> response= userService.updateInformation(user);
+		ResponseEntity<User> response= userService.updateSelfInfo(user);
 		if(response.isSuccess()) {			
 			// 创建访问token
 	        String accessToken = super.generateAccessToken(request);

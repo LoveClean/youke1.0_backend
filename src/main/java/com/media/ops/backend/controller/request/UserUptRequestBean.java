@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class UserUptRequestBean {
 
-	@ApiModelProperty(value = "id,修改他人信息的必填，修改自己信息不填")
+	@ApiModelProperty(value = "id")
 	private Integer id;
 	
     @ApiModelProperty(value = "姓名，选填")
@@ -19,10 +19,10 @@ public class UserUptRequestBean {
     @ApiModelProperty(value = "手机号码，必填", required = true)
     private String phone;
 
-    @ApiModelProperty(value = "找回密码问题，选填")
-    private String question;
-    @ApiModelProperty(value = "找回密码答案，选填")
-    private String answer;
+    @ApiModelProperty(value = "旧密码，为空表示不修改")
+    private String oldPwd;
+    @ApiModelProperty(value = "新密码，选填")
+    private String newPwd;
     
     
 	public Integer getId() {
@@ -50,18 +50,19 @@ public class UserUptRequestBean {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getQuestion() {
-		return question;
+	public String getOldPwd() {
+		return oldPwd;
 	}
-	public void setQuestion(String question) {
-		this.question = question;
+	public void setOldPwd(String oldPwd) {
+		this.oldPwd = oldPwd;
 	}
-	public String getAnswer() {
-		return answer;
+	public String getNewPwd() {
+		return newPwd;
 	}
-	public void setAnswer(String answer) {
-		this.answer = answer;
+	public void setNewPwd(String newPwd) {
+		this.newPwd = newPwd;
 	}
+
     
     
 }

@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.Email;
 import io.swagger.annotations.ApiModelProperty;
 
 public class UserInfoUptRequestBean {
-	@ApiModelProperty(value = "id,修改他人信息的必填，修改自己信息不填")
+	@ApiModelProperty(value = "id")
 	private Integer id;
 	
     @ApiModelProperty(value = "姓名，选填")

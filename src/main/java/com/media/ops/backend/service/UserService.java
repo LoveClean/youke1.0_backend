@@ -16,6 +16,8 @@ public interface UserService {
 	ResponseEntity<String> resetPassword(String passwordOld, String passwordNew, User user);
 
 	ResponseEntity<User> updateInformation(User user);
+	
+	public ResponseEntity<User> updateSelfInfo(User user);
 
 	ResponseEntity<UserVo> getInformation(Integer id);
 	

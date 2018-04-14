@@ -26,7 +26,7 @@ public interface PlayMapper {
     //查询直播开始时间在时段区间中的直播，add by linfs at 2018.3.2
     List<Play> selectByTime(@Param("begintime")String begintime, @Param("endtime")String endtime);
     
-    List<Play> selectByBeginEndTime(@Param("begintime")String begintime, @Param("endtime")String endtime);
+    List<Play> selectByPlayerBeginEndTime(@Param("playerId")Integer playerId, @Param("begintime")String begintime, @Param("endtime")String endtime);
     
     //通过playerId与status查询直播
     List<Play> selectByPlayIdAndStatus(@Param("playerId")Integer playerId,@Param("status")Integer status);

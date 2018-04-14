@@ -267,20 +267,20 @@
 		del_flag='0'
 	</select>
 
-	<select id="selectByBeginEndTime" parameterType="map" resultMap="BaseResultMap">
+	<select id="selectByPlayerBeginEndTime" parameterType="map" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from tbplay
-		where `status`!=3 and del_flag='0' and 
+		where `status`!=3 and del_flag='0' and playerid=#{playerId} and 
 		(
-			(begintime > #{begintime} AND  #{endtime}>begintime) OR
-			( #{begintime}>begintime AND endtime > #{endtime}) OR
-			(endtime > #{begintime} AND #{endtime}>endtime)
+			(DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND  #{endtime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S')) OR
+			( #{begintime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') AND DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{endtime}) OR
+			(DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND #{endtime}>=DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S'))
 		)
 	</select>
 
 	<select id="selectList" parameterType="map" resultMap="BaseResultMap">
-		select
+		select 
 		<include refid="Base_Column_List" />
 		from tbplay
 		where del_flag='0'

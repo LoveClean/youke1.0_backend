@@ -55,9 +55,9 @@ public class PlayServiceImpl implements PlayService {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
 		
-		List<Play>  plays =playMapper.selectByBeginEndTime(bean.getBegintime(), bean.getEndtime());
+		List<Play>  plays =playMapper.selectByPlayerBeginEndTime(bean.getPlayerid(), bean.getBegintime(), bean.getEndtime());
 		if(CollectionUtils.isNotEmpty(plays)) {
-			return ResponseEntityUtil.fail("该时段还有尚未结束的直播，请检查！");
+			return ResponseEntityUtil.fail("直播员在该时段还有尚未结束的直播，请检查！");
 		}
 		
 		Play play = new Play();
@@ -105,10 +105,11 @@ public class PlayServiceImpl implements PlayService {
 			return ResponseEntityUtil.fail("该直播在进行中或已完成，不可以修改");
 		}
 		
-		List<Play>  plays =playMapper.selectByBeginEndTime(bean.getBegintime(), bean.getEndtime());
+		List<Play>  plays =playMapper.selectByPlayerBeginEndTime(bean.getPlayerid(), bean.getBegintime(), bean.getEndtime());
 		if(CollectionUtils.isNotEmpty(plays)) {
-			return ResponseEntityUtil.fail("该时段还有尚未结束的直播，请检查！");
+			return ResponseEntityUtil.fail("直播员在该时段还有尚未结束的直播，请检查！");
 		}
+
 		
 		Play play = new Play();
 		play.setPicpath(bean.getPicpath());

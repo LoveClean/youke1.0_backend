@@ -104,7 +104,7 @@ public class PlayController extends BaseController {
     }
     
     @ApiOperation(value = "通过playerid,status,title,time获取直播记录",notes = "通过playerid,status,title,time获取直播记录")
-    @PostMapping(value="selectPlayListWithStatusAndPlayerId.do")
+    @PostMapping(value="selectPlayListByKeys.do")
     public ResponseEntity<List<PlayVo>> selectPlayListByKeys(@RequestBody PlaySearchRequestBean bean) {
         return playService.selectPlayListByKeys(bean);
     }

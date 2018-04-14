@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import com.beust.jcommander.internal.Lists;
 import com.github.pagehelper.PageHelper;
@@ -15,6 +16,7 @@ import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.request.PlayAddRequestBean;
+import com.media.ops.backend.controller.request.PlaySearchRequestBean;
 import com.media.ops.backend.controller.request.PlayUpdateRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Play;
@@ -199,11 +201,20 @@ public class PlayServiceImpl implements PlayService {
 	}
 
 	@Override
-	public ResponseEntity<List<PlayVo>> selectPlayListWithStatusAndPlayerId(Integer playerId, Integer status) {
-		if (playerId == null || status == null) {
-			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+	public ResponseEntity<List<PlayVo>> selectPlayListByKeys(PlaySearchRequestBean bean) {
+
+		String playTitle= bean.getPlayTitle();
+		
+		if(StringUtils.isNotEmpty(playTitle)) {
+			playTitle=new StringBuilder().append("%").append(playTitle).append("%").toString();
 		}
-		List<Play> plays = playMapper.selectByPlayIdAndStatus(playerId, status);
+		
+		List<Play> plays = playMapper.selectByKeys(
+				bean.getPlayerId()<=0?null:bean.getPlayerId(), 
+						bean.getStatus()<=0?null:bean.getStatus(), 
+						StringUtils.isBlank(playTitle)?null:playTitle, 
+								StringUtils.isBlank(bean.getBeginTime())?null:bean.getBeginTime(), 
+										StringUtils.isBlank(bean.getEndTime())?null:bean.getEndTime());
 		if (plays.size() == 0) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_DATA_NOT_FOUND);
 		}

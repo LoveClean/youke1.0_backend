@@ -22,9 +22,11 @@
 		<result column="del_flag" jdbcType="CHAR" property="delFlag" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, title, type, playerid, picpath, begintime, endtime, streamaddress,
+		id, title, type, playerid, picpath, begintime, endtime,
+		streamaddress,
 		playaddress,
-		replayaddress, realaddress, status, create_by, create_date, update_by, update_date,
+		replayaddress, realaddress, status,
+		create_by, create_date, update_by, update_date,
 		remarks, del_flag
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
@@ -42,20 +44,26 @@
 	</delete>
 	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Play"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into tbplay (id, title, type,
+		insert into tbplay (id, title,
+		type,
 		playerid, picpath, begintime,
 		endtime, streamaddress, playaddress,
 		replayaddress, realaddress, status,
 		create_by, create_date, update_by,
 		update_date, remarks, del_flag
 		)
-		values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		values (#{id,jdbcType=INTEGER},
+		#{title,jdbcType=VARCHAR},
 		#{type,jdbcType=INTEGER},
-		#{playerid,jdbcType=INTEGER}, #{picpath,jdbcType=VARCHAR}, #{begintime,jdbcType=TIMESTAMP},
-		#{endtime,jdbcType=TIMESTAMP}, #{streamaddress,jdbcType=VARCHAR},
+		#{playerid,jdbcType=INTEGER}, #{picpath,jdbcType=VARCHAR},
+		#{begintime,jdbcType=TIMESTAMP},
+		#{endtime,jdbcType=TIMESTAMP},
+		#{streamaddress,jdbcType=VARCHAR},
 		#{playaddress,jdbcType=VARCHAR},
-		#{replayaddress,jdbcType=VARCHAR}, #{realaddress,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
-		#{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR},
+		#{replayaddress,jdbcType=VARCHAR}, #{realaddress,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER},
+		#{createBy,jdbcType=VARCHAR}, now(),
+		#{updateBy,jdbcType=VARCHAR},
 		now(), #{remarks,jdbcType=VARCHAR}, 0
 		)
 	</insert>
@@ -233,54 +241,73 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Play">
 		update tbplay
-		set title = #{title,jdbcType=VARCHAR},
+		set
+		title = #{title,jdbcType=VARCHAR},
 		type = #{type,jdbcType=INTEGER},
 		playerid = #{playerid,jdbcType=INTEGER},
-		picpath = #{picpath,jdbcType=VARCHAR},
-		begintime = #{begintime,jdbcType=TIMESTAMP},
-		endtime = #{endtime,jdbcType=TIMESTAMP},
-		streamaddress = #{streamaddress,jdbcType=VARCHAR},
-		playaddress = #{playaddress,jdbcType=VARCHAR},
-		replayaddress = #{replayaddress,jdbcType=VARCHAR},
-		realaddress = #{realaddress,jdbcType=VARCHAR},
+		picpath =
+		#{picpath,jdbcType=VARCHAR},
+		begintime =
+		#{begintime,jdbcType=TIMESTAMP},
+		endtime =
+		#{endtime,jdbcType=TIMESTAMP},
+		streamaddress =
+		#{streamaddress,jdbcType=VARCHAR},
+		playaddress =
+		#{playaddress,jdbcType=VARCHAR},
+		replayaddress =
+		#{replayaddress,jdbcType=VARCHAR},
+		realaddress =
+		#{realaddress,jdbcType=VARCHAR},
 		status = #{status,jdbcType=INTEGER},
 		create_by = #{createBy,jdbcType=VARCHAR},
-		create_date = #{createDate,jdbcType=TIMESTAMP},
-		update_by = #{updateBy,jdbcType=VARCHAR},
+		create_date =
+		#{createDate,jdbcType=TIMESTAMP},
+		update_by =
+		#{updateBy,jdbcType=VARCHAR},
 		update_date = now(),
-		remarks = #{remarks,jdbcType=VARCHAR},
+		remarks =
+		#{remarks,jdbcType=VARCHAR},
 		del_flag = #{delFlag,jdbcType=CHAR}
-		where id = #{id,jdbcType=INTEGER}
+		where
+		id = #{id,jdbcType=INTEGER}
 	</update>
 
 	<update id="updateStreamAddressById" parameterType="map">
 		update tbplay
 		set streamaddress = #{streamaddress,jdbcType=VARCHAR}
-		where id = #{id,jdbcType=INTEGER}
+		where id =
+		#{id,jdbcType=INTEGER}
 	</update>
 
 	<select id="selectByTime" parameterType="map" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from tbplay
-		where `status`>0 and #{endtime}>=begintime and begintime>=#{begintime} and
+		where `status`>0 and #{endtime}>=begintime and
+		begintime>=#{begintime} and
 		del_flag='0'
 	</select>
 
-	<select id="selectByPlayerBeginEndTime" parameterType="map" resultMap="BaseResultMap">
+	<select id="selectByPlayerBeginEndTime" parameterType="map"
+		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from tbplay
-		where `status`!=3 and del_flag='0' and playerid=#{playerId} and 
+		where `status`!=3 and del_flag='0' and playerid=#{playerId}
+		and
 		(
-			(DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND  #{endtime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S')) OR
-			( #{begintime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') AND DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{endtime}) OR
-			(DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND #{endtime}>=DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S'))
+		(DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND
+		#{endtime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S')) OR
+		( #{begintime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') AND
+		DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{endtime}) OR
+		(DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND
+		#{endtime}>=DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S'))
 		)
 	</select>
 
 	<select id="selectList" parameterType="map" resultMap="BaseResultMap">
-		select 
+		select
 		<include refid="Base_Column_List" />
 		from tbplay
 		where del_flag='0'
@@ -292,7 +319,8 @@
 		select
 		<include refid="Base_Column_List" />
 		from tbplay
-		where playerid=#{playerId} and status=#{status} and del_flag='0'
+		where playerid=#{playerId} and status=#{status} and
+		del_flag='0'
 	</select>
 
 	<select id="selectByPlayerId" parameterType="map" resultMap="BaseResultMap">
@@ -302,4 +330,28 @@
 		where playerid=#{playerId} and del_flag='0'
 	</select>
 
+
+	<select id="selectByKeys" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbplay
+		<where>
+			del_flag='0'
+			<if test="playerId != null">
+				and playerid = #{playerId}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="playTitle != null">
+				and title like #{playTitle}
+			</if>
+			<if test="beginTime != null">
+				and DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') >= #{beginTime}
+			</if>
+			<if test="endTime != null">
+				and  #{endTime}>=DATE_FORMAT(endTime,'%Y-%m-%d %H:%i:%S') 
+			</if>
+		</where>
+	</select>
 </mapper>

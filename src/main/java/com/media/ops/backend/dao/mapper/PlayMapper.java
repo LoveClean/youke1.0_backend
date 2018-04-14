@@ -34,6 +34,9 @@ public interface PlayMapper {
     List<Play> selectList();
     //通过playerId查询直播
     List<Play> selectByPlayerId(@Param("playerId")Integer playerId);
+    
+    List<Play> selectByKeys(@Param("playerId")Integer playerId,@Param("status")Integer status,@Param("playTitle")String playTitle,@Param("beginTime")String beginTime,@Param("endTime")String endTime);
+
 
 
 }

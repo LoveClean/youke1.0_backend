@@ -3,6 +3,7 @@ package com.media.ops.backend.service;
 import java.util.List;
 
 import com.media.ops.backend.controller.request.PlayAddRequestBean;
+import com.media.ops.backend.controller.request.PlaySearchRequestBean;
 import com.media.ops.backend.controller.request.PlayUpdateRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Play;
@@ -22,7 +23,7 @@ public interface PlayService {
 	
 	public ResponseEntity<PlayVo> selectByKey(Integer id);
 	
-	public ResponseEntity<List<PlayVo>> selectPlayListWithStatusAndPlayerId(Integer playerId,Integer status);
+	public ResponseEntity<List<PlayVo>> selectPlayListByKeys(PlaySearchRequestBean bean);
 	
 	public ResponseEntity<List<PlayVo>> selectPlayList();
 	

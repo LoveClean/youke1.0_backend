@@ -103,10 +103,10 @@ public class PlayController extends BaseController {
         return ResponseEntityUtil.success(playService.selectPlayListByPlayerId(bean.getPageNum(), bean.getPageSize(), bean.getPlayerId()));
     }
     
-    @ApiOperation(value = "通过playerid和status获取直播记录",notes = "通过playerid和status获取直播记录")
+    @ApiOperation(value = "通过playerid,status,title,time获取直播记录",notes = "通过playerid,status,title,time获取直播记录")
     @PostMapping(value="selectPlayListWithStatusAndPlayerId.do")
-    public ResponseEntity<List<PlayVo>> selectPlayListWithStatusAndPlayerId(@RequestBody PlaySearchRequestBean bean) {
-        return playService.selectPlayListWithStatusAndPlayerId(bean.getPlayerId(),bean.getStatus());
+    public ResponseEntity<List<PlayVo>> selectPlayListByKeys(@RequestBody PlaySearchRequestBean bean) {
+        return playService.selectPlayListByKeys(bean);
     }
 	
 	

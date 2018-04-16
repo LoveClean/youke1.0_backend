@@ -206,6 +206,7 @@
     <if test="groupId != null" >
       and groupid= #{groupId,jdbcType=INTEGER}
     </if>
+      ORDER BY id desc
   </select>
-  ORDER BY id desc
+
 </mapper>

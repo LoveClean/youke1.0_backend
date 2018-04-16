@@ -24,8 +24,6 @@ public class FloorDeviceVo {
 		this.floorId = floorId;
 	}
 
-
-	
 	public int getDeviceTypeId() {
 		return deviceTypeId;
 	}

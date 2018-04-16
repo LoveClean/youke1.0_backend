@@ -172,7 +172,7 @@
 		<include refid="Base_Column_List" />
 		from tbbuilding
 		where del_flag='0'
-		ORDER BY id asc
+		ORDER BY id desc
 	</select>
 	<select id="selectListByAreaId" resultMap="BaseResultMap">
 		SELECT
@@ -180,7 +180,7 @@
 		from tbbuilding
 		where del_flag='0' and
 		areaid=#{areaId,jdbcType=VARCHAR}
-		ORDER BY id asc
+		ORDER BY id desc
 	</select>
 	<select id="selectListByAreaIdBuildingKey" resultMap="BaseResultMap">
 		SELECT
@@ -193,6 +193,6 @@
 		<if test="buildingName != null">
 			and name like #{buildingName}
 		</if>
-		ORDER BY id asc
+		ORDER BY id desc
 	</select>
 </mapper>

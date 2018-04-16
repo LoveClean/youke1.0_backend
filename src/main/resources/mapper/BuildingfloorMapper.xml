@@ -161,7 +161,7 @@
 		<include refid="Base_Column_List" />
 		from tbbuildingfloor
 		where del_flag='0' and buildingid=#{buildingId}
-		order by id asc
+		order by id desc
 	</select>
 
 

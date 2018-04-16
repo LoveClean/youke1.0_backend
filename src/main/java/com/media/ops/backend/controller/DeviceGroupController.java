@@ -40,7 +40,7 @@ public class DeviceGroupController {
 	public ResponseEntity getChildParallelGroup(
 			@RequestParam(value="groupId", defaultValue="0") Integer groupId,
 			@RequestParam(value="sortField", defaultValue="id") String sortField,
-			@RequestParam(value="sortRule", defaultValue="asc") String sortRule
+			@RequestParam(value="sortRule", defaultValue="desc") String sortRule
 			) {
 			return deviceGroupService.getChildParallelGroup(groupId,sortField,sortRule);
 			}

@@ -3,12 +3,22 @@ package com.media.ops.backend.vo;
 import java.util.List;
 
 public class BuildingFloorVo {
+	
+	private int id;
 
     private Integer buildingid;  //楼宇Id
     private Integer floorno;  //楼层id
     private String path;   //楼层平面图
     private List<FloorDeviceVo> floorDeviceVoList;   //楼层设备列表
     
+    
+    
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public Integer getBuildingid() {
 		return buildingid;
 	}

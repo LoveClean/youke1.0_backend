@@ -150,7 +150,7 @@
 		<include refid="Base_Column_List" />
 		from tbad 
 		where del_flag='0'
-		ORDER BY id asc
+		ORDER BY id desc
 	</select>
 
 

@@ -230,7 +230,7 @@
     <include refid="Base_Column_List"/>
     from tbdevice
     where  del_flag='0'
-    ORDER BY id asc
+    ORDER BY id desc
   </select>
   
     <select id="selectByCodeAreaAddress" resultMap="BaseResultMap" parameterType="map">

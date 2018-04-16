@@ -40,7 +40,7 @@ public class AdGroupController {
 	public ResponseEntity getChildParallelGroup(
 			@RequestParam(value="parentId", defaultValue="0") Integer parentId,
 			@RequestParam(value="sortField", defaultValue="id") String sortField,
-			@RequestParam(value="sortRule", defaultValue="asc") String sortRule
+			@RequestParam(value="sortRule", defaultValue="desc") String sortRule
 			) {
 			return adGroupService.getChildParallelGroup(parentId,sortField,sortRule);
 	}

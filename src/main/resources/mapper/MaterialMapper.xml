@@ -174,7 +174,7 @@
     <include refid="Base_Column_List"/>
     from tbmaterial
     where del_flag=0
-    ORDER BY id asc
+    ORDER BY id desc
   </select>
 
 
@@ -189,7 +189,7 @@
         #{item}
       </foreach>
     </if>
-    ORDER BY id asc
+    ORDER BY id desc
   </select>  
     
   <select id="selectByNameTypeGroupId" resultMap="BaseResultMap" parameterType="map">
@@ -207,4 +207,5 @@
       and groupid= #{groupId,jdbcType=INTEGER}
     </if>
   </select>
+  ORDER BY id desc
 </mapper>

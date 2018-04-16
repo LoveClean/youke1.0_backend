@@ -206,6 +206,6 @@
 		<include refid="Base_Column_List" />
 		from tbaddelivery 
 		where  del_flag='0'
-		ORDER BY id asc
+		ORDER BY id desc
 	</select>
 </mapper>

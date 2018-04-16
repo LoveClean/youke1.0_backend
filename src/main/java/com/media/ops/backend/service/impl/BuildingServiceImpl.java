@@ -416,6 +416,7 @@ public class BuildingServiceImpl implements BuildingService {
 	// 封装BuildingFloor模型
 	private BuildingFloorVo assembleBuildingFloorVo(Buildingfloor buildingfloor) {
 		BuildingFloorVo buildingFloorVo = new BuildingFloorVo();
+		buildingFloorVo.setId(buildingfloor.getId());
 		buildingFloorVo.setBuildingid(buildingfloor.getBuildingid());
 		buildingFloorVo.setFloorno(buildingfloor.getFloorno());
 		buildingFloorVo.setPath(buildingfloor.getPath());

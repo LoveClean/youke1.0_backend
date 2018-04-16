@@ -28,6 +28,7 @@ import com.media.ops.backend.dao.entity.Building;
 import com.media.ops.backend.dao.entity.Buildingfloor;
 import com.media.ops.backend.dao.entity.City;
 import com.media.ops.backend.dao.entity.Device;
+import com.media.ops.backend.dao.entity.Devicetype;
 import com.media.ops.backend.dao.entity.Floordevice;
 import com.media.ops.backend.dao.entity.Province;
 import com.media.ops.backend.dao.mapper.AreaMapper;
@@ -35,6 +36,7 @@ import com.media.ops.backend.dao.mapper.BuildingMapper;
 import com.media.ops.backend.dao.mapper.BuildingfloorMapper;
 import com.media.ops.backend.dao.mapper.CityMapper;
 import com.media.ops.backend.dao.mapper.DeviceMapper;
+import com.media.ops.backend.dao.mapper.DevicetypeMapper;
 import com.media.ops.backend.dao.mapper.FloordeviceMapper;
 import com.media.ops.backend.dao.mapper.ProvinceMapper;
 import com.media.ops.backend.service.BuildingService;
@@ -66,6 +68,8 @@ public class BuildingServiceImpl implements BuildingService {
 	private FloordeviceMapper floordeviceMapper;
 	@Autowired
 	private DeviceMapper deviceMapper;
+	@Autowired
+	private  DevicetypeMapper devicetypeMapper;
 
 	@Override
 	public ResponseEntity createBuilding(String createby, BuildingAddRequestBean bean) {
@@ -548,10 +552,16 @@ public class BuildingServiceImpl implements BuildingService {
 		floorDeviceVo.setId(floordevice.getId());
 		floorDeviceVo.setFloorId(floordevice.getFloorid());
 
-		Device device = deviceMapper.selectByPrimaryKey(floordevice.getDeviceid());
-		if (device != null) {
-			floorDeviceVo.setDeviceVo(assembleDeviceVo(device));
+//		Device device = deviceMapper.selectByPrimaryKey(floordevice.getDeviceid());
+//		if (device != null) {
+//			floorDeviceVo.setDeviceVo(assembleDeviceVo(device));
+//		}
+		Devicetype devicetype= devicetypeMapper.selectByPrimaryKey(floordevice.getDeviceid());
+		if(devicetype !=null) {
+			floorDeviceVo.setDeviceTypeId(devicetype.getId());
+			floorDeviceVo.setDeviceTypeName(devicetype.getName());
 		}
+		
 		floorDeviceVo.setX(floordevice.getX());
 		floorDeviceVo.setY(floordevice.getY());
 

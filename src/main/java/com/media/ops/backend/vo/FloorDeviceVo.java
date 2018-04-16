@@ -3,7 +3,9 @@ package com.media.ops.backend.vo;
 public class FloorDeviceVo {
 	private int id;
 	private int floorId;   //楼层id
-	private DeviceVo deviceVo;  //设备模型
+	//private DeviceVo deviceVo;  //设备模型
+	private int deviceTypeId;
+	private String deviceTypeName;
     private float x;   //X坐标
     private float y;   //Y坐标
     
@@ -21,11 +23,20 @@ public class FloorDeviceVo {
 	public void setFloorId(int floorId) {
 		this.floorId = floorId;
 	}
-	public DeviceVo getDeviceVo() {
-		return deviceVo;
+
+
+	
+	public int getDeviceTypeId() {
+		return deviceTypeId;
 	}
-	public void setDeviceVo(DeviceVo deviceVo) {
-		this.deviceVo = deviceVo;
+	public void setDeviceTypeId(int deviceTypeId) {
+		this.deviceTypeId = deviceTypeId;
+	}
+	public String getDeviceTypeName() {
+		return deviceTypeName;
+	}
+	public void setDeviceTypeName(String deviceTypeName) {
+		this.deviceTypeName = deviceTypeName;
 	}
 	public float getX() {
 		return x;

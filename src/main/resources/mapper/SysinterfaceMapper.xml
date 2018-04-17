@@ -21,7 +21,7 @@
 		select * from tbsysinterface
 	</select>
 
-	<select id="selectByUrl" parameterType="string" resultMap="BaseResultMap">
+	<select id="selectByValue" parameterType="string" resultMap="BaseResultMap">
 		select * from tbsysinterface where value=#{interfaceUrl}
 	</select>
 

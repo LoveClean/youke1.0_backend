@@ -19,6 +19,8 @@ public interface BuildingMapper {
 
     int updateByPrimaryKey(Building record);
     
+    int checkExist(@Param("areaid")String areaid, @Param("address")String address, @Param("name")String name);
+    
     List<Building> selectList();
     
     List<Building> selectListByAreaId(String areaId);

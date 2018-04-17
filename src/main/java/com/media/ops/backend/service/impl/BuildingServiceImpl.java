@@ -73,6 +73,11 @@ public class BuildingServiceImpl implements BuildingService {
 
 	@Override
 	public ResponseEntity createBuilding(String createby, BuildingAddRequestBean bean) {
+		
+		if(buildingMapper.checkExist(bean.getAreaid(), bean.getAddress(), bean.getName())>0) {
+			return ResponseEntityUtil.fail("同一地址下已有同名的楼宇");
+		}
+
 		Building building = new Building();
 		building.setName(bean.getName());
 		building.setAddress(bean.getAddress());

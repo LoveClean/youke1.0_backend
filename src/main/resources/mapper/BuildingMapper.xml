@@ -195,4 +195,11 @@
 		</if>
 		ORDER BY id desc
 	</select>
+
+	<select id="checkExist" resultType="int" parameterType="map">
+		select
+		count(1) from tbbuilding
+		where areaid = #{areaid} and address= #{address} and name=#{name}
+	</select>
+
 </mapper>

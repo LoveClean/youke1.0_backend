@@ -106,8 +106,9 @@ public class SysLogServiceImpl implements SysLogService {
 		syslogVo.setUrl(syslog.getRequestUri());
 		
 		if(StringUtils.isNotEmpty(syslog.getRequestUri())) {
+			System.out.println(syslog.getRequestUri());
 			Sysinterface sysinterface= sysinterfaceMapper.selectByValue(syslog.getRequestUri());
-			if(StringUtils.isNotEmpty(sysinterface.getValue())) {
+			if(sysinterface!=null) {
 				syslogVo.setRequesturl(sysinterface.getName());
 			}else {
 				syslogVo.setRequesturl(syslog.getRequestUri());

@@ -9,9 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.collect.Lists;
+import com.media.ops.backend.controller.request.PageRequestBean;
+import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.service.CityService;
 import com.media.ops.backend.service.SmsService;
+import com.media.ops.backend.service.SysLogService;
 import com.media.ops.backend.util.MD5Util;
+import com.media.ops.backend.vo.SyslogVo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -21,6 +25,9 @@ public class ApplicationTests {
 	private SmsService  smsService;
 //	@Autowired
 //	private CityService cityService;
+	
+	@Autowired
+	private SysLogService sysLogService;
 	
 	@Test
 	public void test() {
@@ -45,5 +52,13 @@ public class ApplicationTests {
 		
 		System.out.println(smsService.sendMass(mobiles,"群发测试"));
 	}
+	
+	@Test
+	public void test4() {
+		PageRequestBean bean= new PageRequestBean();
+		bean.setPageNum(0);
+		bean.setPageSize(0);
+		PageResponseBean<SyslogVo>  result =sysLogService.sysLog(bean);
 
+	}
 }

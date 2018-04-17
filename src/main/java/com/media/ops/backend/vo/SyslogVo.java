@@ -9,7 +9,9 @@ public class SyslogVo {
     
     private String name;  //姓名
 
-    private String requesturl; //访问路径
+    private String url;  //操作路径
+    
+    private String requesturl; //操作名称
     
     private String remoteIP;  //请求IP地址
     
@@ -37,6 +39,14 @@ public class SyslogVo {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getRequesturl() {

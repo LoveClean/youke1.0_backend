@@ -18,8 +18,10 @@ import com.google.common.collect.Lists;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.request.SyslogSearchReqeustBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
+import com.media.ops.backend.dao.mapper.SysinterfaceMapper;
 import com.media.ops.backend.dao.mapper.SyslogMapper;
 import com.media.ops.backend.dao.mapper.UserMapper;
+import com.media.ops.backend.dao.entity.Sysinterface;
 import com.media.ops.backend.dao.entity.Syslog;
 import com.media.ops.backend.dao.entity.User;
 import com.media.ops.backend.service.SysLogService;
@@ -36,6 +38,8 @@ public class SysLogServiceImpl implements SysLogService {
 	private SyslogMapper syslogMapper;
 	@Resource
 	private UserMapper userMapper;
+	@Resource
+	private SysinterfaceMapper sysinterfaceMapper;
 	
 	@Override
 	public int add(Syslog sysLog,User user) {
@@ -99,7 +103,18 @@ public class SysLogServiceImpl implements SysLogService {
 		
 		syslogVo.setCreatetime(syslog.getCreateDate());
 		syslogVo.setRemoteIP(syslog.getRemoteAddr());
-		syslogVo.setRequesturl(syslog.getRequestUri());
+		syslogVo.setUrl(syslog.getRequestUri());
+		
+		if(StringUtils.isNotEmpty(syslog.getRequestUri())) {
+			Sysinterface sysinterface= sysinterfaceMapper.selectByValue(syslog.getRequestUri());
+			if(StringUtils.isNotEmpty(sysinterface.getValue())) {
+				syslogVo.setRequesturl(sysinterface.getName());
+			}else {
+				syslogVo.setRequesturl(syslog.getRequestUri());
+			}
+		}
+		
+		
 		
 		return syslogVo;
 

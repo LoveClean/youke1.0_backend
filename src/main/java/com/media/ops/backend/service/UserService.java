@@ -11,7 +11,7 @@ public interface UserService {
 
 	ResponseEntity add(User user);
 
-	ResponseEntity<String> checkValid(String str, String type);
+	ResponseEntity<String> checkValid(String str, String field, int type);
 
 	ResponseEntity<String> resetPassword(String passwordOld, String passwordNew, User user);
 
@@ -32,10 +32,10 @@ public interface UserService {
 	
 	
 	///////////////////////////通过密保问题修改密码的方法////////////////////////////////////////
-	ResponseEntity<String> selectQuestion(String username);
+	ResponseEntity<String> selectQuestion(String username, int type);
 
 	ResponseEntity<String> checkAnswer(String username, String question, String answer);
 
-	ResponseEntity<String> forgetResetPassword(String username, String newPassword, String forgetToken);
+	ResponseEntity<String> forgetResetPassword(String username, String newPassword, String forgetToken,int type);
 
 }

@@ -32,6 +32,10 @@ public interface PlayMapper {
     List<Play> selectByPlayIdAndStatus(@Param("playerId")Integer playerId,@Param("status")Integer status);
     //查询所有直播
     List<Play> selectList();
+    
+    //查询所有未结束的直播
+    List<Play> selectUnfinishedPlay();
+    
     //通过playerId查询直播
     List<Play> selectByPlayerId(@Param("playerId")Integer playerId);
     

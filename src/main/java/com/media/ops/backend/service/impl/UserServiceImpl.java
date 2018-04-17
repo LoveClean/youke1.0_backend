@@ -77,11 +77,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ResponseEntity add(User user) {
-		ResponseEntity<String> validResponse= this.checkValid(user.getAccount(), Const.USERNAME);
+		ResponseEntity<String> validResponse= this.checkValid(user.getAccount(), Const.USERNAME, user.getType());
 		if(! validResponse.isSuccess()) {
 			return validResponse;
 		}
-		validResponse= this.checkValid(user.getEmail(), Const.EMAIL);
+		validResponse= this.checkValid(user.getEmail(), Const.EMAIL, user.getType());
+		if(!validResponse.isSuccess()) {
+			return validResponse;
+		}
+		validResponse= this.checkValid(user.getPhone(), Const.PHONE, user.getType());
 		if(!validResponse.isSuccess()) {
 			return validResponse;
 		}
@@ -99,19 +103,26 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResponseEntity<String> checkValid(String str, String type) {
-       if(StringUtils.isNotBlank(type)) {
-    	   if(Const.USERNAME.equals(type)) {
-    		   int resultCount= userMapper.checkAccount(str);
+	public ResponseEntity<String> checkValid(String str, String field, int type) {
+       if(StringUtils.isNotBlank(field)) {
+    	   if(Const.USERNAME.equals(field)) {
+    		   int resultCount= userMapper.checkAccount(str,type);
     		   if(resultCount>0) {
     				return ResponseEntityUtil.fail("用户已存在");
     			}
     	   }
     	   
-    	   if(Const.EMAIL.equals(type)) {
-    		   int resultCount= userMapper.checkEmail(str);
+    	   if(Const.EMAIL.equals(field)) {
+    		   int resultCount= userMapper.checkEmail(str,type);
     			if(resultCount>0) {
     				return ResponseEntityUtil.fail("email已存在");
+    			}    		   
+    	   }
+    	   
+    	   if(Const.PHONE.equals(field)) {
+    		   int resultCount= userMapper.checkPhone(str,type);
+    			if(resultCount>0) {
+    				return ResponseEntityUtil.fail("手机号已存在");
     			}    		   
     	   }
     	   
@@ -123,8 +134,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResponseEntity<String> selectQuestion(String account) {
-		ResponseEntity<String> validResponse= this.checkValid(account, Const.USERNAME);
+	public ResponseEntity<String> selectQuestion(String account, int type) {
+		ResponseEntity<String> validResponse= this.checkValid(account, Const.USERNAME, type);
 		if( validResponse.isSuccess()) {
 			return ResponseEntityUtil.fail("用户名不存在");
 		}
@@ -149,12 +160,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResponseEntity<String> forgetResetPassword(String account, String newPassword, String forgetToken) {
+	public ResponseEntity<String> forgetResetPassword(String account, String newPassword, String forgetToken, int type) {
 		if(StringUtils.isBlank(forgetToken)) {
 			return ResponseEntityUtil.fail("参数错误，没有传递Token");
 		}
 		
-		ResponseEntity validResponse= this.checkValid(account, Const.USERNAME);
+		ResponseEntity validResponse= this.checkValid(account, Const.USERNAME, type);
 		if(validResponse.isSuccess()) {
 			return ResponseEntityUtil.fail("用户不存在");
 		}

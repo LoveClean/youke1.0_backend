@@ -128,7 +128,7 @@ public class UserController extends BaseController {
 	@ApiOperation(value = "有效性校验接口,type可为account或email",notes = "信息校验")
 	@PostMapping(value="check_valid.do")
 	public ResponseEntity<String> checkValid(@Valid @RequestBody InfoCheckRequestBean bean){
-		return userService.checkValid(bean.getValue(), bean.getType());
+		return userService.checkValid(bean.getValue(),bean.getField(), bean.getType());
 	}
 	
 	

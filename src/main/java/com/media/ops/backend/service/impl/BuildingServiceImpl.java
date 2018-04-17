@@ -113,10 +113,13 @@ public class BuildingServiceImpl implements BuildingService {
 		delBuilding.setId(buildingId);
 		delBuilding.setUpdateBy(updateby);
 		delBuilding.setDelFlag(Const.DelFlagEnum.DELETED);
-
+		
 		int resultCount = buildingMapper.updateByPrimaryKeySelective(delBuilding);
 		if (resultCount > 0) {
-			return this.delFloorByBuildingId(updateby, buildingId);
+			List<BuildingFloorVo> buildingFloorVos= this.selectFloorsByBuildingId(buildingId).getData();
+			if(CollectionUtils.isNotEmpty(buildingFloorVos)) {
+				return this.delFloorByBuildingId(updateby, buildingId);
+			}
 		}
 		return ResponseEntityUtil.delMessage(resultCount);
 	}

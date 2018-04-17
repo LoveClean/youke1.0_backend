@@ -1,5 +1,6 @@
 package com.media.ops.backend.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +57,11 @@ public class AdGroupController {
 	@PostMapping(value="search.do")
 	public ResponseEntity searchGroups(@RequestBody String groupName) {
 		return adGroupService.searchGroupsbyName(groupName);
+	}
+	
+	@ApiOperation(value = "删除分组操作接口",notes = "删除分组")
+	@PostMapping(value="del.do")	
+	public ResponseEntity del(@RequestBody Integer id,HttpServletRequest request) {
+		return adGroupService.deleteGroup(id);
 	}
 }

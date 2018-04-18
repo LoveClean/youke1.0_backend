@@ -94,6 +94,7 @@ public class BuildingServiceImpl implements BuildingService {
 		
 		return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);
 	}
+	
 
 	@Override
 	public ResponseEntity updateBuilding(String updateby, BuildingUptRequestBean bean) {

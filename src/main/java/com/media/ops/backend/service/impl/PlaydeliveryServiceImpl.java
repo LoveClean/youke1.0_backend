@@ -62,6 +62,10 @@ public class PlaydeliveryServiceImpl implements PlaydeliveryService {
 		if(play==null) {
 			return ResponseEntityUtil.fail("没有查询到直播信息");
 		}
+		if(play.getStatus()>=3) {
+			return ResponseEntityUtil.fail("该直播已经结束，无法创建投放");
+		}
+		
 		
 		List<VmPlayDeliveryVo> vmPlayDeliveryVos= playdeliveryMapper.selectByGroupBeginEndTime(
 				bean.getDelivertype(), bean.getAreaid(), bean.getGroupid(), 
@@ -99,6 +103,9 @@ public class PlaydeliveryServiceImpl implements PlaydeliveryService {
 
 		if(play==null) {
 			return ResponseEntityUtil.fail("没有查询到直播信息");
+		}
+		if(play.getStatus()>=3) {
+			return ResponseEntityUtil.fail("该直播已经结束，无法修改");
 		}
 		
 		List<VmPlayDeliveryVo> vmPlayDeliveryVos= playdeliveryMapper.selectByGroupBeginEndTime(

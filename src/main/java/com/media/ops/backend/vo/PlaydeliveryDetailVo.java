@@ -7,6 +7,7 @@ public class PlaydeliveryDetailVo {
 
 	    private Integer playid;//广告id
 	    private String playTitle;
+	    private Integer playStatus;  //直播状态
 	    
 	    private Integer delivertype; //投放类型
 
@@ -42,6 +43,14 @@ public class PlaydeliveryDetailVo {
 
 		public void setPlayTitle(String playTitle) {
 			this.playTitle = playTitle;
+		}
+
+		public Integer getPlayStatus() {
+			return playStatus;
+		}
+
+		public void setPlayStatus(Integer playStatus) {
+			this.playStatus = playStatus;
 		}
 
 		public Integer getDelivertype() {

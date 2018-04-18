@@ -151,11 +151,13 @@ public class PlaydeliveryServiceImpl implements PlaydeliveryService {
 	private PlaydeliveryDetailVo assemblePlaydeliveryDetailVo(Playdelivery playdelivery) {
 		PlaydeliveryDetailVo playdeliveryDetailVo = new PlaydeliveryDetailVo();
 		playdeliveryDetailVo.setId(playdelivery.getId());
+		
 
 		Play play = playMapper.selectByPrimaryKey(playdelivery.getPlayid());
 		if (play != null) {
 			playdeliveryDetailVo.setPlayid(play.getId());
 			playdeliveryDetailVo.setPlayTitle(play.getTitle());
+			playdeliveryDetailVo.setPlayStatus(play.getStatus());
 		}
 
 		playdeliveryDetailVo.setDelivertype(playdelivery.getDelivertype());

@@ -1,7 +1,5 @@
 package com.media.ops.backend.vo;
 
-import java.util.Date;
-
 public class PlaydeliveryDetailVo {
 	   private Integer id;
 

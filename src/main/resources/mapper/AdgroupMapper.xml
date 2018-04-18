@@ -101,7 +101,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from tbadgroup
-		where parentid = #{parentId}
+		where parentid = #{parentId}  and status=1
 	</select>
 
 	<select id="selectGroupsByName" resultMap="BaseResultMap"
@@ -110,6 +110,7 @@
 		<include refid="Base_Column_List" />
 		from tbadgroup
 		<where>
+		    status=1
 			<if test="groupName != null">
 				and name like #{groupName}
 			</if>

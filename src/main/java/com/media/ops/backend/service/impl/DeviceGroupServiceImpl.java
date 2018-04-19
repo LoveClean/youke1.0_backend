@@ -39,6 +39,10 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
 		
+		if(devicegroupMapper.checkExistName(groupName)>0) {
+			return ResponseEntityUtil.fail("同名分组已存在！");
+		}		
+		
 		Devicegroup devicegroup= new Devicegroup();
 		devicegroup.setName(groupName);
 		devicegroup.setParentid(parentId);

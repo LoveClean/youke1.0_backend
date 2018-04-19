@@ -22,4 +22,6 @@ public interface MaterialgroupMapper {
     List<Materialgroup> selectGroupChildrenByParentId(Integer parentId);
     
     List<Materialgroup> selectGroupsByName(@Param("groupName")String groupName);
+    
+    int checkExistName(@Param("groupName")String groupName);
 }

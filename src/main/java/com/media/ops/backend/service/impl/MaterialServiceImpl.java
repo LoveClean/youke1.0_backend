@@ -127,6 +127,7 @@ public class MaterialServiceImpl implements MaterialService {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
+	
 		Material material= new Material();
 		material.setName(bean.getName());
 		material.setType(bean.getType());

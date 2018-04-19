@@ -22,4 +22,6 @@ public interface DevicegroupMapper {
     List<Devicegroup> selectGroupChildrenByParentId(Integer parentId);
     
     List<Devicegroup> selectGroupsByName(@Param("groupName")String groupName);
+    
+    int checkExistName(@Param("groupName")String groupName);
 }

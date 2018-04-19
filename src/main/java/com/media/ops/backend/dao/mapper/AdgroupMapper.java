@@ -22,4 +22,6 @@ public interface AdgroupMapper {
     List<Adgroup> selectGroupChildrenByParentId(Integer parentId);
     
     List<Adgroup> selectGroupsByName(@Param("groupName")String groupName);
+    
+    int checkExistName(@Param("groupName")String groupName);
 }

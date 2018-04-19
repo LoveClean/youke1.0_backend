@@ -115,4 +115,14 @@
 			</if>
 		</where>
 	</select>
+	
+	
+	<select id="checkExistName" resultType="int" parameterType="map">
+		SELECT
+		count(1)
+		from tbdevicegroup
+		where name = #{groupName}
+		and status=1
+	</select>
+	
 </mapper>

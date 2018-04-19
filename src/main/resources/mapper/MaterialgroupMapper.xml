@@ -20,14 +20,17 @@
 		where id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from tbmaterialgroup
+		delete from
+		tbmaterialgroup
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Materialgroup"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into tbmaterialgroup (id, name, parentid,
+		insert into tbmaterialgroup (id,
+		name, parentid,
 		status, sortOrder)
-		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		values (#{id,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
 		#{parentid,jdbcType=INTEGER},
 		#{status,jdbcType=TINYINT}, #{sortorder,jdbcType=INTEGER})
 	</insert>
@@ -88,12 +91,15 @@
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Materialgroup">
-		update tbmaterialgroup
+		update
+		tbmaterialgroup
 		set name = #{name,jdbcType=VARCHAR},
-		parentid = #{parentid,jdbcType=INTEGER},
+		parentid =
+		#{parentid,jdbcType=INTEGER},
 		status = #{status,jdbcType=TINYINT},
 		sortOrder = #{sortorder,jdbcType=INTEGER}
-		where id = #{id,jdbcType=INTEGER}
+		where id =
+		#{id,jdbcType=INTEGER}
 	</update>
 
 	<select id="selectGroupChildrenByParentId" resultMap="BaseResultMap"
@@ -110,10 +116,18 @@
 		<include refid="Base_Column_List" />
 		from tbmaterialgroup
 		<where>
-		    status=1
+			status=1
 			<if test="groupName != null">
 				and name like #{groupName}
 			</if>
 		</where>
+	</select>
+
+	<select id="checkExistName" resultType="int" parameterType="map">
+		SELECT
+		count(1)
+		from tbmaterialgroup
+		where name = #{groupName}
+		and status=1
 	</select>
 </mapper>

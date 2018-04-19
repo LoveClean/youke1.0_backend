@@ -294,7 +294,25 @@
 		select
 		<include refid="Base_Column_List" />
 		from tbplay
-		where `status`!=3 and del_flag='0' and playerid=#{playerId}
+		where `status`!=3 and del_flag='0' and playerid=#{playerId} 
+		and
+		(
+		(DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND
+		#{endtime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S')) OR
+		(
+		#{begintime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') AND
+		DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{endtime}) OR
+		(DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND
+		#{endtime}>=DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S'))
+		)
+	</select>
+
+	<select id="selectByPlayIdPlayerBeginEndTime" parameterType="map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbplay
+		where `status`!=3 and del_flag='0' and playerid=#{playerId} and id!=#{playId}
 		and
 		(
 		(DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND

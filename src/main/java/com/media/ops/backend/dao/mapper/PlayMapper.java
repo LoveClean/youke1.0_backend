@@ -28,6 +28,8 @@ public interface PlayMapper {
     
     List<Play> selectByPlayerBeginEndTime(@Param("playerId")Integer playerId, @Param("begintime")String begintime, @Param("endtime")String endtime);
     
+    List<Play> selectByPlayIdPlayerBeginEndTime(@Param("playId")Integer playId,@Param("playerId")Integer playerId, @Param("begintime")String begintime, @Param("endtime")String endtime);
+    
     //通过playerId与status查询直播
     List<Play> selectByPlayIdAndStatus(@Param("playerId")Integer playerId,@Param("status")Integer status);
     //查询所有直播

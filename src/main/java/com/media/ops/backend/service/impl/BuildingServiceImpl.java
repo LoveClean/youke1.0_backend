@@ -302,6 +302,11 @@ public class BuildingServiceImpl implements BuildingService {
 	 */
 	@Override
 	public ResponseEntity createBuildingFloor(String createby, BuildingFloorAddRequestBean bean) {
+		
+		if(buildingfloorMapper.checkExist(bean.getBuildingid(), bean.getFloorno())>0) {
+			return ResponseEntityUtil.fail("已有同名的楼层");
+		}
+		
 		Buildingfloor buildingfloor = new Buildingfloor();
 		buildingfloor.setBuildingid(bean.getBuildingid());
 		buildingfloor.setFloorno(bean.getFloorno());
@@ -331,8 +336,10 @@ public class BuildingServiceImpl implements BuildingService {
 			buildingfloor.setUpdateBy(createby);
 			
 			try {
-				buildingfloorMapper.insert(buildingfloor);
-				buildingfloors.add(buildingfloor);
+				if(buildingfloorMapper.checkExist(bean.getBuildingid(), bean.getFloorno())<=0) {
+					buildingfloorMapper.insert(buildingfloor);
+					buildingfloors.add(buildingfloor);
+				}
 			} catch (Exception e) {
 				return ResponseEntityUtil.fail("批量处理有异常");
 			}

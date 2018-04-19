@@ -66,12 +66,15 @@ public class UserServiceImpl implements UserService {
 			return ResponseEntityUtil.fail("该账号已被禁用");
 		}
 		
-		if(this.checkAdminRole(user).isSuccess() && this.checkUserStatus(user).isSuccess()) {
-			user.setPassword(StringUtils.EMPTY);
-			return ResponseEntityUtil.success(user);
-		}else {
-			return ResponseEntityUtil.fail(Errors.SYSTEM_NO_ACCESS);
-		}
+//		if(this.checkUserStatus(user).isSuccess()) {
+//			user.setPassword(StringUtils.EMPTY);
+//			return ResponseEntityUtil.success(user);
+//		}else {
+//			return ResponseEntityUtil.fail(Errors.SYSTEM_NO_ACCESS);
+//		}
+		
+		user.setPassword(StringUtils.EMPTY);
+		return ResponseEntityUtil.success(user);
 	
 	}
 

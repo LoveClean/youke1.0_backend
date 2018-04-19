@@ -172,5 +172,11 @@
 		where
 		buildingid = #{buildingId}
 	</update>
+	
+	<select id="checkExist" resultType="int" parameterType="map">
+		select
+		count(1) from tbbuildingfloor
+		where buildingid = #{buildingid} and floorno= #{floorno}
+	</select>
 
 </mapper>

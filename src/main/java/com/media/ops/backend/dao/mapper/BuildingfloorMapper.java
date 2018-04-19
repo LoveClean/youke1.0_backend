@@ -22,4 +22,7 @@ public interface BuildingfloorMapper {
     int uptFloorByBuildingId(@Param("buildingId")Integer buildingId, @Param("delFlag")String delFlag, @Param("updateBy")String updateBy);
     
     List<Buildingfloor> selectListByBuildingId(@Param("buildingId")Integer buildingId);
+    
+    int checkExist(@Param("buildingid")Integer buildingid, @Param("floorno")Integer floorno);
+
 }

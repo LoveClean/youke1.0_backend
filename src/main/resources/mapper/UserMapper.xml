@@ -261,7 +261,7 @@
 		<include refid="Base_Column_List" />
 		from tbuser
 		where account = #{account}
-		and password = #{password}
+		and password = #{password} and type=0
 	</select>
 	<select id="selectByPhone" resultMap="BaseResultMap"
 		parameterType="map">
@@ -269,7 +269,7 @@
 		<include refid="Base_Column_List" />
 		from tbuser
 		where phone = #{phone}
-		and password = #{password}
+		and password = #{password} and type=0
 	</select>
 
 	<select id="selectByEmail" resultMap="BaseResultMap"
@@ -278,7 +278,7 @@
 		<include refid="Base_Column_List" />
 		from tbuser
 		where email = #{email}
-		and password = #{password}
+		and password = #{password} and type=0
 	</select>
 
 	<select id="selectQuestionByAccount" resultType="string"

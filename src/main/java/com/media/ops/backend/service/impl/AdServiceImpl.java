@@ -98,7 +98,27 @@ public class AdServiceImpl implements AdService{
 		int resultCount= adMapper.updateByPrimaryKeySelective(uptAd);
 		
 		if(resultCount>0) {
-			adMaterialService.batchUpdateAdMaterial(updateby, bean.getAdData());
+			
+			List<AdMaterialUptRequestBean> beans= bean.getAdData();
+			for (AdMaterialUptRequestBean adMaterailBean : beans) {
+				
+				Admaterial admaterial=new Admaterial();
+				admaterial.setAdid(adMaterailBean.getAdId());
+				admaterial.setMaterialid(adMaterailBean.getMaterialId());
+				admaterial.setOrderindex(adMaterailBean.getOrderIndex());
+				admaterial.setLoadstep(adMaterailBean.getLoadStep());
+				admaterial.setDisplaytime(adMaterailBean.getDisplayTime());
+				admaterial.setMusicpath(adMaterailBean.getMusicPath());
+				admaterial.setCreateBy(updateby);
+				admaterial.setUpdateBy(updateby);
+				
+				if(adMaterailBean.getId()==0 || admaterialMapper.selectByPrimaryKey(adMaterailBean.getId())==null) {
+					admaterialMapper.insertSelective(admaterial);
+				}else {
+					admaterial.setId(adMaterailBean.getId());
+					admaterialMapper.updateByPrimaryKeySelective(admaterial);
+				}
+			}
 		}
 		
 		return ResponseEntityUtil.updMessage(resultCount);

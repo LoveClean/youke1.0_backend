@@ -12,6 +12,9 @@ public class AdMaterialUptRequestBean {
 	@ApiModelProperty(value = "广告Id")
 	private int adId;
 	
+	@ApiModelProperty(value = "素材Id")
+	private int materialId;
+	
 
 	@ApiModelProperty(value = "播放顺序orderIndex")
 	private int orderIndex; //播放顺序
@@ -36,6 +39,12 @@ public class AdMaterialUptRequestBean {
 		this.adId = adId;
 	}
 	
+	public int getMaterialId() {
+		return materialId;
+	}
+	public void setMaterialId(int materialId) {
+		this.materialId = materialId;
+	}
 	public int getOrderIndex() {
 		return orderIndex;
 	}

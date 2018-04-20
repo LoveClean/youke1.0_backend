@@ -242,7 +242,7 @@
         and code like #{code}
       </if>
       <if test="areaId != null">
-        and areaid = #{areaId}
+        and areaid like #{areaId}
       </if>
       <if test="address != null">
         and address like #{address}
@@ -250,4 +250,18 @@
     </where>
   </select>
 
+	<select id="checkExistCode" resultType="int" parameterType="map">
+		SELECT
+		count(1)
+		from tbdevice
+		where code = #{deviceCode}
+		and del_flag='0'
+	</select>
+	<select id="checkExistCodeNotSelf" resultType="int" parameterType="map">
+		SELECT
+		count(1)
+		from tbdevice
+		where code = #{deviceCode} and id!= #{deviceId}
+		and del_flag='0'
+	</select>	
 </mapper>

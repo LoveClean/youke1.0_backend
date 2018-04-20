@@ -81,20 +81,21 @@ public class DeviceServiceImpl implements DeviceService {
 	public ResponseEntity<PageInfo> selectDeviceByCodeAreaAddress(DeviceSearchRequestBean bean) {
 		String code=bean.getCode();
 		String address=bean.getAddress();
+		String cityId= bean.getCityId();
 		String areaId=bean.getAreaId();
 		Integer pageNum=bean.getPageNum();
 		Integer pageSize=bean.getPageSize();
-		
-		
-		if(StringUtils.isBlank(code)&& StringUtils.isBlank(address)&&StringUtils.isBlank(areaId)) {
-			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
-		}
 		
 		if(StringUtils.isNotBlank(code)) {
 			code=new StringBuilder().append("%").append(code).append("%").toString();
 		}
 		if(StringUtils.isNotBlank(address)) {
 			address=new StringBuilder().append("%").append(address).append("%").toString();
+		}
+		
+		if(StringUtils.isNotBlank(cityId) && StringUtils.isBlank(areaId)) {
+			cityId = cityId.substring(0, 4);
+			areaId=new StringBuilder().append(cityId).append("%").toString();
 		}
 		
 		PageHelper.startPage(pageNum, pageSize);
@@ -161,6 +162,10 @@ public class DeviceServiceImpl implements DeviceService {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
+		
+		if(deviceMapper.checkExistCode(bean.getCode())>0) {
+			return ResponseEntityUtil.fail("存在编号相同的设备!");
+		}
 		Device device=new Device();
 		device.setCode(bean.getCode());
 		device.setAddress(bean.getAddress());
@@ -190,6 +195,11 @@ public class DeviceServiceImpl implements DeviceService {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
+		
+		if(deviceMapper.checkExistCodeNotSelf(bean.getId(), bean.getCode())>0) {
+			return ResponseEntityUtil.fail("存在编号相同的设备!");
+		}
+		
 		Device updateDevice= new Device();
 		updateDevice.setId(bean.getId());
 		updateDevice.setCode(bean.getCode());

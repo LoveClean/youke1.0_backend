@@ -15,6 +15,8 @@ public class DeviceSearchRequestBean implements Serializable {
 
 	@ApiModelProperty(value = "设备编号")
 	private String code;
+	@ApiModelProperty(value = "城市ID")
+	private String cityId;
 	@ApiModelProperty(value = "区域ID")
 	private String areaId;
 	@ApiModelProperty(value = "地址关键词")
@@ -57,6 +59,14 @@ public class DeviceSearchRequestBean implements Serializable {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(String cityId) {
+		this.cityId = cityId;
 	}
 
 	public String getAreaId() {

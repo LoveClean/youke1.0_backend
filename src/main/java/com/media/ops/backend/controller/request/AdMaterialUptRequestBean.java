@@ -9,6 +9,10 @@ public class AdMaterialUptRequestBean {
 	@ApiModelProperty(value = "广告素材Id，必填", required = true)
 	private int id;
 	
+	@ApiModelProperty(value = "广告Id")
+	private int adId;
+	
+
 	@ApiModelProperty(value = "播放顺序orderIndex")
 	private int orderIndex; //播放顺序
 	@ApiModelProperty(value = "加载间隔loadStep")
@@ -25,6 +29,13 @@ public class AdMaterialUptRequestBean {
 		this.id = id;
 	}
 
+	public int getAdId() {
+		return adId;
+	}
+	public void setAdId(int adId) {
+		this.adId = adId;
+	}
+	
 	public int getOrderIndex() {
 		return orderIndex;
 	}

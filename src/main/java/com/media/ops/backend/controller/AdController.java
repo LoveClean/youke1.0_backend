@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.media.ops.backend.controller.request.AdAddRequestBean;
+import com.media.ops.backend.controller.request.AdMergeUptRequestBean;
 import com.media.ops.backend.controller.request.AdUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
@@ -44,6 +45,12 @@ public class AdController extends BaseController {
 	public ResponseEntity uptAdName(@RequestBody AdUptRequestBean bean,HttpServletRequest request) {
 		return adService.uptAdName(super.getSessionUser(request).getAccount(), bean);
 	}
+	
+	@ApiOperation(value = "修改广告操作接口",notes = "修改广告")
+	@PostMapping(value="update_ad.do")	
+	public ResponseEntity uptAd(@RequestBody AdMergeUptRequestBean bean,HttpServletRequest request) {
+		return adService.uptAd(super.getSessionUser(request).getAccount(), bean);
+	}	
 	
 	@ApiOperation(value = "获取广告列表接口", notes = "广告列表")
 	@PostMapping(value = "get_list.do")

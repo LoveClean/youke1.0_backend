@@ -13,6 +13,8 @@ import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.AdAddRequestBean;
+import com.media.ops.backend.controller.request.AdMaterialUptRequestBean;
+import com.media.ops.backend.controller.request.AdMergeUptRequestBean;
 import com.media.ops.backend.controller.request.AdUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
@@ -42,6 +44,8 @@ public class AdServiceImpl implements AdService{
 	private AdgroupMapper adgroupMapper;
 	@Autowired
 	private MaterialMapper materialMapper;
+	@Autowired
+	private AdMaterialService adMaterialService;
 	
 	public ResponseEntity  addAd(String createby, AdAddRequestBean bean) {
 		Ad ad=new Ad();
@@ -82,6 +86,21 @@ public class AdServiceImpl implements AdService{
 		uptAd.setId(bean.getId());
 		uptAd.setName(bean.getName());
 		int resultCount= adMapper.updateByPrimaryKeySelective(uptAd);
+		return ResponseEntityUtil.updMessage(resultCount);
+	}
+	
+	public ResponseEntity uptAd(String updateby, AdMergeUptRequestBean bean) {
+		Ad uptAd=new Ad();
+		uptAd.setUpdateBy(updateby);
+		uptAd.setId(bean.getId());
+		uptAd.setName(bean.getName());
+		uptAd.setGroupid(bean.getGroupid());
+		int resultCount= adMapper.updateByPrimaryKeySelective(uptAd);
+		
+		if(resultCount>0) {
+			adMaterialService.batchUpdateAdMaterial(updateby, bean.getAdData());
+		}
+		
 		return ResponseEntityUtil.updMessage(resultCount);
 	}
 	

@@ -1,5 +1,8 @@
 package com.media.ops.backend;
 
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import org.junit.Test;
@@ -60,5 +63,12 @@ public class ApplicationTests {
 		bean.setPageSize(0);
 		PageResponseBean<SyslogVo>  result =sysLogService.sysLog(bean);
 
+	}
+	
+	@Test
+	public void test5() throws Exception {
+		URL url=new URL("http://test45.bj.bcebos.com/2018041915bb6a87fc.mp4");
+		HttpURLConnection urlcon= (HttpURLConnection)url.openConnection();
+		//urlcon.get
 	}
 }

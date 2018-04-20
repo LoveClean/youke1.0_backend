@@ -1,6 +1,7 @@
 package com.media.ops.backend.service;
 
 import com.media.ops.backend.controller.request.AdAddRequestBean;
+import com.media.ops.backend.controller.request.AdMergeUptRequestBean;
 import com.media.ops.backend.controller.request.AdUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
@@ -18,4 +19,6 @@ public interface AdService {
 	public PageResponseBean<AdVo> selectAdList(PageRequestBean bean);
 	
 	public ResponseEntity<AdVo> selectAd(Integer id);
+	
+	public ResponseEntity uptAd(String updateby, AdMergeUptRequestBean bean);
 }

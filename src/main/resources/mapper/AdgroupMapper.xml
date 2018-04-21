@@ -19,14 +19,17 @@
 		where id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from tbadgroup
+		delete from
+		tbadgroup
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Adgroup"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into tbadgroup (id, name, parentid,
+		insert into tbadgroup (id, name,
+		parentid,
 		status, sortOrder)
-		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		values (#{id,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
 		#{parentid,jdbcType=INTEGER},
 		#{status,jdbcType=TINYINT}, #{sortorder,jdbcType=INTEGER})
 	</insert>
@@ -89,10 +92,12 @@
 	<update id="updateByPrimaryKey" parameterType="com.media.ops.backend.dao.entity.Adgroup">
 		update tbadgroup
 		set name = #{name,jdbcType=VARCHAR},
-		parentid = #{parentid,jdbcType=INTEGER},
+		parentid =
+		#{parentid,jdbcType=INTEGER},
 		status = #{status,jdbcType=TINYINT},
 		sortOrder = #{sortorder,jdbcType=INTEGER}
-		where id = #{id,jdbcType=INTEGER}
+		where id =
+		#{id,jdbcType=INTEGER}
 	</update>
 
 
@@ -101,7 +106,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from tbadgroup
-		where parentid = #{parentId}  and status=1
+		where parentid = #{parentId} and status=1
 	</select>
 
 	<select id="selectGroupsByName" resultMap="BaseResultMap"
@@ -110,19 +115,26 @@
 		<include refid="Base_Column_List" />
 		from tbadgroup
 		<where>
-		    status=1
+			status=1
 			<if test="groupName != null">
 				and name like #{groupName}
 			</if>
 		</where>
 	</select>
-	
-		
+
+
 	<select id="checkExistName" resultType="int" parameterType="map">
 		SELECT
 		count(1)
 		from tbadgroup
 		where name = #{groupName}
 		and status=1
+	</select>
+
+	<select id="checkExistNameNotSelf" resultType="int"	parameterType="map">
+		SELECT
+		count(1)
+		from tbadgroup
+		where name = #{groupName} and id!=#{groupId} and status=1
 	</select>
 </mapper>

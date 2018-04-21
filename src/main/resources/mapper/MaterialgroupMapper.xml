@@ -130,4 +130,11 @@
 		where name = #{groupName}
 		and status=1
 	</select>
+	
+		<select id="checkExistNameNotSelf" resultType="int"	parameterType="map">
+		SELECT
+		count(1)
+		from tbmaterialgroup
+		where name = #{groupName} and id!=#{groupId} and status=1
+	</select>
 </mapper>

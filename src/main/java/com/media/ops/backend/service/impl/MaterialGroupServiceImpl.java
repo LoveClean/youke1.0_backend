@@ -73,6 +73,10 @@ public class MaterialGroupServiceImpl implements MaterialGroupService {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
 
+		if(materialgroupMapper.checkExistNameNotSelf(groupName, groupId)>0) {
+			return ResponseEntityUtil.fail("同名分组已存在！");
+		}
+		
 		Materialgroup materialgroup = new Materialgroup();
 
 		materialgroup.setName(groupName);

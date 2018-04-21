@@ -24,4 +24,6 @@ public interface DevicegroupMapper {
     List<Devicegroup> selectGroupsByName(@Param("groupName")String groupName);
     
     int checkExistName(@Param("groupName")String groupName);
+    
+    int checkExistNameNotSelf(@Param("groupName")String groupName, @Param("groupId")Integer groupId);
 }

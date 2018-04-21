@@ -18,11 +18,9 @@ import com.media.ops.backend.controller.request.DeviceSearchRequestBean;
 import com.media.ops.backend.controller.request.DeviceUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
-import com.media.ops.backend.dao.entity.Area;
 import com.media.ops.backend.dao.entity.Building;
 import com.media.ops.backend.dao.entity.Device;
 import com.media.ops.backend.dao.entity.Devicegroup;
-import com.media.ops.backend.dao.mapper.AreaMapper;
 import com.media.ops.backend.dao.mapper.BuildingMapper;
 import com.media.ops.backend.dao.mapper.DeviceMapper;
 import com.media.ops.backend.dao.mapper.DevicegroupMapper;
@@ -99,6 +97,8 @@ public class DeviceServiceImpl implements DeviceService {
 		String address=bean.getAddress();
 		String cityId= bean.getCityId();
 		String areaId=bean.getAreaId();
+		Integer buildingId= bean.getBuildingId();
+		Integer groupId= bean.getGroupId();
 		Integer pageNum=bean.getPageNum();
 		Integer pageSize=bean.getPageSize();
 		
@@ -117,7 +117,7 @@ public class DeviceServiceImpl implements DeviceService {
 		PageHelper.startPage(pageNum, pageSize);
 		List<Device> devices= deviceMapper.selectByCodeAreaAddress(
 				StringUtils.isBlank(code)?null:code, 
-						StringUtils.isBlank(areaId)?null:areaId, StringUtils.isBlank(address)?null:address);
+						StringUtils.isBlank(areaId)?null:areaId, StringUtils.isBlank(address)?null:address, buildingId==0?null:buildingId, groupId==0?null:groupId);
 		List<DeviceListVo> deviceListVos=Lists.newArrayList();
 		
 		for(Device device:devices) {

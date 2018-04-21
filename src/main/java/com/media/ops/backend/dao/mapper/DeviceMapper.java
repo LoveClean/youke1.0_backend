@@ -25,7 +25,7 @@ public interface DeviceMapper {
     
     List<Device> selectList();
     
-    List<Device> selectByCodeAreaAddress(@Param("code") String code,@Param("areaId") String areaId,@Param("address") String address);
+    List<Device> selectByCodeAreaAddress(@Param("code") String code,@Param("areaId") String areaId,@Param("address") String address,@Param("buildingId") Integer buildingId,@Param("groupId") Integer groupId);
 
     int checkExistCode(@Param("deviceCode")String deviceCode);
     

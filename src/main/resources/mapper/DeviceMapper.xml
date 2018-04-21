@@ -247,6 +247,12 @@
       <if test="address != null">
         and address like #{address}
       </if>
+      <if test="buildingId != null">
+        and buildingid = #{buildingId}
+      </if>
+      <if test="groupId != null">
+        and groupid = #{groupId}
+      </if>
     </where>
   </select>
 

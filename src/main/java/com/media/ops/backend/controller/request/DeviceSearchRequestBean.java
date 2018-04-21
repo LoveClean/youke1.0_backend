@@ -21,6 +21,10 @@ public class DeviceSearchRequestBean implements Serializable {
 	private String areaId;
 	@ApiModelProperty(value = "地址关键词")
 	private String address;
+	@ApiModelProperty(value = "楼宇id")
+	private Integer buildingId;   //楼宇id
+	@ApiModelProperty(value = "设备分组id")
+	private Integer groupId;   //设备分组id
 
 	/**
 	 * 当前页，默认1
@@ -84,5 +88,23 @@ public class DeviceSearchRequestBean implements Serializable {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	public Integer getBuildingId() {
+		return buildingId;
+	}
+
+	public void setBuildingId(Integer buildingId) {
+		this.buildingId = buildingId;
+	}
+
+	public Integer getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(Integer groupId) {
+		this.groupId = groupId;
+	}
+	
+	
 
 }

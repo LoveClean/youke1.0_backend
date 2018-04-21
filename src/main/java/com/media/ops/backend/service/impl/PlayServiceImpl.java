@@ -241,6 +241,20 @@ public class PlayServiceImpl implements PlayService {
 		return ResponseEntityUtil.success(playVos);
 	}
 	
+	public ResponseEntity<List<PlayVo>> selectUnfinishedPlayList() {
+
+		List<Play> plays = playMapper.selectUnfinishedPlay();
+		if (plays.size() == 0) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_DATA_NOT_FOUND);
+		}
+		List<PlayVo> playVos = Lists.newArrayList();
+		for (Play play : plays) {
+			PlayVo playVo2 = assemblePlayVo(play);
+			playVos.add(playVo2);
+		}
+		return ResponseEntityUtil.success(playVos);
+	}
+	
 	public ResponseEntity<List<PlayerVo>> selectPlayerList(){
 		List<User> players= userMapper.selectPlayerList();
 		List<PlayerVo> playerVos=Lists.newArrayList();

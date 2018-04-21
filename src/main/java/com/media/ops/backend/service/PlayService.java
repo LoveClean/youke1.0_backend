@@ -27,6 +27,8 @@ public interface PlayService {
 	
 	public ResponseEntity<List<PlayVo>> selectPlayList();
 	
+	public ResponseEntity<List<PlayVo>> selectUnfinishedPlayList();
+	
 	public ResponseEntity<List<PlayerVo>> selectPlayerList();
 
 	public PageResponseBean<PlayVo> selectPlayListByPlayerId(int pageNum, int pageSize, Integer playerId);

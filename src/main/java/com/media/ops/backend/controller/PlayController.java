@@ -90,6 +90,12 @@ public class PlayController extends BaseController {
     public ResponseEntity<List<PlayVo>> selectPlayList() {
         return playService.selectPlayList();
     }
+    
+    @ApiOperation(value = "获取所有未结束的直播记录",notes = "获取所有未结束的直播记录")
+    @PostMapping(value="selectUnfinishedLists.do")
+    public ResponseEntity<List<PlayVo>> selectUnfiniPlayList() {
+        return playService.selectUnfinishedPlayList();
+    }
  
     @ApiOperation(value = "获取所有直播员列表",notes = "获取所有直播员")
     @PostMapping(value="selectPlayerList.do")

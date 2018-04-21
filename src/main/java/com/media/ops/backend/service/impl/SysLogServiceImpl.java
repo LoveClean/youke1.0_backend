@@ -68,9 +68,9 @@ public class SysLogServiceImpl implements SysLogService {
 		String account= bean.getAccount();
 		String email= bean.getEmail();
 
-		if(StringUtils.isNotBlank(email)) {
-			email=new StringBuilder().append("%").append(email).append("%").toString();
-		}
+//		if(StringUtils.isNotBlank(email)) {
+//			email=new StringBuilder().append("%").append(email).append("%").toString();
+//		}
 		
 		User user=  userMapper.selectByAccountEmail(StringUtils.isBlank(account)?null:account, StringUtils.isBlank(email)?null:email);
 

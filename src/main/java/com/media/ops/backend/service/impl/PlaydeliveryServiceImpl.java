@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,14 @@ import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.PageRequestBean;
+import com.media.ops.backend.controller.request.PlayDeliverySearchRequestBean;
 import com.media.ops.backend.controller.request.PlaydeliveryAddRequestBean;
 import com.media.ops.backend.controller.request.PlaydeliveryUptRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Area;
 import com.media.ops.backend.dao.entity.Building;
 import com.media.ops.backend.dao.entity.City;
+import com.media.ops.backend.dao.entity.Device;
 import com.media.ops.backend.dao.entity.Devicegroup;
 import com.media.ops.backend.dao.entity.Play;
 import com.media.ops.backend.dao.entity.Playdelivery;
@@ -33,6 +36,7 @@ import com.media.ops.backend.service.PlaydeliveryService;
 import com.media.ops.backend.util.DateUtil;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.vo.DeviceListVo;
 import com.media.ops.backend.vo.PlaydeliveryDetailVo;
 import com.media.ops.backend.vo.VmPlayDeliveryVo;
 
@@ -193,6 +197,36 @@ public class PlaydeliveryServiceImpl implements PlaydeliveryService {
 		}
 		int resultCount=playdeliveryMapper.deleteByPrimaryKey(id);
 		return ResponseEntityUtil.delMessage(resultCount);
+	}
+
+	@Override
+	public PageResponseBean<PlaydeliveryDetailVo> selectDeliveryByKeys(PlayDeliverySearchRequestBean bean) {
+		String cityId= bean.getCityId();
+		String areaId=bean.getAreaId();
+		Integer buildingId= bean.getBuildingId();
+		Integer groupId= bean.getGroupId();
+		Integer pageNum=bean.getPageNum();
+		Integer pageSize=bean.getPageSize();
+		
+		if(StringUtils.isNotBlank(cityId) && StringUtils.isBlank(areaId)) {
+			cityId = cityId.substring(0, 4);
+			areaId=new StringBuilder().append(cityId).append("%").toString();
+		}
+		
+		PageHelper.startPage(pageNum, pageSize);
+		
+		List<Playdelivery> playdeliveries= playdeliveryMapper.selectByKeys(
+						StringUtils.isBlank(areaId)?null:areaId,  buildingId==0?null:buildingId, groupId==0?null:groupId);
+		
+		List<PlaydeliveryDetailVo> playdeliveryDetailVos = Lists.newArrayList();
+		for (Playdelivery playdelivery : playdeliveries) {
+			PlaydeliveryDetailVo playdeliveryDetailVo = assemblePlaydeliveryDetailVo(playdelivery);
+			playdeliveryDetailVos.add(playdeliveryDetailVo);
+		}
+		PageInfo pageInfo = new PageInfo(playdeliveries);
+		pageInfo.setList(playdeliveryDetailVos);
+
+		return new PageResponseBean<PlaydeliveryDetailVo>(pageInfo);
 	}
 
 

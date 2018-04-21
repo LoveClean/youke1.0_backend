@@ -1,6 +1,7 @@
 package com.media.ops.backend.service;
 
 import com.media.ops.backend.controller.request.PageRequestBean;
+import com.media.ops.backend.controller.request.PlayDeliverySearchRequestBean;
 import com.media.ops.backend.controller.request.PlaydeliveryAddRequestBean;
 import com.media.ops.backend.controller.request.PlaydeliveryUptRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
@@ -18,4 +19,6 @@ public interface PlaydeliveryService {
 	public PageResponseBean<PlaydeliveryDetailVo> selectList(PageRequestBean bean);
 	
 	public ResponseEntity<String> delPlaydelivery(Integer id,String updateby);
+	
+	public PageResponseBean<PlaydeliveryDetailVo> selectDeliveryByKeys(PlayDeliverySearchRequestBean bean);
 }

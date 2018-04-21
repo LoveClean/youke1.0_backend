@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.media.ops.backend.controller.request.PageRequestBean;
+import com.media.ops.backend.controller.request.PlayDeliverySearchRequestBean;
 import com.media.ops.backend.controller.request.PlaydeliveryAddRequestBean;
 import com.media.ops.backend.controller.request.PlaydeliveryUptRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
@@ -46,6 +47,12 @@ public class PlaydeliveryController extends BaseController {
 	@PostMapping(value="list_delivery.do")	
 	public ResponseEntity<PageResponseBean<PlaydeliveryDetailVo>> getList(@RequestBody PageRequestBean bean){
 		return ResponseEntityUtil.success(playdeliveryService.selectList(bean));
+	}
+
+	@ApiOperation(value = "直播投放搜索接口",notes = "直播投放搜索")
+	@PostMapping(value="search_delivery.do")	
+	public ResponseEntity<PageResponseBean<PlaydeliveryDetailVo>> searchList(@RequestBody PlayDeliverySearchRequestBean bean){
+		return ResponseEntityUtil.success(playdeliveryService.selectDeliveryByKeys(bean));
 	}
 	
 	@ApiOperation(value = "删除投放记录接口", notes = "删除投放记录")

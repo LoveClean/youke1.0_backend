@@ -198,4 +198,21 @@
 			(DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND #{endtime}>=DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S'))
 		)
 	</select>
+	
+	    <select id="selectByKeys" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from tbplaydelivery
+    <where>
+      <if test="areaId != null">
+        and areaid like #{areaId}
+      </if>
+      <if test="buildingId != null">
+        and buildingid = #{buildingId}
+      </if>
+      <if test="groupId != null">
+        and groupid = #{groupId}
+      </if>
+    </where>
+  </select>
 </mapper>

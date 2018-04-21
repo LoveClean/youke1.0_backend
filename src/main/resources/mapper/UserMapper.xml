@@ -353,7 +353,7 @@
 				and account = #{account}
 			</if>
 			<if test="email != null">
-				and email like #{email}
+				and email = #{email}
 			</if>
 		</where>
 	</select>

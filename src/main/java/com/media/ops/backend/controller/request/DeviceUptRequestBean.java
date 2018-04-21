@@ -10,6 +10,7 @@ public class DeviceUptRequestBean {
 	@NotNull(message = "id不能为空")
 	@ApiModelProperty(value = "id，必填", required = true)
 	private int id;
+	
 	@NotBlank(message = "设备编码code")
 	@ApiModelProperty(value = "设备编码code，必填", required = true)
 	private String code;

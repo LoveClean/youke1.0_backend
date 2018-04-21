@@ -18,6 +18,9 @@ public interface AdService {
 	
 	public PageResponseBean<AdVo> selectAdList(PageRequestBean bean);
 	
+	public PageResponseBean<AdVo> selectAdByKeywordGroup(String keyword, Integer groupId,
+			Integer pageNum, Integer pageSize);
+	
 	public ResponseEntity<AdVo> selectAd(Integer id);
 	
 	public ResponseEntity uptAd(String updateby, AdMergeUptRequestBean bean);

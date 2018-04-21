@@ -3,6 +3,7 @@ package com.media.ops.backend.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.AdMaterialVo;
 import com.media.ops.backend.vo.AdVo;
+import com.media.ops.backend.vo.MaterialVo;
 
 @Service
 public class AdServiceImpl implements AdService{
@@ -199,6 +201,35 @@ public class AdServiceImpl implements AdService{
 		
 		return adMaterialVo;
 		
+	}
+
+	@Override
+	public PageResponseBean<AdVo> selectAdByKeywordGroup(String keyword, Integer groupId, Integer pageNum,
+			Integer pageSize) {
+		if(StringUtils.isNotBlank(keyword)) {
+			keyword= new StringBuilder().append("%").append(keyword).append("%").toString();
+		}
+		
+		
+		PageHelper.startPage(pageNum, pageSize);
+		List<Ad> adList= adMapper.selectByNameGroupId(StringUtils.isBlank(keyword)?null:keyword,groupId==0?null:groupId);
+		List<AdVo> adVos= Lists.newArrayList();
+		for(Ad ad: adList) {
+			List<Admaterial> admaterials= admaterialMapper.selectByAdId(ad.getId());
+			List<AdMaterialVo> adMaterialVos=Lists.newArrayList();
+			for (Admaterial admaterial : admaterials) {
+				AdMaterialVo adMaterialVo= assembleAdMaterialVo(admaterial);
+				adMaterialVos.add(adMaterialVo);
+			}
+			
+			AdVo adVo= assembleAdVo(ad, adMaterialVos);
+			adVos.add(adVo);
+		}
+		
+		PageInfo pageInfo=new PageInfo(adList);
+		pageInfo.setList(adVos);
+		
+		return new PageResponseBean<AdVo>(pageInfo);
 	}
 	
 }

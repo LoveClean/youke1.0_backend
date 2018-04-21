@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.media.ops.backend.controller.request.AdAddRequestBean;
 import com.media.ops.backend.controller.request.AdMergeUptRequestBean;
+import com.media.ops.backend.controller.request.AdSearchRequestBean;
 import com.media.ops.backend.controller.request.AdUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
@@ -56,6 +57,12 @@ public class AdController extends BaseController {
 	@PostMapping(value = "get_list.do")
 	public ResponseEntity<PageResponseBean<AdVo>> getList(@RequestBody PageRequestBean bean) {
 		return ResponseEntityUtil.success(adService.selectAdList(bean));
+	}
+	
+	@ApiOperation(value = "搜索广告接口", notes = "广告搜索")
+	@PostMapping(value = "search_list.do")
+	public ResponseEntity<PageResponseBean<AdVo>> searchList(@RequestBody AdSearchRequestBean bean) {
+		return ResponseEntityUtil.success(adService.selectAdByKeywordGroup(bean.getKeyword(), bean.getGroupId(), bean.getPageNum(), bean.getPageSize()));
 	}
 	
 	//查看广告详情接口

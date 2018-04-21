@@ -2,6 +2,7 @@ package com.media.ops.backend.dao.mapper;
 
 import com.media.ops.backend.dao.entity.Ad;
 import com.media.ops.backend.dao.entity.Device;
+import com.media.ops.backend.dao.entity.Material;
 import com.media.ops.backend.vo.AdMaterialListVo;
 import com.media.ops.backend.vo.AdMaterialVo;
 import com.media.ops.backend.vo.AdVo;
@@ -28,5 +29,7 @@ public interface AdMapper {
     ///////////////////////////////////////////////////
     
 	List<Ad> selectList();
+	
+    List<Ad> selectByNameGroupId(@Param("adName") String adName,@Param("groupId") Integer groupId);
     
 }

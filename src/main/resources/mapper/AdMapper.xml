@@ -166,4 +166,19 @@
 		select * from vwadmaterial where adid=#{adid} ORDER BY orderindex
 	</select>
 
+  <select id="selectByNameGroupId" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    from tbad
+    where del_flag=0
+    <if test="adName != null">
+      and name like #{adName}
+    </if>
+    <if test="groupId != null" >
+      and groupid= #{groupId,jdbcType=INTEGER}
+    </if>
+      ORDER BY id desc
+  </select>
+
+
 </mapper>

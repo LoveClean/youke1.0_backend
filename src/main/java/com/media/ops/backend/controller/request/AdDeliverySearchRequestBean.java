@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class PlayDeliverySearchRequestBean implements Serializable {
+public class AdDeliverySearchRequestBean implements Serializable {
 
 	private static final long serialVersionUID = -5772418760357199184L;
 	private static final int DEFAULT_PAGE = 1;
@@ -88,7 +88,6 @@ public class PlayDeliverySearchRequestBean implements Serializable {
 	public void setGroupId(Integer groupId) {
 		this.groupId = groupId;
 	}
-	
 	
 
 }

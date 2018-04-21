@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.media.ops.backend.controller.request.AdDeliverySearchRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryAddRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryEmergentRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryUptRequestBean;
@@ -19,7 +19,6 @@ import com.media.ops.backend.service.AddeliveryService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.AddeliveryDetailVo;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -52,6 +51,12 @@ public class AddeliveryController extends BaseController {
 	@PostMapping(value="list_delivery.do")	
 	public ResponseEntity<PageResponseBean<AddeliveryDetailVo>> getList(@RequestBody PageRequestBean bean){
 		return ResponseEntityUtil.success(addeliveryService.selectList(bean));
+	}
+	
+	@ApiOperation(value = "广告投放搜索接口",notes = "广告投放搜索")
+	@PostMapping(value="search_delivery.do")	
+	public ResponseEntity<PageResponseBean<AddeliveryDetailVo>> searchList(@RequestBody AdDeliverySearchRequestBean bean){
+		return ResponseEntityUtil.success(addeliveryService.selectDeliveryByKeys(bean));
 	}
 	
 	@ApiOperation(value = "删除投放记录接口", notes = "删除投放记录")

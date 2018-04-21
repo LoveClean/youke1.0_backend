@@ -27,6 +27,6 @@ public interface PlaydeliveryMapper {
     
     List<VmPlayDeliveryVo> selectByGroupBeginEndTime(@Param("deliveryType")Integer deliveryType, @Param("areaId")String areaId, @Param("groupId")Integer groupId, @Param("begintime")String begintime, @Param("endtime")String endtime);
 
-    List<Playdelivery> selectByKeys(@Param("areaId") String areaId,@Param("buildingId") Integer buildingId,@Param("groupId") Integer groupId);
+    List<Playdelivery> selectByKeys(@Param("areaId") String areaId,@Param("deliverType") Integer deliverType,@Param("groupId") Integer groupId);
 
 }

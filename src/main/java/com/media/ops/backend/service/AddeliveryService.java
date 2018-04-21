@@ -1,5 +1,6 @@
 package com.media.ops.backend.service;
 
+import com.media.ops.backend.controller.request.AdDeliverySearchRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryAddRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryEmergentRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryUptRequestBean;
@@ -21,4 +22,7 @@ public interface AddeliveryService {
 	public PageResponseBean<AddeliveryDetailVo> selectList(PageRequestBean bean);
 	
 	public ResponseEntity<String> delAddelivery(Integer id,String updateby);
+	
+	public PageResponseBean<AddeliveryDetailVo> selectDeliveryByKeys(AdDeliverySearchRequestBean bean);
+
 }

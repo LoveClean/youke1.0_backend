@@ -190,29 +190,34 @@
 		resultType="com.media.ops.backend.vo.VmPlayDeliveryVo">
 		select *
 		from vwplaydelivery
-		where `status`!=3  and 
-		delivertype=#{deliveryType} and areaid=#{areaId} and groupid=#{groupId} and 
+		where `status`!=3 and
+		delivertype=#{deliveryType} and areaid=#{areaId} and
+		groupid=#{groupId} and
 		(
-			(DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND  #{endtime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S')) OR
-			( #{begintime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') AND DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{endtime}) OR
-			(DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND #{endtime}>=DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S'))
+		(DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND
+		#{endtime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S')) OR
+		( #{begintime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') AND
+		DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{endtime}) OR
+		(DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND
+		#{endtime}>=DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S'))
 		)
 	</select>
-	
-	    <select id="selectByKeys" resultMap="BaseResultMap" parameterType="map">
-    SELECT
-    <include refid="Base_Column_List"/>
-    from tbplaydelivery
-    <where>
-      <if test="areaId != null">
-        and areaid like #{areaId}
-      </if>
-      <if test="buildingId != null">
-        and buildingid = #{buildingId}
-      </if>
-      <if test="groupId != null">
-        and groupid = #{groupId}
-      </if>
-    </where>
-  </select>
+
+	<select id="selectByKeys" resultMap="BaseResultMap"
+		parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbplaydelivery
+		<where>
+			<if test="areaId != null">
+				and areaid like #{areaId}
+			</if>
+			<if test="deliverType != null">
+				and delivertype = #{deliverType}
+			</if>
+			<if test="groupId != null">
+				and groupid = #{groupId}
+			</if>
+		</where>
+	</select>
 </mapper>

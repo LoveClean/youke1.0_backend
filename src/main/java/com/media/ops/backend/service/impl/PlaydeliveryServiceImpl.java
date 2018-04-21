@@ -203,7 +203,7 @@ public class PlaydeliveryServiceImpl implements PlaydeliveryService {
 	public PageResponseBean<PlaydeliveryDetailVo> selectDeliveryByKeys(PlayDeliverySearchRequestBean bean) {
 		String cityId= bean.getCityId();
 		String areaId=bean.getAreaId();
-		Integer buildingId= bean.getBuildingId();
+		Integer deliveryType= bean.getDeliveryType();
 		Integer groupId= bean.getGroupId();
 		Integer pageNum=bean.getPageNum();
 		Integer pageSize=bean.getPageSize();
@@ -216,7 +216,7 @@ public class PlaydeliveryServiceImpl implements PlaydeliveryService {
 		PageHelper.startPage(pageNum, pageSize);
 		
 		List<Playdelivery> playdeliveries= playdeliveryMapper.selectByKeys(
-						StringUtils.isBlank(areaId)?null:areaId,  buildingId==0?null:buildingId, groupId==0?null:groupId);
+						StringUtils.isBlank(areaId)?null:areaId,  deliveryType==0?0:1, groupId==0?null:groupId);
 		
 		List<PlaydeliveryDetailVo> playdeliveryDetailVos = Lists.newArrayList();
 		for (Playdelivery playdelivery : playdeliveries) {

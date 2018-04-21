@@ -208,4 +208,22 @@
 		where  del_flag='0'
 		ORDER BY id desc
 	</select>
+	
+		<select id="selectByKeys" resultMap="BaseResultMap"
+		parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbaddelivery
+		<where>
+			<if test="areaId != null">
+				and areaid like #{areaId}
+			</if>
+			<if test="deliverType != null">
+				and delivertype = #{deliverType}
+			</if>
+			<if test="groupId != null">
+				and groupid = #{groupId}
+			</if>
+		</where>
+	</select>
 </mapper>

@@ -3,6 +3,7 @@ package com.media.ops.backend.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
+import com.media.ops.backend.controller.request.AdDeliverySearchRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryAddRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryEmergentRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryUptRequestBean;
@@ -23,6 +25,7 @@ import com.media.ops.backend.dao.entity.Area;
 import com.media.ops.backend.dao.entity.Building;
 import com.media.ops.backend.dao.entity.City;
 import com.media.ops.backend.dao.entity.Devicegroup;
+import com.media.ops.backend.dao.entity.Playdelivery;
 import com.media.ops.backend.dao.mapper.AdMapper;
 import com.media.ops.backend.dao.mapper.AddeliveryMapper;
 import com.media.ops.backend.dao.mapper.AreaMapper;
@@ -171,6 +174,36 @@ public class AddeliveryServiceImpl implements AddeliveryService {
 		}
 		int resultCount=addeliveryMapper.deleteByPrimaryKey(id);
 		return ResponseEntityUtil.delMessage(resultCount);
+	}
+
+	@Override
+	public PageResponseBean<AddeliveryDetailVo> selectDeliveryByKeys(AdDeliverySearchRequestBean bean) {
+		String cityId= bean.getCityId();
+		String areaId=bean.getAreaId();
+		Integer deliveryType= bean.getDeliveryType();
+		Integer groupId= bean.getGroupId();
+		Integer pageNum=bean.getPageNum();
+		Integer pageSize=bean.getPageSize();
+		
+		if(StringUtils.isNotBlank(cityId) && StringUtils.isBlank(areaId)) {
+			cityId = cityId.substring(0, 4);
+			areaId=new StringBuilder().append(cityId).append("%").toString();
+		}
+		
+		PageHelper.startPage(pageNum, pageSize);
+		
+		List<Addelivery> addeliveries= addeliveryMapper.selectByKeys(
+						StringUtils.isBlank(areaId)?null:areaId,  deliveryType==0?0:1, groupId==0?null:groupId);
+		List<AddeliveryDetailVo> addeliveryDetailVos = Lists.newArrayList();
+		for (Addelivery addelivery : addeliveries) {
+			AddeliveryDetailVo addeliveryDetailVo = assembleAddeliveryDetailVo(addelivery);
+			addeliveryDetailVos.add(addeliveryDetailVo);
+		}
+		PageInfo pageInfo = new PageInfo(addeliveries);
+		pageInfo.setList(addeliveryDetailVos);
+
+		return new PageResponseBean<AddeliveryDetailVo>(pageInfo);
+
 	}
 
 }

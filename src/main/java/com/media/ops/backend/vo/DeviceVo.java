@@ -7,7 +7,7 @@ public class DeviceVo {
     private String mac;     //设备物理地址
     
     private String type;
-    private Integer groupid;  //设备所属分组
+
     
     private String brand;    //设备品牌
     private String spec;    //设备规格
@@ -17,6 +17,24 @@ public class DeviceVo {
     //private ProvinceCityAreaVo provinceCityAreaVo;  //区域对象模型
     
     private Integer buildingid;  //楼宇id，还是楼层buildingFloorId?
+    
+    private String buildingName; //楼宇名称
+    
+    public String getBuildingName() {
+		return buildingName;
+	}
+	public void setBuildingName(String buildingName) {
+		this.buildingName = buildingName;
+	}
+	public String getGroupName() {
+		return groupName;
+	}
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+	private Integer groupid;  //设备所属分组
+    private String groupName;  //分组名称
+    
     private String address;   //设备区域地址，这字段要么？
 	
     

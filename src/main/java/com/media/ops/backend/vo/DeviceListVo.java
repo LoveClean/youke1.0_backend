@@ -15,6 +15,10 @@ public class DeviceListVo {
     //private ProvinceCityAreaVo provinceCityAreaVo;  //区域对象模型
     
     private Integer buildingid;  //楼宇id，还是楼层buildingFloorId?
+    private String buildingName; //楼宇名称
+    private Integer groupid;   //分组id
+    private String groupName;  //分组名称
+    
     private String address;
     
     
@@ -79,6 +83,24 @@ public class DeviceListVo {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public String getBuildingName() {
+		return buildingName;
+	}
+	public void setBuildingName(String buildingName) {
+		this.buildingName = buildingName;
+	}
+	public Integer getGroupid() {
+		return groupid;
+	}
+	public void setGroupid(Integer groupid) {
+		this.groupid = groupid;
+	}
+	public String getGroupName() {
+		return groupName;
+	}
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
     
     

@@ -19,8 +19,11 @@ import com.media.ops.backend.controller.request.DeviceUptRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Area;
+import com.media.ops.backend.dao.entity.Building;
 import com.media.ops.backend.dao.entity.Device;
+import com.media.ops.backend.dao.entity.Devicegroup;
 import com.media.ops.backend.dao.mapper.AreaMapper;
+import com.media.ops.backend.dao.mapper.BuildingMapper;
 import com.media.ops.backend.dao.mapper.DeviceMapper;
 import com.media.ops.backend.dao.mapper.DevicegroupMapper;
 import com.media.ops.backend.service.DeviceService;
@@ -38,6 +41,8 @@ public class DeviceServiceImpl implements DeviceService {
 	private DevicegroupMapper devicegroupMapper;
 	@Autowired
 	private CityServiceImpl cityServiceImpl;
+	@Autowired
+	private BuildingMapper buildingMapper;
 	
 	@Override
 	public PageResponseBean<DeviceListVo> selectDeviceList(PageRequestBean bean) {
@@ -71,7 +76,18 @@ public class DeviceServiceImpl implements DeviceService {
 			deviceListVo.setAreaFullName(areaVo.getFullName());
 		}
 		
-		deviceListVo.setBuildingid(device.getBuildingid());
+		Building building= buildingMapper.selectByPrimaryKey(device.getBuildingid());
+		if(building!=null) {
+			deviceListVo.setBuildingid(building.getId());
+			deviceListVo.setBuildingName(building.getName());
+		}
+		
+		Devicegroup devicegroup= devicegroupMapper.selectByPrimaryKey(device.getGroupid());
+		if(devicegroup!=null) {
+			deviceListVo.setGroupid(devicegroup.getId());
+			deviceListVo.setGroupName(devicegroup.getName());
+		}
+		
 		deviceListVo.setAddress(device.getAddress());
 		
 		return deviceListVo;
@@ -150,7 +166,18 @@ public class DeviceServiceImpl implements DeviceService {
 			deviceVo.setAreaFullName(areaVo.getFullName());
 		}
 		
-		deviceVo.setBuildingid(device.getBuildingid());
+		Building building= buildingMapper.selectByPrimaryKey(device.getBuildingid());
+		if(building!=null) {
+			deviceVo.setBuildingid(building.getId());
+			deviceVo.setBuildingName(building.getName());
+		}
+		
+		Devicegroup devicegroup= devicegroupMapper.selectByPrimaryKey(device.getGroupid());
+		if(devicegroup!=null) {
+			deviceVo.setGroupid(devicegroup.getId());
+			deviceVo.setGroupName(devicegroup.getName());
+		}
+		
 		deviceVo.setAddress(device.getAddress());
 		
 			

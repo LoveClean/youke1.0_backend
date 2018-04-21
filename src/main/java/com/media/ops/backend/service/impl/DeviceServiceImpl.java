@@ -195,13 +195,19 @@ public class DeviceServiceImpl implements DeviceService {
 		}
 		Device device=new Device();
 		device.setCode(bean.getCode());
-		device.setAddress(bean.getAddress());
+		device.setMac(bean.getAddress());   //设备mac地址
 		device.setType(bean.getType());
 		device.setGroupid(bean.getGroupid());
 		device.setBrand(bean.getBrand());
 		device.setSpec(bean.getSpec());
 		device.setAreaid(bean.getAreaId());
-		device.setBuildingid(bean.getBuildingId());
+		
+		Building building= buildingMapper.selectByPrimaryKey(bean.getBuildingId());
+		if( building!=null ) {
+			device.setBuildingid(building.getId());
+			device.setAddress(building.getAddress());
+		}
+		
 		device.setCreateBy(createby);
 		device.setUpdateBy(createby);
 		
@@ -230,13 +236,19 @@ public class DeviceServiceImpl implements DeviceService {
 		Device updateDevice= new Device();
 		updateDevice.setId(bean.getId());
 		updateDevice.setCode(bean.getCode());
-		updateDevice.setAddress(bean.getAddress());
+		updateDevice.setMac(bean.getAddress());
 		updateDevice.setType(bean.getType());
 		updateDevice.setGroupid(bean.getGroupid());
 		updateDevice.setBrand(bean.getBrand());
 		updateDevice.setSpec(bean.getSpec());
 		updateDevice.setAreaid(bean.getAreaId());
-		updateDevice.setBuildingid(bean.getBuildingId());
+		
+		Building building= buildingMapper.selectByPrimaryKey(bean.getBuildingId());
+		if( building!=null ) {
+			updateDevice.setBuildingid(building.getId());
+			updateDevice.setAddress(building.getAddress());
+		}
+		
 		updateDevice.setUpdateBy(updateby);
 		
 		int resultCount= deviceMapper.updateByPrimaryKeySelective(updateDevice);

@@ -13,7 +13,7 @@ public class DeviceUptRequestBean {
 	@NotBlank(message = "设备编码code")
 	@ApiModelProperty(value = "设备编码code，必填", required = true)
 	private String code;
-	@ApiModelProperty(value = "楼宇地址address")
+	@ApiModelProperty(value = "物理地址address")
 	private String address;
 	@ApiModelProperty(value = "设备类型type")
 	private String type;

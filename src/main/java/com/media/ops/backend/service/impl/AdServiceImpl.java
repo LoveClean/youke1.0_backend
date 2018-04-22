@@ -107,6 +107,8 @@ public class AdServiceImpl implements AdService{
 		
 		if(resultCount>0) {
 			
+			admaterialMapper.batchUpdateDelFlagByAdId(bean.getId(), updateby);
+			
 			List<AdMaterialUptRequestBean> beans= bean.getAdData();
 			for (AdMaterialUptRequestBean adMaterailBean : beans) {
 				
@@ -124,6 +126,7 @@ public class AdServiceImpl implements AdService{
 					admaterialMapper.insertSelective(admaterial);
 				}else {
 					admaterial.setId(adMaterailBean.getId());
+					admaterial.setDelFlag("0");
 					admaterialMapper.updateByPrimaryKeySelective(admaterial);
 				}
 			}

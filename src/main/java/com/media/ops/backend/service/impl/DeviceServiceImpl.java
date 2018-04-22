@@ -21,9 +21,11 @@ import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Building;
 import com.media.ops.backend.dao.entity.Device;
 import com.media.ops.backend.dao.entity.Devicegroup;
+import com.media.ops.backend.dao.entity.Devicetype;
 import com.media.ops.backend.dao.mapper.BuildingMapper;
 import com.media.ops.backend.dao.mapper.DeviceMapper;
 import com.media.ops.backend.dao.mapper.DevicegroupMapper;
+import com.media.ops.backend.dao.mapper.DevicetypeMapper;
 import com.media.ops.backend.service.DeviceService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
@@ -41,6 +43,8 @@ public class DeviceServiceImpl implements DeviceService {
 	private CityServiceImpl cityServiceImpl;
 	@Autowired
 	private BuildingMapper buildingMapper;
+	@Autowired
+	private DevicetypeMapper devicetypeMapper;
 	
 	@Override
 	public PageResponseBean<DeviceListVo> selectDeviceList(PageRequestBean bean) {
@@ -63,7 +67,12 @@ public class DeviceServiceImpl implements DeviceService {
 		deviceListVo.setId(device.getId());
 		deviceListVo.setCode(device.getCode());
 		deviceListVo.setMac(device.getMac());
-		deviceListVo.setType(device.getType());
+		
+		Devicetype  devicetype= devicetypeMapper.selectByPrimaryKey(Integer.parseInt(device.getType()));
+		if(devicetype!=null) {
+			deviceListVo.setType(devicetype.getName());
+		}
+		
 		deviceListVo.setBrand(device.getBrand());
 		deviceListVo.setSpec(device.getSpec());
 		deviceListVo.setAreaid(device.getAreaid());
@@ -153,7 +162,10 @@ public class DeviceServiceImpl implements DeviceService {
 		deviceVo.setCode(device.getCode());
 		deviceVo.setMac(device.getMac());
 		
-		deviceVo.setType(device.getType());
+		Devicetype  devicetype= devicetypeMapper.selectByPrimaryKey(Integer.parseInt(device.getType()));
+		if(devicetype!=null) {
+			deviceVo.setType(devicetype.getName());
+		}
 		
 		deviceVo.setGroupid(device.getGroupid());
 		deviceVo.setBrand(device.getBrand());

@@ -194,10 +194,14 @@
 		delivertype=#{deliveryType} and areaid=#{areaId} and
 		groupid=#{groupId} and
 		(
-		(DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND
-		#{endtime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S')) OR
-		( #{begintime}>=DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') AND
-		DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{endtime}) OR
+		(DATE_FORMAT(begintime,'%Y-%m-%d %H:%i:%S') >=
+		#{begintime} AND
+		#{endtime}>=DATE_FORMAT(begintime,'%Y-%m-%d
+		%H:%i:%S')) OR
+		( #{begintime}>=DATE_FORMAT(begintime,'%Y-%m-%d
+		%H:%i:%S') AND
+		DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{endtime})
+		OR
 		(DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S') >= #{begintime} AND
 		#{endtime}>=DATE_FORMAT(endtime,'%Y-%m-%d %H:%i:%S'))
 		)
@@ -220,4 +224,24 @@
 			</if>
 		</where>
 	</select>
+
+	<select id="checkExistByPlayId" resultType="int" parameterType="map">
+		SELECT count(1)
+		from tbplaydelivery
+		where playid = #{playId} and del_flag='0'
+	</select>
+
+	<update id="batchUpdateDelFlagByPlayId" parameterType="map">
+		update tbplaydelivery
+		set
+		del_flag='1',
+		<if test="updateBy != null">
+			update_by = #{updateBy,jdbcType=VARCHAR}
+		</if>
+		<where>
+			<if test="playId  != null">
+				and playid = #{playId,jdbcType=INTEGER}
+			</if>
+		</where>
+	</update>
 </mapper>

@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.beust.jcommander.internal.Lists;
 import com.github.pagehelper.PageHelper;
@@ -22,6 +23,7 @@ import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Play;
 import com.media.ops.backend.dao.entity.User;
 import com.media.ops.backend.dao.mapper.PlayMapper;
+import com.media.ops.backend.dao.mapper.PlaydeliveryMapper;
 import com.media.ops.backend.dao.mapper.SysparaMapper;
 import com.media.ops.backend.dao.mapper.UserMapper;
 import com.media.ops.backend.service.PlayService;
@@ -41,6 +43,8 @@ public class PlayServiceImpl implements PlayService {
 	private UserMapper userMapper;
 	@Resource
 	private SysparaMapper sysparaMapper;
+	@Autowired
+	private PlaydeliveryMapper playdeliveryMapper;
 
 	@Override
 	public ResponseEntity<List<Play>> GetPlays(String begintime, String endtime) {
@@ -143,6 +147,13 @@ public class PlayServiceImpl implements PlayService {
 		play.setUpdateBy(updateby);
 		play.setDelFlag(Const.DelFlagEnum.DELETED);
 		int resultCount = playMapper.updateByPrimaryKeySelective(play);
+		
+		if(resultCount>0) {
+			if(playdeliveryMapper.checkExistByPlayId(id)>0) {
+				playdeliveryMapper.batchUpdateDelFlagByPlayId(id, updateby);
+			}
+		}
+		
 		return ResponseEntityUtil.delMessage(resultCount);
 	}
 

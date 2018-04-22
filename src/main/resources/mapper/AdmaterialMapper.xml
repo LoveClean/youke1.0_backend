@@ -195,7 +195,7 @@
         and adid = #{_parameter,jdbcType=INTEGER}
       </if>
     </where>
-    
+      ORDER BY id desc  
   </select>  
   
   <update id="batchUpdateDelFlagByAdId" parameterType="map">
@@ -210,7 +210,6 @@
         and adid = #{adid,jdbcType=INTEGER}
       </if>
     </where>
-    ORDER BY id desc
   </update>
   
   

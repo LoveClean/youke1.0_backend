@@ -23,4 +23,8 @@ public interface AddeliveryMapper {
     List<Addelivery> selectList();
     
     List<Addelivery> selectByKeys(@Param("areaId") String areaId,@Param("deliverType") Integer deliverType,@Param("groupId") Integer groupId);
+
+    int checkExistByAdId(@Param("adId")Integer adId);
+    
+    int batchUpdateDelFlagByAdId(@Param("adid")Integer adid, @Param("updateBy")String updateBy);
 }

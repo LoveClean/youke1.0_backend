@@ -29,4 +29,8 @@ public interface PlaydeliveryMapper {
 
     List<Playdelivery> selectByKeys(@Param("areaId") String areaId,@Param("deliverType") Integer deliverType,@Param("groupId") Integer groupId);
 
+    int checkExistByPlayId(@Param("playId")Integer playId);
+    
+    int batchUpdateDelFlagByPlayId(@Param("playId")Integer playId, @Param("updateBy")String updateBy);
+
 }

@@ -24,6 +24,7 @@ import com.media.ops.backend.dao.entity.Adgroup;
 import com.media.ops.backend.dao.entity.Admaterial;
 import com.media.ops.backend.dao.entity.Material;
 import com.media.ops.backend.dao.mapper.AdMapper;
+import com.media.ops.backend.dao.mapper.AddeliveryMapper;
 import com.media.ops.backend.dao.mapper.AdgroupMapper;
 import com.media.ops.backend.dao.mapper.AdmaterialMapper;
 import com.media.ops.backend.dao.mapper.MaterialMapper;
@@ -48,6 +49,8 @@ public class AdServiceImpl implements AdService{
 	private MaterialMapper materialMapper;
 	@Autowired
 	private AdMaterialService adMaterialService;
+	@Autowired
+	private AddeliveryMapper addeliveryMapper;
 	
 	public ResponseEntity  addAd(String createby, AdAddRequestBean bean) {
 		Ad ad=new Ad();
@@ -75,6 +78,9 @@ public class AdServiceImpl implements AdService{
 		
 		if(resultCount>0) {
 			admaterialMapper.batchUpdateDelFlagByAdId(adId, updateby);
+			if(addeliveryMapper.checkExistByAdId(adId)>0) {
+				addeliveryMapper.batchUpdateDelFlagByAdId(adId, updateby);
+			}
 		}
 
 		return ResponseEntityUtil.delMessage(resultCount);

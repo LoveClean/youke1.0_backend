@@ -38,7 +38,7 @@ public class PageRequestBean implements Serializable {
    * 0查全部
    */
   @Min(value = 0, message = "pageSize cannot be less then 0")
-  @Max(value = 500, message = "pageSize cannot be more then 20")
+  @Max(value = 1000, message = "pageSize cannot be more then 20")
   @ApiModelProperty(value = "每页显示条数，须大于0，默认10条")
   private int pageSize = DEFAULT_SIZE;
 

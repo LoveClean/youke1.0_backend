@@ -16,7 +16,9 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
+import com.media.ops.backend.dao.entity.Device;
 import com.media.ops.backend.dao.entity.Devicegroup;
+import com.media.ops.backend.dao.mapper.DeviceMapper;
 import com.media.ops.backend.dao.mapper.DevicegroupMapper;
 import com.media.ops.backend.service.DeviceGroupService;
 import com.media.ops.backend.util.ListSortUtil;
@@ -31,6 +33,8 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
 
 	@Autowired
 	private DevicegroupMapper devicegroupMapper;
+	@Autowired
+	private DeviceMapper deviceMapper;
 
 	@Override
 	public ResponseEntity addGroup(String groupName, Integer parentId) {
@@ -85,6 +89,11 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
 	public ResponseEntity<String> deleteGroup(Integer groupId) {
 		if(groupId==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		
+		List<Device> devices= deviceMapper.selectByGroupId(groupId);
+		if(CollectionUtils.isNotEmpty(devices)) {
+			return  ResponseEntityUtil.fail("该分组下已有设备，不能删除！");
 		}
 		
 		Devicegroup devicegroup= new Devicegroup();

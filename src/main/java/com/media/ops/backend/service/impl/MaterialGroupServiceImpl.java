@@ -95,6 +95,11 @@ public class MaterialGroupServiceImpl implements MaterialGroupService {
 		if (groupId == null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
+		
+		List<Material> materials= materialMapper.selectByGroupId(groupId);
+		if(CollectionUtils.isNotEmpty(materials)) {
+			return ResponseEntityUtil.fail("该分组下有素材，不能删除！");
+		}
 
 		Materialgroup materialgroup = new Materialgroup();
 		materialgroup.setId(groupId);

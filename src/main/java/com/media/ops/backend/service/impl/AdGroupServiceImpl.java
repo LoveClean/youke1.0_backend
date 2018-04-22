@@ -16,8 +16,10 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
+import com.media.ops.backend.dao.entity.Ad;
 import com.media.ops.backend.dao.entity.Adgroup;
 import com.media.ops.backend.dao.entity.Devicegroup;
+import com.media.ops.backend.dao.mapper.AdMapper;
 import com.media.ops.backend.dao.mapper.AdgroupMapper;
 import com.media.ops.backend.service.AdGroupService;
 import com.media.ops.backend.util.ListSortUtil;
@@ -32,6 +34,8 @@ public class AdGroupServiceImpl implements AdGroupService {
 
 	@Autowired
 	private AdgroupMapper adgroupMapper;
+	@Autowired
+	private AdMapper adMapper;
 
 	@Override
 	public ResponseEntity addGroup(String groupName, Integer parentId) {
@@ -88,6 +92,11 @@ public class AdGroupServiceImpl implements AdGroupService {
 	public ResponseEntity<String> deleteGroup(Integer groupId) {
 		if(groupId==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+		}
+		
+		List<Ad> ads= adMapper.selectByNameGroupId(null, groupId);
+		if(CollectionUtils.isNotEmpty(ads)) {
+			return ResponseEntityUtil.fail("该分组下已有广告，不能删除！");
 		}
 		
 		Adgroup adgroup= new Adgroup();

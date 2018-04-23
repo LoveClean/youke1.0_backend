@@ -68,10 +68,11 @@ public class DeviceServiceImpl implements DeviceService {
 		deviceListVo.setCode(device.getCode());
 		deviceListVo.setMac(device.getMac());
 		
-		Devicetype  devicetype= devicetypeMapper.selectByPrimaryKey(Integer.parseInt(device.getType()));
-		if(devicetype!=null) {
-			deviceListVo.setType(devicetype.getName());
-		}
+//		Devicetype  devicetype= devicetypeMapper.selectByPrimaryKey(Integer.parseInt(device.getType()));
+//		if(devicetype!=null) {
+//			deviceListVo.setType(devicetype.getName());
+//		}
+		deviceListVo.setType(device.getType());
 		
 		deviceListVo.setBrand(device.getBrand());
 		deviceListVo.setSpec(device.getSpec());
@@ -162,10 +163,11 @@ public class DeviceServiceImpl implements DeviceService {
 		deviceVo.setCode(device.getCode());
 		deviceVo.setMac(device.getMac());
 		
-		Devicetype  devicetype= devicetypeMapper.selectByPrimaryKey(Integer.parseInt(device.getType()));
-		if(devicetype!=null) {
-			deviceVo.setType(devicetype.getName());
-		}
+//		Devicetype  devicetype= devicetypeMapper.selectByPrimaryKey(Integer.parseInt(device.getType()));
+//		if(devicetype!=null) {
+//			deviceVo.setType(devicetype.getName());
+//		}
+		deviceVo.setType(device.getType());
 		
 		deviceVo.setGroupid(device.getGroupid());
 		deviceVo.setBrand(device.getBrand());

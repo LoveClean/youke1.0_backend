@@ -12,6 +12,8 @@ public class AdVo {
     
     private String groupName; //分组名称
     
+    private Integer editStatus; //编辑状态
+    
     private List<AdMaterialVo> adMaterialVos; //广告的素材列表
 
 	public Integer getId() {
@@ -44,6 +46,14 @@ public class AdVo {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+
+	public Integer getEditStatus() {
+		return editStatus;
+	}
+
+	public void setEditStatus(Integer editStatus) {
+		this.editStatus = editStatus;
 	}
 
 	public List<AdMaterialVo> getAdMaterialVos() {

@@ -26,5 +26,7 @@ public interface AddeliveryMapper {
 
     int checkExistByAdId(@Param("adId")Integer adId);
     
+    int checkDeliveryByAdId(@Param("adId")Integer adId);
+    
     int batchUpdateDelFlagByAdId(@Param("adid")Integer adid, @Param("updateBy")String updateBy);
 }

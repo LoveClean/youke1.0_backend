@@ -252,6 +252,12 @@
 		where adid = #{adId} and del_flag='0'
 	</select>
 
+	<select id="checkDeliveryByAdId" resultType="int" parameterType="map">
+		SELECT count(1)
+		from tbaddelivery
+		where adid = #{adId} and del_flag='0' and SYSDATE()>begintime 
+	</select>
+
 	<update id="batchUpdateDelFlagByAdId" parameterType="map">
 		update tbaddelivery
 		set

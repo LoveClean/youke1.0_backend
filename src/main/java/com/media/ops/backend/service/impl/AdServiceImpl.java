@@ -182,6 +182,12 @@ public class AdServiceImpl implements AdService{
 		adVo.setName(ad.getName());
 		adVo.setGroupid(ad.getGroupid());
 		
+		if(addeliveryMapper.checkDeliveryByAdId(ad.getId())>0) {
+			adVo.setEditStatus(0);
+		}else {
+			adVo.setEditStatus(1);
+		}
+		
 		Adgroup adgroup= adgroupMapper.selectByPrimaryKey(ad.getGroupid());
 		if(adgroup!=null) {
 			adVo.setGroupName(adgroup.getName());

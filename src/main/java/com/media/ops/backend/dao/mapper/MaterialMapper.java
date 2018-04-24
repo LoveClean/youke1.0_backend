@@ -26,4 +26,6 @@ public interface MaterialMapper {
     List<Material> selectListByIds(@Param("materialIds") List<Integer> materialIds);
     
     List<Material> selectByNameTypeGroupId(@Param("materialName") String materialName,@Param("materialType") String materialType,@Param("groupId") Integer groupId);
+
+    int checkExistDelivery(@Param("admaterialId")Integer admaterialId);
 }

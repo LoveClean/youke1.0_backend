@@ -119,6 +119,14 @@ public class MaterialServiceImpl implements MaterialService {
 			materialVo.setGroupId(materialgroup.getId());
 			materialVo.setGroupName(materialgroup.getName());
 		}
+		
+		if(materialMapper.checkExistDelivery(ma.getId())>0) {
+			materialVo.setEditStatus(0);
+		}
+		else {
+			materialVo.setEditStatus(1);
+		}
+		
 		return materialVo;
 	}
 

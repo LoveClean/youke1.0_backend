@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import com.media.ops.backend.dao.entity.Play;
 import com.media.ops.backend.dao.mapper.PlayMapper;
-import com.media.ops.backend.util.DateUtil;
 
 @Configuration //1.主要用于标记配置类，兼备Component的效果。
 @EnableScheduling // 2.开启定时任务
@@ -24,10 +23,10 @@ public class PlayScheduleConfig {
     @Scheduled(cron = "0 */1 * * * ?")
     private void configureTasks() {
         try {
-            System.err.println("定时查询未结束的直播，当前时间为：" + DateUtil.getCurrentTime());
+           // System.err.println("定时查询未结束的直播，当前时间为：" + DateUtil.getCurrentTime());
             Thread.sleep(1000);
 
-            Date CURRENT_TIME= DateUtil.getCurrentTime();
+            Date CURRENT_TIME= new Date();
             List<Play> plays= playMapper.selectUnfinishedPlay();
             for (Play play : plays) {
 			   Date ENDTIME =play.getEndtime();

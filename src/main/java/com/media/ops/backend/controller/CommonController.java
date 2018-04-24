@@ -24,8 +24,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
@@ -92,19 +97,22 @@ public class CommonController {
 	@ApiOperation(value = "随机验证码接口", notes = "随机验证码")
 	@GetMapping(value = "get_verify_code.do")
 	public void createVerifyCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// 1定义bufferedImage对象
-		BufferedImage bImage = new BufferedImage(68, 22, BufferedImage.TYPE_INT_RGB);
-		// 2获得Graphics对象
-		Graphics graphics = bImage.getGraphics();
-		Color color = new Color(200, 150, 255);
-		graphics.setColor(color);
-		graphics.fillRect(0, 0, 68, 22);
+		 //1定义bufferedImage对象
+        BufferedImage bImage=new BufferedImage(68, 22, BufferedImage.TYPE_INT_RGB);
+		//2获得Graphics对象
+        Graphics graphics= bImage.getGraphics();
+        
+        Color color=new Color(200, 150, 255);
+        graphics.setColor(color);
+        graphics.fillRect(0, 0, 68, 22);
+
 		// 3通过Random产生随机验证码信息
 		// 4使用Graphics绘制图片
 		char[] ch = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
 
 		Random r = new Random();
 		int len = ch.length, index;
+		
 		String str = "";
 		for (int i = 0; i < 4; i++) {
 			index = r.nextInt(len);
@@ -122,6 +130,7 @@ public class CommonController {
 		// 6使用ImageIO输出图片
 		ImageIO.write(bImage, "JPG", response.getOutputStream());
 	}
+	
 
 	@ACS(allowAnonymous = true)
 	@ApiOperation(value = "校验随机验证码接口", notes = "校验随机验证码")

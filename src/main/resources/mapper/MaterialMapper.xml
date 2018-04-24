@@ -209,4 +209,15 @@
       ORDER BY id desc
   </select>
 
+
+	<select id="checkExistDelivery" resultType="int"
+		parameterType="map">
+		SELECT count(1)  
+		from tbad, tbadmaterial, tbaddelivery
+		where tbad.id= tbadmaterial.adid and tbad.id= tbaddelivery.adid 
+		and tbadmaterial.materialid= #{admaterialId} 
+		and SYSDATE()>tbaddelivery.begintime 
+		and tbaddelivery.del_flag='0' and tbad.del_flag='0' and tbadmaterial.del_flag='0'
+	</select>
+
 </mapper>

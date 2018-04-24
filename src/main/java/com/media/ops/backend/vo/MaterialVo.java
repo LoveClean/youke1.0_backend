@@ -12,6 +12,8 @@ public class MaterialVo {
     private Integer groupId;  //分组id
     
     private String groupName;  //分组名称
+    
+    private Integer  editStatus; //可编辑状态
 
 	public Integer getId() {
 		return id;
@@ -59,6 +61,14 @@ public class MaterialVo {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+
+	public Integer getEditStatus() {
+		return editStatus;
+	}
+
+	public void setEditStatus(Integer editStatus) {
+		this.editStatus = editStatus;
 	}
     
     

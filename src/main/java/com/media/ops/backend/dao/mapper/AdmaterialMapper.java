@@ -25,5 +25,5 @@ public interface AdmaterialMapper {
     
     int batchUpdateDelFlagByAdId(@Param("adid")Integer adid, @Param("updateBy")String updateBy);
     
-        
+       
 }

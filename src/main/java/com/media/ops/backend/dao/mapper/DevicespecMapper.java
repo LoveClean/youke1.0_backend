@@ -2,6 +2,8 @@ package com.media.ops.backend.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.media.ops.backend.dao.entity.Devicespec;
 
 public interface DevicespecMapper {
@@ -12,4 +14,6 @@ public interface DevicespecMapper {
     int insertSelective(Devicespec record);
     
     List<Devicespec>  selectAll();
+    
+    int checkExist(@Param("deviceSpec")String deviceSpec);
 }

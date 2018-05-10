@@ -93,7 +93,6 @@
 			<version>1.0.9</version>
 		</dependency>
 
-
 		<!-- 缓存相关依赖 -->
 		<dependency>
 			<groupId>net.spy</groupId>
@@ -103,15 +102,15 @@
 
 		<!-- swagger ui 相关依赖 -->
 		<dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.1.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.1.2</version>
-        </dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.1.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.1.2</version>
+		</dependency>
 
 
 		<!-- json 相关依赖 -->

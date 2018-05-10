@@ -30,4 +30,10 @@
     select *  from tbdevicebrand
   </select>
   
+  	<select id="checkExist" resultType="int" parameterType="map">
+		SELECT
+		count(1)
+		from tbdevicebrand
+		where brand= #{deviceBrand}
+	</select>
 </mapper>

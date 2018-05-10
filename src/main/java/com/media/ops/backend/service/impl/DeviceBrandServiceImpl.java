@@ -21,7 +21,11 @@ public class DeviceBrandServiceImpl implements DeviceBrandService {
 	@Override
 	public ResponseEntity<String> addBrand(Devicebrand devicebrand) {
 		// TODO Auto-generated method stub
-		return ResponseEntityUtil.addMessage(devicebrandMapper.insert(devicebrand));
+		if(devicebrandMapper.checkExist(devicebrand.getBrand())>0) {
+			return ResponseEntityUtil.fail("已存在同名的设备品牌！");
+		}else {
+			return ResponseEntityUtil.addMessage(devicebrandMapper.insert(devicebrand));			
+		}
 	}
 
 	@Override

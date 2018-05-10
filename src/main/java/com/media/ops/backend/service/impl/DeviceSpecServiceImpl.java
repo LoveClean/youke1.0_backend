@@ -22,7 +22,12 @@ public class DeviceSpecServiceImpl  implements DeviceSpecService {
 	
 	@Override
 	public ResponseEntity<String> addSpec(Devicespec devicespec) {
-		return ResponseEntityUtil.addMessage(devicespecMapper.insert(devicespec));
+		if(devicespecMapper.checkExist(devicespec.getSpec())>0) {
+			return ResponseEntityUtil.fail("已存在相同的设备规格！");
+		}else {
+			return ResponseEntityUtil.addMessage(devicespecMapper.insert(devicespec));
+		}
+		
 	}
 
 	@Override

@@ -255,6 +255,26 @@
 		where phone = #{phone} and type= #{type}
 	</select>
 
+
+	<select id="checkAccountNotSelf" resultType="int" parameterType="map">
+		select
+		count(1) from tbuser
+		where account = #{account} and type= #{type} and id!=#{uid}
+	</select>
+
+	<select id="checkEmailNotSelf" resultType="int" parameterType="map">
+		select
+		count(1) from tbuser
+		where email = #{email} and type= #{type} and id!=#{uid}
+	</select>
+
+	<select id="checkPhoneNotSelf" resultType="int" parameterType="map">
+		select
+		count(1) from tbuser
+		where phone = #{phone} and type= #{type} and id!=#{uid}
+	</select>
+	
+	
 	<select id="selectByAccount" resultMap="BaseResultMap"
 		parameterType="map">
 		SELECT

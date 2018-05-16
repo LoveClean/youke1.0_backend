@@ -29,6 +29,13 @@ public interface UserMapper {
  	
  	int checkPhone(@Param("phone")String phone, @Param("type")Integer type);
  	
+ 	int checkAccountNotSelf(@Param("uid")Integer uid,@Param("account")String account, @Param("type")Integer type);
+ 	
+ 	int checkEmailNotSelf(@Param("uid")Integer uid,@Param("email")String email, @Param("type")Integer type);
+ 	
+ 	int checkPhoneNotSelf(@Param("uid")Integer uid,@Param("phone")String phone, @Param("type")Integer type);
+ 	
+ 	
  	User selectByAccount(@Param("account")String account, @Param("password")String password);
  	User selectByPhone(@Param("phone")String phone, @Param("password")String password);
  	User selectByEmail(@Param("email")String email, @Param("password")String password);

@@ -221,7 +221,7 @@ public class PlayServiceImpl implements PlayService {
 		}
 		
 		List<Play> plays = playMapper.selectByKeys(
-				bean.getPlayerId()<=0?null:bean.getPlayerId(), bean.getStatus(), 
+				bean.getPlayerId()<=0?null:bean.getPlayerId(), bean.getStatus()<0?null:bean.getStatus(), 
 						StringUtils.isBlank(playTitle)?null:playTitle, 
 								StringUtils.isBlank(bean.getBeginTime())?null:bean.getBeginTime(), 
 										StringUtils.isBlank(bean.getEndTime())?null:bean.getEndTime());

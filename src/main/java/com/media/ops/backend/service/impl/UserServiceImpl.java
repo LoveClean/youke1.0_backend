@@ -136,6 +136,37 @@ public class UserServiceImpl implements UserService {
 		return ResponseEntityUtil.success("校验成功");
 	}
 
+	
+	public ResponseEntity<String> checkValidNotSelf(Integer id,String str, String field, int type) {
+	       if(StringUtils.isNotBlank(field)) {
+	    	   if(Const.USERNAME.equals(field)) {
+	    		   int resultCount= userMapper.checkAccountNotSelf(id,str,type);
+	    		   if(resultCount>0) {
+	    				return ResponseEntityUtil.fail("用户已存在");
+	    			}
+	    	   }
+	    	   
+	    	   if(Const.EMAIL.equals(field)) {
+	    		   int resultCount= userMapper.checkEmailNotSelf(id,str,type);
+	    			if(resultCount>0) {
+	    				return ResponseEntityUtil.fail("email已存在");
+	    			}    		   
+	    	   }
+	    	   
+	    	   if(Const.PHONE.equals(field)) {
+	    		   int resultCount= userMapper.checkPhoneNotSelf(id,str,type);
+	    			if(resultCount>0) {
+	    				return ResponseEntityUtil.fail("手机号已存在");
+	    			}    		   
+	    	   }
+	    	   
+	       }else {
+	    	   return ResponseEntityUtil.fail("参数错误");
+	       }
+
+			return ResponseEntityUtil.success("校验成功");
+		}
+	
 	@Override
 	public ResponseEntity<String> selectQuestion(String account, int type) {
 		ResponseEntity<String> validResponse= this.checkValid(account, Const.USERNAME, type);

@@ -33,7 +33,7 @@
 	<insert id="insert" parameterType="com.media.ops.backend.dao.entity.Playdelivery"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into tbplaydelivery (id,
-		playid, adtype,delivertype,
+		playid,delivertype,
 		areaid, groupid, create_by, create_date,
 		update_by, update_date, remarks,
 		del_flag)
@@ -228,7 +228,8 @@
 	<select id="checkExistByPlayId" resultType="int" parameterType="map">
 		SELECT count(1)
 		from tbplaydelivery
-		where playid = #{playId} and del_flag='0'
+		where playid = #{playId} and
+		del_flag='0'
 	</select>
 
 	<update id="batchUpdateDelFlagByPlayId" parameterType="map">
@@ -244,4 +245,16 @@
 			</if>
 		</where>
 	</update>
+
+	<insert id="batchInsert" parameterType="list" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into tbplaydelivery (id,playid,delivertype,areaid, groupid, create_by, create_date,update_by, update_date,del_flag)
+		values
+		<foreach collection="playdeliverys" index="index" item="item"
+			separator=",">
+			(
+			#{item.id},#{item.playid},#{item.delivertype},#{item.areaid},#{item.groupid},#{item.createBy},now(),#{item.updateBy},now(),0
+			)
+		</foreach>
+	</insert>
 </mapper>

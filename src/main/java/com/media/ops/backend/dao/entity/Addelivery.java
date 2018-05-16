@@ -142,4 +142,20 @@ public class Addelivery {
     public void setDelFlag(String delFlag) {
         this.delFlag = delFlag == null ? null : delFlag.trim();
     }
+
+	@Override
+	public String toString() {
+		return "Addelivery [id=" + id + ", adid=" + adid + ", adtype=" + adtype + ", delivertype=" + delivertype
+				+ ", areaid=" + areaid + ", groupid=" + groupid + ", begintime=" + begintime + ", endtime=" + endtime
+				+ ", createBy=" + createBy + ", createDate=" + createDate + ", updateBy=" + updateBy + ", updateDate="
+				+ updateDate + ", delFlag=" + delFlag + ", getId()=" + getId() + ", getAdid()=" + getAdid()
+				+ ", getAdtype()=" + getAdtype() + ", getDelivertype()=" + getDelivertype() + ", getAreaid()="
+				+ getAreaid() + ", getGroupid()=" + getGroupid() + ", getBegintime()=" + getBegintime()
+				+ ", getEndtime()=" + getEndtime() + ", getCreateBy()=" + getCreateBy() + ", getCreateDate()="
+				+ getCreateDate() + ", getUpdateBy()=" + getUpdateBy() + ", getUpdateDate()=" + getUpdateDate()
+				+ ", getRemarks()=" + getRemarks() + ", getDelFlag()=" + getDelFlag() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
+    
+    
 }

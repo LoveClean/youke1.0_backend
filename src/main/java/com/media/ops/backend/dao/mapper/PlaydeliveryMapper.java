@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.media.ops.backend.dao.entity.Device;
-import com.media.ops.backend.dao.entity.Play;
 import com.media.ops.backend.dao.entity.Playdelivery;
 import com.media.ops.backend.vo.VmPlayDeliveryVo;
 
@@ -33,4 +31,5 @@ public interface PlaydeliveryMapper {
     
     int batchUpdateDelFlagByPlayId(@Param("playId")Integer playId, @Param("updateBy")String updateBy);
 
+    int batchInsert(@Param("playdeliverys")  List<Playdelivery> playdeliveries);
 }

@@ -1,5 +1,6 @@
 package com.media.ops.backend.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -55,25 +56,29 @@ public class AddeliveryServiceImpl implements AddeliveryService {
 	private BuildingMapper buildingMapper;
 
 	public ResponseEntity createAdDelivery(String createby, AddeliveryAddRequestBean bean) {
-
-		Addelivery addelivery = new Addelivery();
-		addelivery.setAdid(bean.getAdid());
-		addelivery.setAdtype(bean.getAdtype());
-		addelivery.setDelivertype(bean.getDelivertype());
-		addelivery.setAreaid(bean.getAreaid());
-		addelivery.setGroupid(bean.getGroupid());
-		addelivery.setBegintime(DateUtil.stringToDate(bean.getBegintime(), DateUtil.DEFAULT_PATTERN));
-		addelivery.setEndtime(DateUtil.stringToDate(bean.getEndtime(), DateUtil.DEFAULT_PATTERN));
-		addelivery.setCreateBy(createby);
-		addelivery.setUpdateBy(createby);
-
-		int resultCount = addeliveryMapper.insertSelective(addelivery);
-
-		if (resultCount <= 0) {
+		List<Addelivery> addeliverieList=new ArrayList<Addelivery>();
+		List<Integer> groupIds= bean.getGroupid();
+		for (Integer groupId : groupIds) {
+			Addelivery addelivery = new Addelivery();
+			addelivery.setAdid(bean.getAdid());
+			addelivery.setAdtype(bean.getAdtype());
+			addelivery.setDelivertype(bean.getDelivertype());
+			addelivery.setAreaid(bean.getAreaid());
+			addelivery.setGroupid(groupId);
+			addelivery.setBegintime(DateUtil.stringToDate(bean.getBegintime(), DateUtil.DEFAULT_PATTERN));
+			addelivery.setEndtime(DateUtil.stringToDate(bean.getEndtime(), DateUtil.DEFAULT_PATTERN));
+			addelivery.setCreateBy(createby);
+			addelivery.setUpdateBy(createby);
+			
+			addeliverieList.add(addelivery);
+		}
+		
+		int resultCount= addeliveryMapper.batchInsert(addeliverieList);
+		if(resultCount< addeliverieList.size()) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);
 		}
 		Map<String, Object> result = Maps.newHashMap();
-		result.put("newData", addelivery);
+		result.put("newData", addeliverieList);
 		return ResponseEntityUtil.success(result);
 	}
 

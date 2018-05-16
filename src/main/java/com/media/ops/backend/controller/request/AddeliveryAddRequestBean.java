@@ -1,6 +1,7 @@
 package com.media.ops.backend.controller.request;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -26,7 +27,8 @@ public class AddeliveryAddRequestBean {
 	
 	@NotNull(message = "设备分组ID或楼宇ID不能为空")
 	@ApiModelProperty(value = "设备分组/楼宇ID，必填", required = true)
-    private Integer groupid; //楼宇ID或设备分组ID
+    //private Integer groupid; //楼宇ID或设备分组ID
+	private List<Integer> groupid;
 
 	@NotBlank(message = "开始播放时间不能空")
 	@ApiModelProperty(value = "开始投放时间，必填", required = true)
@@ -68,11 +70,11 @@ public class AddeliveryAddRequestBean {
 		this.areaid = areaid;
 	}
 
-	public Integer getGroupid() {
+	public List<Integer> getGroupid() {
 		return groupid;
 	}
 
-	public void setGroupid(Integer groupid) {
+	public void setGroupid(List<Integer> groupid) {
 		this.groupid = groupid;
 	}
 

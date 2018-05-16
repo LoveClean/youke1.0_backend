@@ -70,31 +70,40 @@ public class PlaydeliveryServiceImpl implements PlaydeliveryService {
 			return ResponseEntityUtil.fail("该直播已经结束，无法创建投放");
 		}
 		
+		List<Playdelivery> playdeliveryList=Lists.newArrayList();
+		List<Integer> groupIds= bean.getGroupid();
 		
-		List<VmPlayDeliveryVo> vmPlayDeliveryVos= playdeliveryMapper.selectByGroupBeginEndTime(
-				bean.getDelivertype(), bean.getAreaid(), bean.getGroupid(), 
-				DateUtil.format(play.getBegintime(), DateUtil.DEFAULT_PATTERN), DateUtil.format(play.getEndtime(), DateUtil.DEFAULT_PATTERN));
-		
-		if(CollectionUtils.isNotEmpty(vmPlayDeliveryVos)) {
-			return ResponseEntityUtil.fail("选择的投放设备在该时段还有直播没结束！");
+		for (Integer groupId : groupIds) {
+			List<VmPlayDeliveryVo> vmPlayDeliveryVos= playdeliveryMapper.selectByGroupBeginEndTime(
+					bean.getDelivertype(), bean.getAreaid(), groupId, 
+					DateUtil.format(play.getBegintime(), DateUtil.DEFAULT_PATTERN), DateUtil.format(play.getEndtime(), DateUtil.DEFAULT_PATTERN));
+			
+			if(CollectionUtils.isNotEmpty(vmPlayDeliveryVos)) {
+				return ResponseEntityUtil.fail("选择的投放设备在该时段还有直播没结束！");
+			}
 		}
-		
-		Playdelivery addDelivery = new Playdelivery();
-		addDelivery.setPlayid(bean.getPlayid());
-		addDelivery.setDelivertype(bean.getDelivertype());
-		addDelivery.setAreaid(bean.getAreaid());
-		addDelivery.setGroupid(bean.getGroupid());
 
-		addDelivery.setCreateBy(createby);
-		addDelivery.setUpdateBy(createby);
+        //批量添加
+		for (Integer groupId : groupIds) {
+			Playdelivery addDelivery = new Playdelivery();
+			addDelivery.setPlayid(bean.getPlayid());
+			addDelivery.setDelivertype(bean.getDelivertype());
+			addDelivery.setAreaid(bean.getAreaid());
+			addDelivery.setGroupid(groupId);
 
-		int resultCount = playdeliveryMapper.insertSelective(addDelivery);
+			addDelivery.setCreateBy(createby);
+			addDelivery.setUpdateBy(createby);
+			
+			playdeliveryList.add(addDelivery);
+		}
 
-		if (resultCount <= 0) {
+		int resultCount = playdeliveryMapper.batchInsert(playdeliveryList);
+
+		if (resultCount < playdeliveryList.size()) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);
 		}
 		Map<String, Object> result = Maps.newHashMap();
-		result.put("newData", addDelivery);
+		result.put("newData", playdeliveryList);
 		return ResponseEntityUtil.success(result);
 	}
 

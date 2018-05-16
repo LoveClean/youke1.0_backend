@@ -3,6 +3,7 @@ package com.media.ops.backend;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -12,13 +13,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.collect.Lists;
+import com.media.ops.backend.controller.request.AddeliveryAddRequestBean;
 import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
+import com.media.ops.backend.service.AddeliveryService;
 import com.media.ops.backend.service.CityService;
 import com.media.ops.backend.service.SmsService;
 import com.media.ops.backend.service.SysLogService;
 import com.media.ops.backend.util.MD5Util;
 import com.media.ops.backend.vo.SyslogVo;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -31,6 +35,8 @@ public class ApplicationTests {
 	
 	@Autowired
 	private SysLogService sysLogService;
+	
+	private AddeliveryService addeliveryService;
 	
 	@Test
 	public void test() {
@@ -67,8 +73,9 @@ public class ApplicationTests {
 	
 	@Test
 	public void test5() throws Exception {
-		URL url=new URL("http://test45.bj.bcebos.com/2018041915bb6a87fc.mp4");
-		HttpURLConnection urlcon= (HttpURLConnection)url.openConnection();
-		//urlcon.get
+//		URL url=new URL("http://test45.bj.bcebos.com/2018041915bb6a87fc.mp4");
+//		HttpURLConnection urlcon= (HttpURLConnection)url.openConnection();
+//		//urlcon.get
+		
 	}
 }

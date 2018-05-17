@@ -220,14 +220,19 @@ public class AdServiceImpl implements AdService{
 
 	@Override
 	public PageResponseBean<AdVo> selectAdByKeywordGroup(String keyword, Integer groupId, Integer pageNum,
-			Integer pageSize) {
+			Integer pageSize, String beginTime, String endTime) {
 		if(StringUtils.isNotBlank(keyword)) {
 			keyword= new StringBuilder().append("%").append(keyword).append("%").toString();
 		}
 		
 		
 		PageHelper.startPage(pageNum, pageSize);
-		List<Ad> adList= adMapper.selectByNameGroupId(StringUtils.isBlank(keyword)?null:keyword,groupId==0?null:groupId);
+		List<Ad> adList= adMapper.selectByNameGroupId(
+				StringUtils.isBlank(keyword)?null:keyword,
+						groupId==0?null:groupId,
+								StringUtils.isBlank(beginTime)?null:beginTime, 
+										StringUtils.isBlank(endTime)?null:endTime
+								);
 		List<AdVo> adVos= Lists.newArrayList();
 		for(Ad ad: adList) {
 			List<Admaterial> admaterials= admaterialMapper.selectByAdId(ad.getId());

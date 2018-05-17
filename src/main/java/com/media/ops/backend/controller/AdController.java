@@ -62,7 +62,7 @@ public class AdController extends BaseController {
 	@ApiOperation(value = "搜索广告接口", notes = "广告搜索")
 	@PostMapping(value = "search_list.do")
 	public ResponseEntity<PageResponseBean<AdVo>> searchList(@RequestBody AdSearchRequestBean bean) {
-		return ResponseEntityUtil.success(adService.selectAdByKeywordGroup(bean.getKeyword(), bean.getGroupId(), bean.getPageNum(), bean.getPageSize()));
+		return ResponseEntityUtil.success(adService.selectAdByKeywordGroup(bean.getKeyword(), bean.getGroupId(), bean.getPageNum(), bean.getPageSize(),bean.getBeginTime(),bean.getEndTime()));
 	}
 	
 	//查看广告详情接口

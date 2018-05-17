@@ -177,6 +177,14 @@
     <if test="groupId != null" >
       and groupid= #{groupId,jdbcType=INTEGER}
     </if>
+    <if test="begintime != null" >
+      and create_date> #{begintime}
+    </if>
+    <if test="endtime != null" >
+      and #{endtime}>create_date 
+    </if>
+    
+    
       ORDER BY id desc
   </select>
 

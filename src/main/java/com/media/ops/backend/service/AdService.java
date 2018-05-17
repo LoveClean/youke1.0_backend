@@ -19,7 +19,7 @@ public interface AdService {
 	public PageResponseBean<AdVo> selectAdList(PageRequestBean bean);
 	
 	public PageResponseBean<AdVo> selectAdByKeywordGroup(String keyword, Integer groupId,
-			Integer pageNum, Integer pageSize);
+			Integer pageNum, Integer pageSize, String beginTime, String endTime);
 	
 	public ResponseEntity<AdVo> selectAd(Integer id);
 	

@@ -30,6 +30,6 @@ public interface AdMapper {
     
 	List<Ad> selectList();
 	
-    List<Ad> selectByNameGroupId(@Param("adName") String adName,@Param("groupId") Integer groupId);
+    List<Ad> selectByNameGroupId(@Param("adName") String adName,@Param("groupId") Integer groupId,@Param("begintime")String begintime, @Param("endtime")String endtime);
     
 }

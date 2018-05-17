@@ -23,6 +23,12 @@ public class AdSearchRequestBean implements Serializable {
 	@ApiModelProperty(value = "关键词")
 	private String keyword;
 	
+	@ApiModelProperty(value = "开始时间")
+	private String beginTime;
+	
+	@ApiModelProperty(value = "结束时间")
+	private String endTime;
+	
 	 /**
 	   * 当前页，默认1
 	   */
@@ -66,6 +72,22 @@ public class AdSearchRequestBean implements Serializable {
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+
+	public String getBeginTime() {
+		return beginTime;
+	}
+
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 
 

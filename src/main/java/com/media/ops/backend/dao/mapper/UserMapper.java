@@ -29,12 +29,7 @@ public interface UserMapper {
  	
  	int checkPhone(@Param("phone")String phone, @Param("type")Integer type);
  	
- 	int checkAccountNotSelf(@Param("uid")Integer uid,@Param("account")String account, @Param("type")Integer type);
- 	
- 	int checkEmailNotSelf(@Param("uid")Integer uid,@Param("email")String email, @Param("type")Integer type);
- 	
- 	int checkPhoneNotSelf(@Param("uid")Integer uid,@Param("phone")String phone, @Param("type")Integer type);
- 	
+
  	
  	User selectByAccount(@Param("account")String account, @Param("password")String password);
  	User selectByPhone(@Param("phone")String phone, @Param("password")String password);
@@ -48,7 +43,11 @@ public interface UserMapper {
 
  	int checkPassword(@Param("password")String password, @Param("userId")Integer userId);
 
- 	int checkEmailByUserId(@Param("email")String email, @Param("userId")Integer userId);
+ 	int checkEmailByUserId(@Param("email")String email, @Param("type")Integer type, @Param("userId")Integer userId);
+ 	
+ 	int checkPhoneByUserId(@Param("phone")String email, @Param("type")Integer type, @Param("userId")Integer userId);
+ 	
+ 	int checkAccountByUserId(@Param("account")String email, @Param("type")Integer type, @Param("userId")Integer userId);
  	
  	User findByMobile(String mobile);
  	

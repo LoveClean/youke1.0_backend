@@ -256,32 +256,14 @@
 	</select>
 
 
-	<select id="checkAccountNotSelf" resultType="int" parameterType="map">
-		select
-		count(1) from tbuser
-		where account = #{account} and type= #{type} and id!=#{uid}
-	</select>
-
-	<select id="checkEmailNotSelf" resultType="int" parameterType="map">
-		select
-		count(1) from tbuser
-		where email = #{email} and type= #{type} and id!=#{uid}
-	</select>
-
-	<select id="checkPhoneNotSelf" resultType="int" parameterType="map">
-		select
-		count(1) from tbuser
-		where phone = #{phone} and type= #{type} and id!=#{uid}
-	</select>
-	
-	
 	<select id="selectByAccount" resultMap="BaseResultMap"
 		parameterType="map">
 		SELECT
 		<include refid="Base_Column_List" />
 		from tbuser
 		where account = #{account}
-		and password = #{password} and type=0
+		and password = #{password} and
+		type=0
 	</select>
 	<select id="selectByPhone" resultMap="BaseResultMap"
 		parameterType="map">
@@ -337,10 +319,19 @@
 
 	<select id="checkEmailByUserId" resultType="int" parameterType="map">
 		select count(1) from tbuser
-		where email = #{email}
+		where email = #{email} and type= #{type}
 		and id != #{userId}
 	</select>
-
+	<select id="checkPhoneByUserId" resultType="int" parameterType="map">
+		select count(1) from tbuser
+		where phone = #{phone} and type= #{type}
+		and id != #{userId}
+	</select>
+	<select id="checkAccountByUserId" resultType="int" parameterType="map">
+		select count(1) from tbuser
+		where account = #{account} and type= #{type}
+		and id != #{userId}
+	</select>
 
 	<select id="findByMobile" parameterType="string" resultMap="BaseResultMap">
 		SELECT * FROM tbuser

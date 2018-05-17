@@ -136,37 +136,6 @@ public class UserServiceImpl implements UserService {
 		return ResponseEntityUtil.success("校验成功");
 	}
 
-	
-	public ResponseEntity<String> checkValidNotSelf(Integer id,String str, String field, int type) {
-	       if(StringUtils.isNotBlank(field)) {
-	    	   if(Const.USERNAME.equals(field)) {
-	    		   int resultCount= userMapper.checkAccountNotSelf(id,str,type);
-	    		   if(resultCount>0) {
-	    				return ResponseEntityUtil.fail("用户已存在");
-	    			}
-	    	   }
-	    	   
-	    	   if(Const.EMAIL.equals(field)) {
-	    		   int resultCount= userMapper.checkEmailNotSelf(id,str,type);
-	    			if(resultCount>0) {
-	    				return ResponseEntityUtil.fail("email已存在");
-	    			}    		   
-	    	   }
-	    	   
-	    	   if(Const.PHONE.equals(field)) {
-	    		   int resultCount= userMapper.checkPhoneNotSelf(id,str,type);
-	    			if(resultCount>0) {
-	    				return ResponseEntityUtil.fail("手机号已存在");
-	    			}    		   
-	    	   }
-	    	   
-	       }else {
-	    	   return ResponseEntityUtil.fail("参数错误");
-	       }
-
-			return ResponseEntityUtil.success("校验成功");
-		}
-	
 	@Override
 	public ResponseEntity<String> selectQuestion(String account, int type) {
 		ResponseEntity<String> validResponse= this.checkValid(account, Const.USERNAME, type);
@@ -238,10 +207,16 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public ResponseEntity<User> updateInformation(User user) {
-		int resultCount= userMapper.checkEmailByUserId(user.getEmail(), user.getId());
+		int resultCount= userMapper.checkEmailByUserId(user.getEmail(), user.getType(), user.getId());
 		if(resultCount>0) {
 			return ResponseEntityUtil.fail("Email已存在，请修改");
 		}
+		resultCount= userMapper.checkPhoneByUserId(user.getPhone(), user.getType(), user.getId());
+		if(resultCount>0) {
+			return ResponseEntityUtil.fail("手机号已存在，请修改");
+		}
+		
+		
 		User updateUser= new User();
 		updateUser.setId(user.getId());
 		updateUser.setTruename(user.getTruename());
@@ -260,10 +235,15 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public ResponseEntity<User> updateSelfInfo(User user) {
-		int resultCount= userMapper.checkEmailByUserId(user.getEmail(), user.getId());
+		int resultCount= userMapper.checkEmailByUserId(user.getEmail(), user.getType(), user.getId());
 		if(resultCount>0) {
 			return ResponseEntityUtil.fail("Email已存在，请修改");
 		}
+		resultCount= userMapper.checkPhoneByUserId(user.getPhone(), user.getType(), user.getId());
+		if(resultCount>0) {
+			return ResponseEntityUtil.fail("手机号已存在，请修改");
+		}
+
 		User updateUser= new User();
 		updateUser.setId(user.getId());
 		updateUser.setTruename(user.getTruename());

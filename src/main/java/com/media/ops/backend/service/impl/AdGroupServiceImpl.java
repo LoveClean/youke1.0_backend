@@ -94,7 +94,7 @@ public class AdGroupServiceImpl implements AdGroupService {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
 		
-		List<Ad> ads= adMapper.selectByNameGroupId(null, groupId);
+		List<Ad> ads= adMapper.selectByNameGroupId(null, groupId,null,null);
 		if(CollectionUtils.isNotEmpty(ads)) {
 			return ResponseEntityUtil.fail("该分组下已有广告，不能删除！");
 		}

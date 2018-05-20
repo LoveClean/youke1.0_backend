@@ -229,7 +229,7 @@ public class UserController extends BaseController {
 		user.setEmail(bean.getEmail());
 		user.setPhone(bean.getPhone());
 		user.setType(bean.getType());
-		user.setStatus(bean.getStatus());
+		user.setStatus((byte)1);
 
 		user.setUpdateBy(super.getSessionUser(request).getAccount());
 

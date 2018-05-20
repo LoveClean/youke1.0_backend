@@ -239,6 +239,13 @@
     from tbdevice
     where del_flag='0' and  groupid = #{groupId}
   </select> 
+
+ <select id="selectByBuildingId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List"/>
+    from tbdevice
+    where del_flag='0' and  buildingid = #{buildingId}
+  </select>
   
     <select id="selectByCodeAreaAddress" resultMap="BaseResultMap" parameterType="map">
     SELECT

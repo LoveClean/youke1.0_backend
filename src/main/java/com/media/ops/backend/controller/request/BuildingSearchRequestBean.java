@@ -13,6 +13,9 @@ public class BuildingSearchRequestBean implements Serializable {
 	private static final int DEFAULT_PAGE = 1;
 	private static final int DEFAULT_SIZE = 999;
 
+	@ApiModelProperty(value = "城市ID")
+	private String cityId;
+	
 	@ApiModelProperty(value = "区域ID")
 	private String areaId;
 	@ApiModelProperty(value = "楼宇关键词")
@@ -49,6 +52,15 @@ public class BuildingSearchRequestBean implements Serializable {
 		this.pageSize = (pageSize <= 0 || pageSize >= 1000) ? 999 : pageSize;
 	}
 
+	
+
+	public String getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(String cityId) {
+		this.cityId = cityId;
+	}
 
 	public String getAreaId() {
 		return areaId;

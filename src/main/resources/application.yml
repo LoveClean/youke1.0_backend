@@ -24,9 +24,9 @@ oss:
 bos:
   accessKeyId: 8607282ea90e46f98f4190c9a16d6bd3
   accessKeySecret: fa01d89c2bf64c27b2a3516e40601aa2
-  bucketName: test45
+  bucketName: urwork
   upload-endpoint: http://bj.bcebos.com
-  download-endpoint: http://test45.bj.bcebos.com
+  download-endpoint: http://urwork.bj.bcebos.com
   download-url-expiration: 1800000
 
 #直播

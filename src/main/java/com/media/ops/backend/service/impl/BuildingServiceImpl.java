@@ -205,18 +205,23 @@ public class BuildingServiceImpl implements BuildingService {
 	//楼宇搜索
 	public ResponseEntity<PageInfo> selectBuildingsbyKey(BuildingSearchRequestBean bean){
 		String buildingKey=bean.getBuildingKey();
+		String provinceId= bean.getProvinceId();
 		String cityId= bean.getCityId();
 		String areaId=bean.getAreaId();
 		Integer pageNum=bean.getPageNum();
 		Integer pageSize=bean.getPageSize();
 		
-		if(StringUtils.isBlank(buildingKey)&& StringUtils.isBlank(areaId)&&StringUtils.isBlank(cityId)) {
+		if(StringUtils.isBlank(buildingKey)&& StringUtils.isBlank(areaId)&&StringUtils.isBlank(cityId)&&StringUtils.isBlank(provinceId)) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
 		
 		if(StringUtils.isNotBlank(buildingKey)) {
 			buildingKey=new StringBuilder().append("%").append(buildingKey).append("%").toString();
 		}
+		
+		if(StringUtils.isNotBlank(provinceId) && StringUtils.isBlank(cityId) && StringUtils.isBlank(areaId)) {
+			areaId= new StringBuilder().append("%").append(provinceId.substring(0, 2)).append("%").toString();
+		}		
 		
 		if(StringUtils.isNotBlank(cityId) && StringUtils.isBlank(areaId)) {
 			areaId= new StringBuilder().append("%").append(cityId.substring(0, 4)).append("%").toString();

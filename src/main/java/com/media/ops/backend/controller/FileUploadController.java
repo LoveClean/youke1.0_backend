@@ -32,7 +32,8 @@ public class FileUploadController   {
   private OssService ossService;
   @Resource
   private ImageConfig imageConfig;
-
+  
+  
   /**
    * 上传图片
    * 

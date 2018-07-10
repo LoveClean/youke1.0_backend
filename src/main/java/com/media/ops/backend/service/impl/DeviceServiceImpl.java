@@ -1,11 +1,15 @@
 package com.media.ops.backend.service.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -27,6 +31,7 @@ import com.media.ops.backend.dao.mapper.DeviceMapper;
 import com.media.ops.backend.dao.mapper.DevicegroupMapper;
 import com.media.ops.backend.dao.mapper.DevicetypeMapper;
 import com.media.ops.backend.service.DeviceService;
+import com.media.ops.backend.util.ExcelUtil;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.AreaVo;
@@ -237,6 +242,7 @@ public class DeviceServiceImpl implements DeviceService {
 		return ResponseEntityUtil.success(result);
 	}
 
+
 	@Override
 	public ResponseEntity uptDevice(String updateby,DeviceUptRequestBean bean) {
 		if(bean==null) {
@@ -301,5 +307,6 @@ public class DeviceServiceImpl implements DeviceService {
 		int resultCount= deviceMapper.updateByPrimaryKeySelective(device);
 		return ResponseEntityUtil.updMessage(resultCount);
 	}
+
 
 }

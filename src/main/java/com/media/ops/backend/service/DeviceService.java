@@ -1,6 +1,8 @@
 package com.media.ops.backend.service;
 
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.github.pagehelper.PageInfo;
 import com.media.ops.backend.controller.request.DeviceAddRequestBean;
 import com.media.ops.backend.controller.request.DeviceSearchRequestBean;

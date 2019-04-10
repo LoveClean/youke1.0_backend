@@ -1,26 +1,19 @@
 package com.media.ops.backend.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.media.ops.backend.controller.request.AdAddRequestBean;
 import com.media.ops.backend.controller.request.AdMergeUptRequestBean;
-import com.media.ops.backend.controller.request.AdSearchRequestBean;
 import com.media.ops.backend.controller.request.AdUptRequestBean;
-import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.service.AdService;
 import com.media.ops.backend.util.ResponseEntity;
-import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.AdVo;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Api(description="广告操作接口",produces = "application/json")
 @RestController
@@ -37,7 +30,7 @@ public class AdController extends BaseController {
 	}
 	@ApiOperation(value = "删除广告操作接口",notes = "删除广告")
 	@PostMapping(value="del_ad.do")	
-	public ResponseEntity del(@RequestBody Integer adId,HttpServletRequest request) {
+	public ResponseEntity del(@RequestParam Integer adId,HttpServletRequest request) {
 		return adService.delAd(adId, super.getSessionUser(request).getAccount());
 	}
 
@@ -52,17 +45,23 @@ public class AdController extends BaseController {
 	public ResponseEntity uptAd(@RequestBody AdMergeUptRequestBean bean,HttpServletRequest request) {
 		return adService.uptAd(super.getSessionUser(request).getAccount(), bean);
 	}	
-	
+
 	@ApiOperation(value = "获取广告列表接口", notes = "广告列表")
 	@PostMapping(value = "get_list.do")
-	public ResponseEntity<PageResponseBean<AdVo>> getList(@RequestBody PageRequestBean bean) {
-		return ResponseEntityUtil.success(adService.selectAdList(bean));
+	public PageResponseBean<AdVo> getList(@RequestParam(defaultValue = "1") Integer pageNum,
+										  @RequestParam(defaultValue = "999") Integer pageSize) {
+		return adService.selectAdList(pageNum,pageSize);
 	}
-	
+
 	@ApiOperation(value = "搜索广告接口", notes = "广告搜索")
 	@PostMapping(value = "search_list.do")
-	public ResponseEntity<PageResponseBean<AdVo>> searchList(@RequestBody AdSearchRequestBean bean) {
-		return ResponseEntityUtil.success(adService.selectAdByKeywordGroup(bean.getKeyword(), bean.getGroupId(), bean.getPageNum(), bean.getPageSize(),bean.getBeginTime(),bean.getEndTime()));
+	public PageResponseBean<AdVo> searchList(@RequestParam Integer pageNum,
+											 @RequestParam Integer pageSize,
+											 @RequestParam(required = false) @ApiParam("开始时间") String beginTime,
+											 @RequestParam(required = false) @ApiParam("结束时间") String endTime,
+											 @RequestParam(required = false) String keyword,
+											 @RequestParam @ApiParam("分组id") Integer groupId) {
+		return adService.selectAdByKeywordGroup(keyword, groupId, pageNum, pageSize, beginTime, endTime);
 	}
 	
 	//查看广告详情接口
@@ -71,5 +70,6 @@ public class AdController extends BaseController {
 	public ResponseEntity<AdVo> getAd(@RequestBody Integer id) {
 		return adService.selectAd(id);
 	}
-	
+
+
 }

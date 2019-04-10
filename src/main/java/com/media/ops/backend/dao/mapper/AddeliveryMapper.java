@@ -1,10 +1,9 @@
 package com.media.ops.backend.dao.mapper;
 
-import java.util.List;
-
+import com.media.ops.backend.dao.entity.Addelivery;
 import org.apache.ibatis.annotations.Param;
 
-import com.media.ops.backend.dao.entity.Addelivery;
+import java.util.List;
 
 
 public interface AddeliveryMapper {
@@ -31,4 +30,9 @@ public interface AddeliveryMapper {
     int batchUpdateDelFlagByAdId(@Param("adid")Integer adid, @Param("updateBy")String updateBy);
 
     int batchInsert(@Param("addeliverys")  List<Addelivery> addeliveries);
+
+    int batchDelete(@Param("list")List<Integer> list,@Param("updateBy") String updataBy);
+
+    List<Addelivery> selectByKeys2(@Param("areaId") String areaId,@Param("deliverType") Integer deliverType,@Param("groupId") Integer groupId);
+
 }

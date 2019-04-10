@@ -1,12 +1,10 @@
 package com.media.ops.backend.dao.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.media.ops.backend.dao.entity.Play;
-import com.media.ops.backend.util.ResponseEntity;
-import com.media.ops.backend.vo.PlayerVo;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface PlayMapper {
     int deleteByPrimaryKey(Integer id);
@@ -49,4 +47,6 @@ public interface PlayMapper {
     int updateRemarksById(@Param("id")Integer id);
 
 
+    @Select("SELECT COUNT(*) FROM tbplay WHERE del_flag=0")
+    int sumPlay();
 }

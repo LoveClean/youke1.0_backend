@@ -1,21 +1,16 @@
 package com.media.ops.backend.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.media.ops.backend.controller.request.MaterialGroupAddRequestBean;
 import com.media.ops.backend.controller.request.MaterialGroupUptRequestBean;
 import com.media.ops.backend.service.MaterialGroupService;
 import com.media.ops.backend.util.ResponseEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Api(description="素材分组操作接口",produces = "application/json")
 @RestController
@@ -55,13 +50,13 @@ public class MaterialGroupController extends BaseController{
 
 	@ApiOperation(value = "素材分组搜索操作接口",notes = "搜索素材分组")
 	@PostMapping(value="search.do")
-	public ResponseEntity searchGroups(@RequestBody String groupName) {
+	public ResponseEntity searchGroups(@RequestParam String groupName) {
 		return materialGroupService.searchGroupsbyName(groupName);
 	}
 	
 	@ApiOperation(value = "删除分组操作接口",notes = "删除分组")
 	@PostMapping(value="del.do")	
-	public ResponseEntity del(@RequestBody Integer id,HttpServletRequest request) {
+	public ResponseEntity del(@RequestParam Integer id,HttpServletRequest request) {
 		return materialGroupService.deleteGroup(id);
 	}
 }

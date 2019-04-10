@@ -1,9 +1,10 @@
 package com.media.ops.backend.dao.mapper;
 
 import com.media.ops.backend.dao.entity.Device;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface DeviceMapper {
     int deleteByPrimaryKey(Integer id);
@@ -34,4 +35,7 @@ public interface DeviceMapper {
     int checkExistCode(@Param("deviceCode")String deviceCode);
     
     int checkExistCodeNotSelf(@Param("deviceId")Integer deviceId,@Param("deviceCode")String deviceCode);
+
+    @Select("SELECT COUNT(*) FROM tbdevice WHERE del_flag=0")
+    int sumDevice();
 }

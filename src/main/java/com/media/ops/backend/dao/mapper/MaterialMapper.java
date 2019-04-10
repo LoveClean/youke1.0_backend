@@ -1,10 +1,10 @@
 package com.media.ops.backend.dao.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.media.ops.backend.dao.entity.Material;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface MaterialMapper {
     int deleteByPrimaryKey(Integer id);
@@ -28,4 +28,13 @@ public interface MaterialMapper {
     List<Material> selectByNameTypeGroupId(@Param("materialName") String materialName,@Param("materialType") String materialType,@Param("groupId") Integer groupId);
 
     int checkExistDelivery(@Param("admaterialId")Integer admaterialId);
+
+    @Select("SELECT COUNT(*) FROM tbmaterial WHERE del_flag=0")
+    int sumMaterial();
+
+    List<Material> selectList2();
+
+    List<Material> selectMusicList();
+
+    List<Material> selectByNameTypeGroupId2(@Param("materialName") String materialName,@Param("materialType") String materialType,@Param("groupId") Integer groupId);
 }

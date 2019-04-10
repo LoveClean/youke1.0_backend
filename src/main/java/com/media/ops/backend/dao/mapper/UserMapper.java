@@ -1,11 +1,9 @@
 package com.media.ops.backend.dao.mapper;
 
-import com.media.ops.backend.dao.entity.Device;
 import com.media.ops.backend.dao.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     int deleteByPrimaryKey(@Param("id") Integer id, @Param("account") String account);
@@ -56,7 +54,9 @@ public interface UserMapper {
  	int updateStatusById(@Param("account")String account, @Param("status")Integer status);
  	
  	User selectByAccountEmail(@Param("account") String account,@Param("email") String email);
- 	
+
+	List<User> selectListByAccountEmail(@Param("account") String account,@Param("email") String email);
+
  	User selectByName(@Param("account") String account);
  	
  	List<User> selectPlayerList();

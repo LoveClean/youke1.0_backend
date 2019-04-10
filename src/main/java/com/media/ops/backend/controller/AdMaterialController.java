@@ -1,28 +1,18 @@
 package com.media.ops.backend.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.AdMaterialAddRequestBean;
 import com.media.ops.backend.controller.request.AdMaterialUptRequestBean;
-import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.service.AdMaterialService;
 import com.media.ops.backend.util.ResponseEntity;
-import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.AdMaterialVo;
-import com.media.ops.backend.vo.DeviceListVo;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Api(description="广告素材操作接口",produces = "application/json")
 @RestController
@@ -67,13 +57,14 @@ public class AdMaterialController extends BaseController {
 	public ResponseEntity batchUpdateAdmaterial(@RequestBody List<AdMaterialUptRequestBean> beans,HttpServletRequest request) {
 		return adMaterialService.batchUpdateAdMaterial(super.getSessionUser(request).getAccount(), beans);
 	}
-	
+	//解决
 	@ApiOperation(value = "根据广告Id获取素材接口", notes = "根据广告Id获取素材")
 	@PostMapping(value = "get_list_adId.do")
-	public ResponseEntity<List<AdMaterialVo>> getListByAdId(@RequestBody Integer adId) {
-		if(adId==null) {
-			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
-		}
-		return ResponseEntityUtil.success( adMaterialService.selectListByAdId(adId) );
+	public PageResponseBean<AdMaterialVo> getListByAdId(@RequestParam Integer adId, @RequestParam Integer pageNum,
+														@RequestParam Integer PageSize) {
+//		if(adId==null) {
+//			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+//		}
+		return adMaterialService.selectListByAdId(adId,pageNum,PageSize);
 	}
 }

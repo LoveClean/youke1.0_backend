@@ -1,40 +1,23 @@
 package com.media.ops.backend.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.media.ops.backend.controller.request.AdMaterialAddRequestBean;
-import com.media.ops.backend.controller.request.BuildingAddRequestBean;
-import com.media.ops.backend.controller.request.BuildingFloorAddRequestBean;
-import com.media.ops.backend.controller.request.BuildingFloorBatchRequestBean;
-import com.media.ops.backend.controller.request.BuildingFloorUptRequestBean;
-import com.media.ops.backend.controller.request.BuildingSearchRequestBean;
-import com.media.ops.backend.controller.request.BuildingUptRequestBean;
-import com.media.ops.backend.controller.request.FloorDeviceAddRequestBean;
-import com.media.ops.backend.controller.request.FloorDeviceUptRequestBean;
-import com.media.ops.backend.controller.request.PageRequestBean;
+import com.media.ops.backend.controller.request.*;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Building;
 import com.media.ops.backend.service.BuildingService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
-import com.media.ops.backend.vo.AreaBuildingVo;
 import com.media.ops.backend.vo.BuildingFloorVo;
 import com.media.ops.backend.vo.BuildingVo;
 import com.media.ops.backend.vo.FloorDeviceVo;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Api(description="楼宇操作接口描述",produces = "application/json")
 @RestController
@@ -43,11 +26,30 @@ public class BuildingController extends BaseController{
 	
 	@Autowired
 	private BuildingService buildingService;
-	
+
 	@ApiOperation(value = "获取楼宇列表接口", notes = "楼宇列表")
 	@PostMapping(value = "get_building_list.do")
-	public ResponseEntity getBuildingList(@RequestBody PageRequestBean bean) {
-		return buildingService.selectList(bean);
+	public PageResponseBean<BuildingVo> getBuildingList(@RequestParam(defaultValue = "1") Integer pageNum,
+														@RequestParam(defaultValue = "999") Integer pageSize) {
+		return buildingService.selectList(pageNum,pageSize);
+	}
+
+	@ApiOperation(value = "获取所有楼宇列表(Tree)", notes = "获取所有楼宇列表,按省市区封装为树形结构")
+	@GetMapping(value = "get_building_list2.do")
+	public Map<String, Object> getBuildingList2(){
+		Map map = new HashMap();
+		map.put("code",0);
+		map.put("data",buildingService.selectList2());
+		return map;
+	}
+
+	@ApiOperation(value = "获取有楼宇的省市区(Tree)", notes = "获取所有“下设有楼宇”的县区列表,按省市区封装为树形结构，不显示楼宇")
+	@GetMapping(value = "get_building_list3.do")
+	public Map<String, Object> getBuildingList3(){
+		Map map = new HashMap();
+		map.put("code",0);
+		map.put("data",buildingService.selectList3());
+		return map;
 	}
 	
 	@ApiOperation(value = "根据id查询楼宇接口", notes = "查询楼宇")
@@ -55,16 +57,19 @@ public class BuildingController extends BaseController{
 	public ResponseEntity<BuildingVo> getBuilding(@RequestBody Integer buildingId ){
 		return buildingService.selectBuildingById(buildingId);
 	}
+	//
 	@ApiOperation(value = "根据areaId查询楼宇列表接口", notes = "查询区域内楼宇列表")
 	@PostMapping(value = "get_building_areaId.do")
 	public ResponseEntity<List<BuildingVo>> getBuildingByAreaId(@RequestBody String areaId ){
 		return buildingService.selectBuildingByAreaId(areaId);
 	}
-	
+	//解决
 	@ApiOperation(value = "根据areaId,楼宇名称查询楼宇列表接口", notes = "根据区域、名称查询楼宇列表")
 	@PostMapping(value = "get_building_areaId_name.do")
-	public ResponseEntity getBuildingByAreaIdBuildingName(@RequestBody BuildingSearchRequestBean bean){
-		return buildingService.selectBuildingsbyKey(bean);
+	public PageResponseBean<BuildingVo> getBuildingByAreaIdBuildingName(@RequestParam(required = false) String provinceId,@RequestParam(required = false) String cityId,
+														  @RequestParam(required = false) String areaId,@RequestParam(required = false) String buildingKey,
+														  @RequestParam Integer pageNum,@RequestParam Integer pageSize){
+		return buildingService.selectBuildingsbyKey(provinceId,cityId,areaId,buildingKey,pageNum,pageSize);
 	}
 	
 	@ApiOperation(value = "添加楼宇操作接口",notes = "添加楼宇")
@@ -106,7 +111,7 @@ public class BuildingController extends BaseController{
 	}
 	@ApiOperation(value = "删除楼宇操作接口",notes = "删除楼宇信息")
 	@PostMapping(value="delBuilding.do")	
-	public ResponseEntity delBuilding(@RequestBody Integer buildingId,HttpServletRequest request) {
+	public ResponseEntity delBuilding(@RequestParam Integer buildingId,HttpServletRequest request) {
 		return buildingService.deleteBuilding(super.getSessionUser(request).getAccount(), buildingId);
 	}
 	///////////////////////////////楼层操作///////////////////////////////////////////////
@@ -133,11 +138,11 @@ public class BuildingController extends BaseController{
 	public ResponseEntity delFloor(@RequestBody Integer floorId,HttpServletRequest request) {
 		return buildingService.delBuildingFloor(super.getSessionUser(request).getAccount(), floorId);
 	}	
-	
+	//解决
 	@ApiOperation(value = "根据楼宇ID获取楼层列表接口", notes = "根据楼宇ID获取楼层列表")
 	@PostMapping(value = "get_floor_list.do")
-	public ResponseEntity<List<BuildingFloorVo>> getFloorList(@RequestBody Integer buildingId) {
-		return buildingService.selectFloorsByBuildingId(buildingId);
+	public PageResponseBean<BuildingFloorVo> getFloorList(@RequestParam Integer buildingId,@RequestParam Integer pageNum,@RequestParam Integer pageSize) {
+		return buildingService.selectFloorsByBuildingId(buildingId,pageNum,pageSize);
 	}
 	
 	@ApiOperation(value = "根据id查询楼层接口", notes = "查询楼层信息")

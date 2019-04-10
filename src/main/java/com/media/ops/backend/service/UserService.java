@@ -25,9 +25,9 @@ public interface UserService {
 
 	ResponseEntity<String> checkAdminRole(User user);
 	
-	PageResponseBean<UserVo>  getUserList(int pageNum, int pageSize);
+	PageResponseBean<UserVo> getUserList(int pageNum, int pageSize);
 	
-	ResponseEntity<String>  updateStatusById(String account, Integer status);
+	ResponseEntity<String> updateStatusById(String account, Integer status);
 	
 	
 	
@@ -36,6 +36,7 @@ public interface UserService {
 
 	ResponseEntity<String> checkAnswer(String username, String question, String answer);
 
-	ResponseEntity<String> forgetResetPassword(String username, String newPassword, String forgetToken,int type);
+	ResponseEntity<String> forgetResetPassword(String username, String newPassword, String forgetToken, int type);
 
+    PageResponseBean getUserByAccount(int pageNum, int pageSize,String account,String email);
 }

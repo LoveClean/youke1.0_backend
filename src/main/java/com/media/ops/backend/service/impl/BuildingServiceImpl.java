@@ -1,54 +1,28 @@
 package com.media.ops.backend.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
-import com.media.ops.backend.controller.request.BuildingAddRequestBean;
-import com.media.ops.backend.controller.request.BuildingFloorAddRequestBean;
-import com.media.ops.backend.controller.request.BuildingFloorUptRequestBean;
-import com.media.ops.backend.controller.request.BuildingSearchRequestBean;
-import com.media.ops.backend.controller.request.BuildingUptRequestBean;
-import com.media.ops.backend.controller.request.FloorDeviceAddRequestBean;
-import com.media.ops.backend.controller.request.FloorDeviceUptRequestBean;
-import com.media.ops.backend.controller.request.PageRequestBean;
+import com.media.ops.backend.controller.request.*;
 import com.media.ops.backend.controller.response.PageResponseBean;
-import com.media.ops.backend.dao.entity.Area;
-import com.media.ops.backend.dao.entity.Building;
-import com.media.ops.backend.dao.entity.Buildingfloor;
-import com.media.ops.backend.dao.entity.City;
-import com.media.ops.backend.dao.entity.Device;
-import com.media.ops.backend.dao.entity.Devicetype;
-import com.media.ops.backend.dao.entity.Floordevice;
-import com.media.ops.backend.dao.entity.Province;
-import com.media.ops.backend.dao.mapper.AreaMapper;
-import com.media.ops.backend.dao.mapper.BuildingMapper;
-import com.media.ops.backend.dao.mapper.BuildingfloorMapper;
-import com.media.ops.backend.dao.mapper.CityMapper;
-import com.media.ops.backend.dao.mapper.DeviceMapper;
-import com.media.ops.backend.dao.mapper.DevicetypeMapper;
-import com.media.ops.backend.dao.mapper.FloordeviceMapper;
-import com.media.ops.backend.dao.mapper.ProvinceMapper;
+import com.media.ops.backend.dao.entity.*;
+import com.media.ops.backend.dao.mapper.*;
 import com.media.ops.backend.service.BuildingService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
-import com.media.ops.backend.vo.AreaBuildingVo;
-import com.media.ops.backend.vo.AreaVo;
-import com.media.ops.backend.vo.BuildingFloorListVo;
-import com.media.ops.backend.vo.BuildingFloorVo;
-import com.media.ops.backend.vo.BuildingVo;
-import com.media.ops.backend.vo.DeviceVo;
-import com.media.ops.backend.vo.FloorDeviceVo;
+import com.media.ops.backend.vo.*;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class BuildingServiceImpl implements BuildingService {
@@ -131,8 +105,8 @@ public class BuildingServiceImpl implements BuildingService {
 	}
 
 	@Override
-	public ResponseEntity<PageInfo> selectList(PageRequestBean bean) {
-		PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
+	public PageResponseBean<BuildingVo> selectList(Integer pageNum,Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		List<Building> buildings = buildingMapper.selectList();
 
 		List<BuildingVo> buildingVos = Lists.newArrayList();
@@ -143,8 +117,10 @@ public class BuildingServiceImpl implements BuildingService {
 		}
 		PageInfo pageInfo = new PageInfo(buildings);
 		pageInfo.setList(buildingVos);
-
-		return  ResponseEntityUtil.success(pageInfo);
+		PageResponseBean<BuildingVo> list= new PageResponseBean<BuildingVo>(pageInfo);
+		list.setCode(0);
+		list.setHttpStatus(200);
+		return list;
 	}
 
 	@Override
@@ -201,33 +177,34 @@ public class BuildingServiceImpl implements BuildingService {
 		}
 		
 		return ResponseEntityUtil.success(buildingVos);
-	}	
+	}
 	//楼宇搜索
-	public ResponseEntity<PageInfo> selectBuildingsbyKey(BuildingSearchRequestBean bean){
-		String buildingKey=bean.getBuildingKey();
-		String provinceId= bean.getProvinceId();
-		String cityId= bean.getCityId();
-		String areaId=bean.getAreaId();
-		Integer pageNum=bean.getPageNum();
-		Integer pageSize=bean.getPageSize();
-		
-		if(StringUtils.isBlank(buildingKey)&& StringUtils.isBlank(areaId)&&StringUtils.isBlank(cityId)&&StringUtils.isBlank(provinceId)) {
-			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
-		}
-		
+	public PageResponseBean<BuildingVo> selectBuildingsbyKey(String provinceId2,String cityId2, String areaId2,
+															 String buildingKey2, Integer pageNum2,Integer pageSize2){
+		String buildingKey=buildingKey2;
+		String provinceId= provinceId2;
+		String cityId= cityId2;
+		String areaId=areaId2;
+		Integer pageNum=pageNum2;
+		Integer pageSize=pageSize2;
+
+//		if(StringUtils.isBlank(buildingKey)&& StringUtils.isBlank(areaId)&&StringUtils.isBlank(cityId)&&StringUtils.isBlank(provinceId)) {
+//			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+//		}
+
 		if(StringUtils.isNotBlank(buildingKey)) {
 			buildingKey=new StringBuilder().append("%").append(buildingKey).append("%").toString();
 		}
-		
+
 		if(StringUtils.isNotBlank(provinceId) && StringUtils.isBlank(cityId) && StringUtils.isBlank(areaId)) {
 			areaId= new StringBuilder().append("%").append(provinceId.substring(0, 2)).append("%").toString();
-		}		
-		
+		}
+
 		if(StringUtils.isNotBlank(cityId) && StringUtils.isBlank(areaId)) {
 			areaId= new StringBuilder().append("%").append(cityId.substring(0, 4)).append("%").toString();
 		}
-		
-		PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
+
+		PageHelper.startPage(pageNum, pageSize);
 		List<Building> buildings = buildingMapper.selectListByAreaIdBuildingKey(StringUtils.isBlank(areaId)?null:areaId, StringUtils.isBlank(buildingKey)?null:buildingKey);
 
 		List<BuildingVo> buildingVos = Lists.newArrayList();
@@ -238,10 +215,12 @@ public class BuildingServiceImpl implements BuildingService {
 		}
 		PageInfo pageInfo = new PageInfo(buildings);
 		pageInfo.setList(buildingVos);
+		PageResponseBean<BuildingVo> list =new PageResponseBean<BuildingVo>(pageInfo);
+		list.setCode(0);
+		list.setHttpStatus(200);
+		return list;
 
-		return ResponseEntityUtil.success(pageInfo);
-		
-		
+
 	}
 	
 	private AreaBuildingVo assembleAreaBuildingVo(Building building) {
@@ -409,6 +388,27 @@ public class BuildingServiceImpl implements BuildingService {
 	}
 
 	@Override
+	public PageResponseBean<BuildingFloorVo> selectFloorsByBuildingId(Integer buildingId,Integer pageNum,Integer pageSize) {
+//		// TODO Auto-generated method stub
+//		if (buildingId == null) {
+//			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
+//		}
+		PageHelper.startPage(pageNum,pageSize);
+		List<Buildingfloor> buildingfloors = buildingfloorMapper.selectListByBuildingId(buildingId);
+		List<BuildingFloorVo> buildingFloorVos = Lists.newArrayList();
+		for (Buildingfloor buildingfloor : buildingfloors) {
+			BuildingFloorVo buildingFloorVo = assembleBuildingFloorVo(buildingfloor);
+			buildingFloorVos.add(buildingFloorVo);
+		}
+
+		PageInfo pageInfo=new PageInfo(buildingfloors);
+		pageInfo.setList(buildingFloorVos);
+		PageResponseBean<BuildingFloorVo> list = new PageResponseBean<BuildingFloorVo>(pageInfo);
+		list.setHttpStatus(200);
+		list.setCode(0);
+		return list;
+	}
+
 	public ResponseEntity<List<BuildingFloorVo>> selectFloorsByBuildingId(Integer buildingId) {
 		// TODO Auto-generated method stub
 		if (buildingId == null) {
@@ -625,6 +625,181 @@ public class BuildingServiceImpl implements BuildingService {
 		return ResponseEntityUtil.delMessage(resultCount);
 	}
 
+	@Override
+	public List<TestProvinceVo> selectList2(){
+		List<Building> buildings = buildingMapper.selectList();
+
+		Map<String,Object> areas = new HashMap<String, Object>();
+		for(Building building:buildings){
+			//封装楼宇
+			TestBuildingVo testBuildingVo=new TestBuildingVo();
+			testBuildingVo.setId(building.getAreaid()+building.getId());
+			testBuildingVo.setLabel(building.getName());
+			if(areas.get(building.getAreaid())==null){// 如果map中没有此区域，则进行区域新增
+				//封装县区
+				Area area = areaMapper.selectByAreaId(building.getAreaid());
+				TestAreaVo testAreaVo =new TestAreaVo();
+				testAreaVo.setId(building.getAreaid());
+				testAreaVo.setLabel(area.getArea());
+				//添加楼宇
+				List<TestBuildingVo> testBuildingVos=new ArrayList<>();
+				testBuildingVos.add(testBuildingVo);
+				testAreaVo.setChildren(testBuildingVos);
+				//放入map
+				areas.put(building.getAreaid(), testAreaVo);
+			}else{// 如果此区域已存在，则进行楼宇添加
+				//拿出县区
+				TestAreaVo testAreaVo = (TestAreaVo) areas.get(building.getAreaid());
+				//添加楼宇
+				List<TestBuildingVo> testBuildingVos= testAreaVo.getChildren();
+				testBuildingVos.add(testBuildingVo);
+				testAreaVo.setChildren(testBuildingVos);
+				//放回县区（更新）
+				areas.put(building.getAreaid(), testAreaVo);
+			}
+		}
+
+		Map citys = new HashMap();
+		for (Object v : areas.values()) {
+			TestAreaVo testAreaVo =(TestAreaVo) v;
+			String cityId= testAreaVo.getId().substring(0,4)+"00";
+			if(citys.get(cityId)==null){
+				//封装市区
+				City city = cityMapper.selectByCityId(cityId);
+				TestCityVo testCityVo = new TestCityVo();
+				testCityVo.setId(cityId);
+				testCityVo.setLabel(city.getCity());
+
+				//添加县区
+				List<TestAreaVo> testAreaVos =new ArrayList<>();
+				testAreaVos.add(testAreaVo);
+				testCityVo.setChildren(testAreaVos);
+				//放入map
+				citys.put(cityId, testCityVo);
+			}else{
+				TestCityVo testCityVo = (TestCityVo) citys.get(cityId);
+				//添加县区
+				List<TestAreaVo> testAreaVos = testCityVo.getChildren();
+				testAreaVos.add(testAreaVo);
+				testCityVo.setChildren(testAreaVos);
+				//放入map
+				citys.put(cityId, testCityVo);
+			}
+		}
+
+		Map provinces = new HashMap();
+		for (Object v : citys.values()) {
+			TestCityVo testCityVo =(TestCityVo) v;
+			String provinceId= testCityVo.getId().substring(0,2)+"0000";
+			if(provinces.get(provinceId)==null){
+				//封装省
+				Province province = provinceMapper.selectByProvinceId(provinceId);
+				TestProvinceVo testProvinceVo = new TestProvinceVo();
+				testProvinceVo.setId(provinceId);
+				testProvinceVo.setLabel(province.getProvince());
+
+				//添加市区
+				List<TestCityVo> testCities=new ArrayList<>();
+				testCities.add(testCityVo);
+				testProvinceVo.setChildren(testCities);
+				//放入map
+				provinces.put(provinceId, testProvinceVo);
+			}else{
+				TestProvinceVo testProvinceVo = (TestProvinceVo) provinces.get(provinceId);
+				//添加市区
+				List<TestCityVo> testCities= testProvinceVo.getChildren();
+				testCities.add(testCityVo);
+				testProvinceVo.setChildren(testCities);
+				//放入map
+				provinces.put(provinceId, testProvinceVo);
+			}
+		}
+		List<TestProvinceVo> testProvinceVos = new ArrayList<>();
+		for (Object v : provinces.values()) {
+			testProvinceVos.add((TestProvinceVo) v);
+		}
+		return testProvinceVos;
+	}
+
+	@Override
+	public List<TestProvinceVo> selectList3(){
+		List<Building> buildings = buildingMapper.selectList();
 
 
+		Map<String,Object> areas = new HashMap<String, Object>();
+		for(Building building:buildings){
+
+			if(areas.get(building.getAreaid())==null){
+				//封装县区
+				Area area = areaMapper.selectByAreaId(building.getAreaid());
+				TestAreaVo testAreaVo =new TestAreaVo();
+				testAreaVo.setId(building.getAreaid());
+				testAreaVo.setLabel(area.getArea());
+
+				//放入map
+				areas.put(building.getAreaid(), testAreaVo);
+			}
+		}
+
+		Map citys = new HashMap();
+		for (Object v : areas.values()) {
+			TestAreaVo testAreaVo =(TestAreaVo) v;
+			String cityId= testAreaVo.getId().substring(0,4)+"00";
+			if(citys.get(cityId)==null){
+				//封装市区
+				City city = cityMapper.selectByCityId(cityId);
+				TestCityVo testCityVo = new TestCityVo();
+				testCityVo.setId(cityId);
+				testCityVo.setLabel(city.getCity());
+
+				//添加县区
+				List<TestAreaVo> testAreaVos =new ArrayList<>();
+				testAreaVos.add(testAreaVo);
+				testCityVo.setChildren(testAreaVos);
+				//放入map
+				citys.put(cityId, testCityVo);
+			}else{
+				TestCityVo testCityVo = (TestCityVo) citys.get(cityId);
+				//添加县区
+				List<TestAreaVo> testAreaVos = testCityVo.getChildren();
+				testAreaVos.add(testAreaVo);
+				testCityVo.setChildren(testAreaVos);
+				//放入map
+				citys.put(cityId, testCityVo);
+			}
+		}
+
+		Map provinces = new HashMap();
+		for (Object v : citys.values()) {
+			TestCityVo testCityVo =(TestCityVo) v;
+			String provinceId= testCityVo.getId().substring(0,2)+"0000";
+			if(provinces.get(provinceId)==null){
+				//封装省
+				Province province = provinceMapper.selectByProvinceId(provinceId);
+				TestProvinceVo testProvinceVo = new TestProvinceVo();
+				testProvinceVo.setId(provinceId);
+				testProvinceVo.setLabel(province.getProvince());
+
+				//添加市区
+				List<TestCityVo> testCities=new ArrayList<>();
+				testCities.add(testCityVo);
+				testProvinceVo.setChildren(testCities);
+				//放入map
+				provinces.put(provinceId, testProvinceVo);
+			}else{
+				TestProvinceVo testProvinceVo = (TestProvinceVo) provinces.get(provinceId);
+				//添加市区
+				List<TestCityVo> testCities= testProvinceVo.getChildren();
+				testCities.add(testCityVo);
+				testProvinceVo.setChildren(testCities);
+				//放入map
+				provinces.put(provinceId, testProvinceVo);
+			}
+		}
+		List<TestProvinceVo> testProvinceVos = new ArrayList<>();
+		for (Object v : provinces.values()) {
+			testProvinceVos.add((TestProvinceVo) v);
+		}
+		return testProvinceVos;
+	}
 }

@@ -1,34 +1,25 @@
 package com.media.ops.backend.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.media.ops.backend.controller.request.PagePlayRequestBean;
 import com.media.ops.backend.controller.request.PlayAddRequestBean;
-import com.media.ops.backend.controller.request.PlaySearchRequestBean;
 import com.media.ops.backend.controller.request.PlayUpdateRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Play;
 import com.media.ops.backend.service.PlayService;
 import com.media.ops.backend.service.SmsService;
 import com.media.ops.backend.service.UserService;
-import com.media.ops.backend.util.DateUtil;
 import com.media.ops.backend.util.ResponseEntity;
-import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.PlayVo;
 import com.media.ops.backend.vo.PlayerVo;
 import com.media.ops.backend.vo.UserVo;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.List;
 
 @Api(description="直播操作接口描述",produces = "application/json")
 @RestController
@@ -50,7 +41,7 @@ public class PlayController extends BaseController {
 	
 	@ApiOperation(value = "增加直播记录",notes = "增加直播记录")
     @PostMapping(value="addPlay.do")
-    public ResponseEntity addPlay(@Valid @RequestBody PlayAddRequestBean bean,HttpServletRequest request) {
+    public ResponseEntity addPlay(@Valid @RequestBody PlayAddRequestBean bean, HttpServletRequest request) {
         ResponseEntity response= playService.add(super.getSessionUser(request).getAccount(),bean);
         if(response.isSuccess()) {
         	ResponseEntity respUser= userService.getInformation(bean.getPlayerid());
@@ -69,13 +60,13 @@ public class PlayController extends BaseController {
 	//删除直播
 	@ApiOperation(value = "删除直播记录",notes = "删除直播记录")
     @PostMapping(value="deletePlay.do")
-    public ResponseEntity<String> deletePlay(@RequestBody Integer id,HttpServletRequest request) {
+    public ResponseEntity<String> deletePlay(@RequestParam Integer id, HttpServletRequest request) {
         return playService.delete(super.getSessionUser(request).getAccount(),id);
     }
 	
     @ApiOperation(value = "更新直播记录",notes = "更新直播记录")
     @PostMapping(value="updatePlay.do")
-    public ResponseEntity<String> updatePlay(@Valid @RequestBody PlayUpdateRequestBean bean,HttpServletRequest request) {
+    public ResponseEntity<String> updatePlay(@Valid @RequestBody PlayUpdateRequestBean bean, HttpServletRequest request) {
         return playService.update(super.getSessionUser(request).getAccount(),bean);
     }
     
@@ -87,8 +78,12 @@ public class PlayController extends BaseController {
     
     @ApiOperation(value = "获取所有直播记录",notes = "获取所有直播记录")
     @PostMapping(value="selectLists.do")
-    public ResponseEntity<List<PlayVo>> selectPlayList() {
-        return playService.selectPlayList();
+    public PageResponseBean<PlayVo> selectPlayList(@RequestParam(defaultValue = "1") int pageNum,
+                                                   @RequestParam(defaultValue = "999") int pageSize) {
+        PageResponseBean page= playService.selectPlayList(pageNum,pageSize);
+        page.setCode(0);
+        page.setHttpStatus(200);
+        return page;
     }
     
     @ApiOperation(value = "获取所有未结束的直播记录",notes = "获取所有未结束的直播记录")
@@ -105,14 +100,28 @@ public class PlayController extends BaseController {
     
     @ApiOperation(value = "通过playerId获取直播记录",notes = "通过playerId获取直播记录")
     @PostMapping(value="selectPlayListByPlayerId.do")
-    public ResponseEntity<PageResponseBean<PlayVo>> selectPlayListByPlayerId(@RequestBody PagePlayRequestBean bean) {
-        return ResponseEntityUtil.success(playService.selectPlayListByPlayerId(bean.getPageNum(), bean.getPageSize(), bean.getPlayerId()));
+    public PageResponseBean<PlayVo> selectPlayListByPlayerId(@RequestParam(defaultValue = "1") int pageNum,
+                                                             @RequestParam(defaultValue = "999") int pageSize,
+                                                             @RequestParam(required = true) @ApiParam("直播员id") Integer playerId) {
+        PageResponseBean page=playService.selectPlayListByPlayerId(pageNum, pageSize, playerId);
+        page.setCode(0);
+        page.setHttpStatus(200);
+        return page;
     }
     
     @ApiOperation(value = "通过playerid,status,title,time获取直播记录",notes = "通过playerid,status,title,time获取直播记录")
     @PostMapping(value="selectPlayListByKeys.do")
-    public ResponseEntity<List<PlayVo>> selectPlayListByKeys(@RequestBody PlaySearchRequestBean bean) {
-        return playService.selectPlayListByKeys(bean);
+    public PageResponseBean<PlayVo> selectPlayListByKeys(@RequestParam(required = false) @ApiParam("直播员ID") Integer playerId,
+                                                         @RequestParam(required = false) @ApiParam("状态(0,未开放；1,预告中；2,直播中；3,直播结束)") Integer status ,
+                                                         @RequestParam(required = false) @ApiParam("直播标题") String playTitle,
+                                                         @RequestParam(required = false) @ApiParam("开始时间") String beginTime,
+                                                         @RequestParam(required = false) @ApiParam("结束时间") String endTime,
+                                                         @RequestParam(defaultValue = "1") int pageNum,
+                                                         @RequestParam(defaultValue = "999") int pageSize) {
+        PageResponseBean page = playService.selectPlayListByKeys(playerId,status,playTitle,beginTime,endTime,pageNum,pageSize);
+        page.setCode(0);
+        page.setHttpStatus(200);
+        return page;
     }
 	
 	

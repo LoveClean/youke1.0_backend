@@ -220,4 +220,38 @@
 		and tbaddelivery.del_flag='0' and tbad.del_flag='0' and tbadmaterial.del_flag='0'
 	</select>
 
+  <select id="selectList2" resultMap="BaseResultMap" >
+    SELECT
+    <include refid="Base_Column_List"/>
+    from tbmaterial
+    where del_flag=0 and type != '音频'
+    ORDER BY id desc
+  </select>
+
+  <select id="selectByNameTypeGroupId2" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    from tbmaterial
+    where del_flag=0
+    <if test="materialName != null">
+      and name like #{materialName}
+    </if>
+    <if test="materialType != null">
+      and type = #{materialType}
+    </if>
+    <if test="groupId != null" >
+      and groupid= #{groupId,jdbcType=INTEGER}
+    </if>
+    and type != '音频'
+    ORDER BY id desc
+  </select>
+
+  <select id="selectMusicList" resultMap="BaseResultMap" >
+    SELECT
+    <include refid="Base_Column_List"/>
+    from tbmaterial
+    where del_flag=0 and type = '音频'
+    ORDER BY id desc
+  </select>
+
 </mapper>

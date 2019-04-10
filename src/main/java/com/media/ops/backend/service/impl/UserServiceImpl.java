@@ -1,11 +1,5 @@
 package com.media.ops.backend.service.impl;
 
-import com.media.ops.backend.controller.response.PageResponseBean;
-import com.media.ops.backend.dao.mapper.SyslogMapper;
-import com.media.ops.backend.dao.mapper.UserMapper;
-import com.media.ops.backend.dao.entity.Adgroup;
-import com.media.ops.backend.dao.entity.User;
-import com.media.ops.backend.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -13,22 +7,24 @@ import com.google.common.collect.Maps;
 import com.media.ops.backend.cache.TokenCache;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
+import com.media.ops.backend.controller.response.PageResponseBean;
+import com.media.ops.backend.dao.entity.User;
+import com.media.ops.backend.dao.mapper.UserMapper;
+import com.media.ops.backend.service.UserService;
 import com.media.ops.backend.util.MD5Util;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.UserVo;
-
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -301,7 +297,7 @@ public class UserServiceImpl implements UserService {
 			ResponseEntityUtil.fail("找不到符合条件的管理员");
 		}
 		return ResponseEntityUtil.success(user);
-		
+
 	}
 
 	@Override
@@ -333,8 +329,29 @@ public class UserServiceImpl implements UserService {
 		PageInfo pageInfo =new PageInfo(users);
 		pageInfo.setList(userVos);
 		
-		return new PageResponseBean<UserVo>(pageInfo);
+		PageResponseBean page = new PageResponseBean<UserVo>(pageInfo);
+		page.setCode(0);
+		page.setHttpStatus(200);
+		return page;
 	}
+
+	@Override
+	public PageResponseBean getUserByAccount(int pageNum, int pageSize,String account,String email){
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> users= userMapper.selectListByAccountEmail(account,email);
+        List<UserVo> userVos= Lists.newArrayList();
+        for(User user : users) {
+            UserVo userVo= assembleUserVo(user);
+            userVos.add(userVo);
+        }
+        PageInfo pageInfo =new PageInfo(users);
+        pageInfo.setList(userVos);
+
+        PageResponseBean page = new PageResponseBean<UserVo>(pageInfo);
+        page.setCode(0);
+        page.setHttpStatus(200);
+        return page;
+    }
 
 	private UserVo assembleUserVo(User user) {
 		UserVo userVo=new UserVo();

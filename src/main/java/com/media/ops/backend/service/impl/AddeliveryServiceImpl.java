@@ -1,43 +1,32 @@
 package com.media.ops.backend.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
-import com.media.ops.backend.controller.request.AdDeliverySearchRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryAddRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryEmergentRequestBean;
 import com.media.ops.backend.controller.request.AddeliveryUptRequestBean;
-import com.media.ops.backend.controller.request.PageRequestBean;
+import com.media.ops.backend.controller.request.BatchAddeliveryAddRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
-import com.media.ops.backend.dao.entity.Ad;
-import com.media.ops.backend.dao.entity.Addelivery;
-import com.media.ops.backend.dao.entity.Area;
-import com.media.ops.backend.dao.entity.Building;
-import com.media.ops.backend.dao.entity.City;
-import com.media.ops.backend.dao.entity.Devicegroup;
-import com.media.ops.backend.dao.entity.Playdelivery;
-import com.media.ops.backend.dao.mapper.AdMapper;
-import com.media.ops.backend.dao.mapper.AddeliveryMapper;
-import com.media.ops.backend.dao.mapper.AreaMapper;
-import com.media.ops.backend.dao.mapper.BuildingMapper;
-import com.media.ops.backend.dao.mapper.CityMapper;
-import com.media.ops.backend.dao.mapper.DevicegroupMapper;
+import com.media.ops.backend.dao.entity.*;
+import com.media.ops.backend.dao.mapper.*;
+import com.media.ops.backend.exception.BusinessException;
 import com.media.ops.backend.service.AddeliveryService;
 import com.media.ops.backend.util.DateUtil;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
+import com.media.ops.backend.util.StringUtil;
 import com.media.ops.backend.vo.AddeliveryDetailVo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class AddeliveryServiceImpl implements AddeliveryService {
@@ -120,8 +109,8 @@ public class AddeliveryServiceImpl implements AddeliveryService {
 	}
 
 	@Override
-	public PageResponseBean<AddeliveryDetailVo> selectList(PageRequestBean bean) {
-		PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
+	public PageResponseBean<AddeliveryDetailVo> selectList(Integer pageNum,Integer pageSize) {
+		PageHelper.startPage(pageNum,pageSize);
 		List<Addelivery> addeliveries = addeliveryMapper.selectList();
 		List<AddeliveryDetailVo> addeliveryDetailVos = Lists.newArrayList();
 		for (Addelivery addelivery : addeliveries) {
@@ -130,8 +119,10 @@ public class AddeliveryServiceImpl implements AddeliveryService {
 		}
 		PageInfo pageInfo = new PageInfo(addeliveries);
 		pageInfo.setList(addeliveryDetailVos);
-
-		return new PageResponseBean<AddeliveryDetailVo>(pageInfo);
+		PageResponseBean<AddeliveryDetailVo> list = new PageResponseBean<AddeliveryDetailVo>(pageInfo);
+		list.setCode(0);
+		list.setHttpStatus(200);
+		return list;
 	}
 
 	private AddeliveryDetailVo assembleAddeliveryDetailVo(Addelivery addelivery) {
@@ -182,23 +173,24 @@ public class AddeliveryServiceImpl implements AddeliveryService {
 	}
 
 	@Override
-	public PageResponseBean<AddeliveryDetailVo> selectDeliveryByKeys(AdDeliverySearchRequestBean bean) {
-		String cityId= bean.getCityId();
-		String areaId=bean.getAreaId();
-		Integer deliveryType= bean.getDeliveryType();
-		Integer groupId= bean.getGroupId();
-		Integer pageNum=bean.getPageNum();
-		Integer pageSize=bean.getPageSize();
+	public PageResponseBean<AddeliveryDetailVo> selectDeliveryByKeys( String cityId,  String areaId,  Integer deliveryType,
+																	  Integer groupId,  Integer pageNum,  Integer pageSize) {
+		String cityId2 = cityId;
+		String areaId2= areaId;
+		Integer deliveryType2 = deliveryType;
+		Integer groupId2= groupId;
+		Integer pageNum2= pageNum;
+		Integer pageSize2= pageSize;
 		
-		if(StringUtils.isNotBlank(cityId) && StringUtils.isBlank(areaId)) {
-			cityId = cityId.substring(0, 4);
-			areaId=new StringBuilder().append(cityId).append("%").toString();
+		if(StringUtils.isNotBlank(cityId2) && StringUtils.isBlank(areaId2)) {
+			cityId2 = cityId2.substring(0, 4);
+			areaId2=new StringBuilder().append(cityId2).append("%").toString();
 		}
 		
-		PageHelper.startPage(pageNum, pageSize);
+		PageHelper.startPage(pageNum2, pageSize2);
 		
 		List<Addelivery> addeliveries= addeliveryMapper.selectByKeys(
-						StringUtils.isBlank(areaId)?null:areaId,  deliveryType==0?0:1, groupId==0?null:groupId);
+						StringUtils.isBlank(areaId2)?null:areaId2,  deliveryType2==0?0:1, groupId2==0?null:groupId2);
 		List<AddeliveryDetailVo> addeliveryDetailVos = Lists.newArrayList();
 		for (Addelivery addelivery : addeliveries) {
 			AddeliveryDetailVo addeliveryDetailVo = assembleAddeliveryDetailVo(addelivery);
@@ -206,9 +198,100 @@ public class AddeliveryServiceImpl implements AddeliveryService {
 		}
 		PageInfo pageInfo = new PageInfo(addeliveries);
 		pageInfo.setList(addeliveryDetailVos);
+		PageResponseBean<AddeliveryDetailVo> list = new PageResponseBean<AddeliveryDetailVo>(pageInfo);
+		list.setHttpStatus(200);
+		list.setCode(0);
+		return list;
 
-		return new PageResponseBean<AddeliveryDetailVo>(pageInfo);
+	}
 
+
+	@Override
+	public ResponseEntity<String> BatchAddelivery(BatchAddeliveryAddRequestBean bean, String createby) {
+		List<String> list = bean.getAreaAndBuildingList();
+		List<Addelivery> addeliverieList=new ArrayList<Addelivery>();
+		if(bean.getDelivertype()==1){//按楼宇投放
+            for (String areaAndBuilding : list) {
+                Addelivery addelivery = new Addelivery();
+                String[] detailAreaArr = areaAndBuilding.split("-");
+                String areaId = detailAreaArr[0];
+                Integer buildingId = Integer.parseInt(detailAreaArr[1]);
+                addelivery.setAdid(bean.getAdid());
+                addelivery.setAdtype(bean.getAdtype());
+                addelivery.setDelivertype(bean.getDelivertype());
+                addelivery.setAreaid(areaId);
+                addelivery.setGroupid(buildingId);
+                addelivery.setBegintime(DateUtil.stringToDate(bean.getBegintime(), DateUtil.DEFAULT_PATTERN));
+                addelivery.setEndtime(DateUtil.stringToDate(bean.getEndtime(), DateUtil.DEFAULT_PATTERN));
+                addelivery.setCreateBy(createby);
+                addelivery.setUpdateBy(createby);
+
+                addeliverieList.add(addelivery);
+            }
+        }else if(bean.getDelivertype()==0){//按设备分组投放
+            for (String areaAndBuilding : list) {
+                Addelivery addelivery = new Addelivery();
+
+                addelivery.setAdid(bean.getAdid());
+                addelivery.setAdtype(bean.getAdtype());
+                addelivery.setDelivertype(bean.getDelivertype());
+                addelivery.setAreaid(areaAndBuilding);
+                addelivery.setGroupid(Integer.parseInt(bean.getGroupid()));
+                addelivery.setBegintime(DateUtil.stringToDate(bean.getBegintime(), DateUtil.DEFAULT_PATTERN));
+                addelivery.setEndtime(DateUtil.stringToDate(bean.getEndtime(), DateUtil.DEFAULT_PATTERN));
+                addelivery.setCreateBy(createby);
+                addelivery.setUpdateBy(createby);
+
+                addeliverieList.add(addelivery);
+            }
+        }
+
+		int resultCount= addeliveryMapper.batchInsert(addeliverieList);
+		if(resultCount< addeliverieList.size()) {
+			return ResponseEntityUtil.fail(Errors.SYSTEM_INSERT_FAIL);
+		}
+		return ResponseEntityUtil.success("批量投放广告成功");
+	}
+
+	@Override
+	public ResponseEntity<String> BatchDeldelivery(String ids, String updateby) {
+		if (StringUtil.isEmpty(ids) || StringUtil.isEmpty(updateby)) {
+			return ResponseEntityUtil.fail("数据不完整，ids与操作人不能为空");
+		}
+		System.out.println(ids);
+		String[] temp = ids.split(",");
+		List<Integer> list = new ArrayList<>();
+		for (int i = 0; i < temp.length; i++) {
+			Integer id = Integer.parseInt(temp[i]);
+			list.add(id);
+		}
+		int returnCount = addeliveryMapper.batchDelete(list,updateby);
+		if (returnCount < 0) {
+			return ResponseEntityUtil.fail("批量删除失败");
+		}
+		return ResponseEntityUtil.success("批量删除成功");
+	}
+
+	@Override
+	public PageResponseBean<AddeliveryDetailVo> selectDeliveryByKeys2(String areaId,Integer deliveryType,
+																	  Integer groupId,Integer pageNum, Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		if (deliveryType==2 && groupId!=0) {
+			throw new BusinessException(10,"当delivertype没有时，则groupid也将没有");
+		}
+		List<Addelivery> addeliveries= addeliveryMapper.selectByKeys2(
+				StringUtils.isBlank(areaId)?null:areaId, deliveryType==0?0:(deliveryType==1?1:2),groupId==0?null:groupId);
+		List<AddeliveryDetailVo> addeliveryDetailVos = Lists.newArrayList();
+		for (Addelivery addelivery : addeliveries) {
+			AddeliveryDetailVo addeliveryDetailVo = assembleAddeliveryDetailVo(addelivery);
+			addeliveryDetailVos.add(addeliveryDetailVo);
+		}
+		PageInfo pageInfo = new PageInfo(addeliveries);
+		pageInfo.setList(addeliveryDetailVos);
+		PageResponseBean<AddeliveryDetailVo> list = new PageResponseBean<AddeliveryDetailVo>(pageInfo);
+		list.setHttpStatus(200);
+		list.setCode(0);
+		return list;
 	}
 
 }

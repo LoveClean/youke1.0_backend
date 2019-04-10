@@ -7,9 +7,10 @@ import com.media.ops.backend.controller.request.UploadImageBase64RequestBean;
 import com.media.ops.backend.service.OssService;
 
 import com.media.ops.backend.util.ExceptionUtil;
+import com.media.ops.backend.util.ResponseEntityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.ResponseEntity;
+import com.media.ops.backend.util.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
@@ -48,7 +49,7 @@ public class FileUploadController   {
   public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
     // 尺寸验证
     String filePath = ossService.upload(file);
-    return ResponseEntity.ok(filePath);
+    return ResponseEntityUtil.success(filePath);
   }
 
   /**
@@ -90,7 +91,7 @@ public class FileUploadController   {
         new BASE64Decoder().decodeBuffer(bean.getImage().substring(bean.getImage().indexOf(",") + 1, bean.getImage().length()));
     // 尺寸验证
     String filePath = ossService.uploadImageBase64(imgByte);
-    return ResponseEntity.ok(filePath);
+    return ResponseEntityUtil.success(filePath);
   }
 
   /**
@@ -105,7 +106,7 @@ public class FileUploadController   {
   @RequestMapping(value = "/uploadAudio", method = RequestMethod.POST)
   public ResponseEntity<String> uploadAudio(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
     String filePath = ossService.upload(file);
-    return ResponseEntity.ok(filePath);
+    return ResponseEntityUtil.success(filePath);
   }
 
   /**

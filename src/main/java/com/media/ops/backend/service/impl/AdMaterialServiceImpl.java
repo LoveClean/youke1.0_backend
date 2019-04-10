@@ -1,17 +1,14 @@
 package com.media.ops.backend.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.beust.jcommander.internal.Maps;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.AdMaterialAddRequestBean;
 import com.media.ops.backend.controller.request.AdMaterialUptRequestBean;
+import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Admaterial;
 import com.media.ops.backend.dao.entity.Material;
 import com.media.ops.backend.dao.mapper.AdmaterialMapper;
@@ -20,6 +17,12 @@ import com.media.ops.backend.service.AdMaterialService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.AdMaterialVo;
+import com.media.ops.backend.vo.AdVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdMaterialServiceImpl implements AdMaterialService {
@@ -124,16 +127,20 @@ public class AdMaterialServiceImpl implements AdMaterialService {
 	}
 
 	@Override
-	public List<AdMaterialVo> selectListByAdId(Integer adId) {
-		
+	public PageResponseBean<AdMaterialVo> selectListByAdId(Integer adId,Integer pageNum,Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		List<Admaterial> admaterialList= admaterialMapper.selectByAdId(adId);
 		List<AdMaterialVo> adMaterialVoList= Lists.newArrayList();
 		for(Admaterial admaterial : admaterialList) {
 			AdMaterialVo adMaterialVo= assembleAdMaterialVo(admaterial);
 			adMaterialVoList.add(adMaterialVo);
 		}
-		
-		return adMaterialVoList;
+		PageInfo pageInfo=new PageInfo(admaterialList);
+		pageInfo.setList(adMaterialVoList);
+		PageResponseBean<AdMaterialVo> list = new PageResponseBean<AdMaterialVo>(pageInfo);
+		list.setHttpStatus(200);
+		list.setCode(0);
+		return list;
 		
 	}
 	

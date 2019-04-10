@@ -368,6 +368,22 @@
 			</if>
 		</where>
 	</select>
+
+	<select id="selectListByAccountEmail" resultMap="BaseResultMap"
+			parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbuser
+		<where>
+			<if test="account != null">
+				and account = #{account}
+			</if>
+			<if test="email != null">
+				and email = #{email}
+			</if>
+		</where>
+	</select>
+
 	<select id="selectByName" parameterType="string" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />

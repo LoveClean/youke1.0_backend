@@ -1,7 +1,5 @@
 package com.media.ops.backend.vo;
 
-import java.util.Date;
-
 public class SyslogVo {
     private String id;  //流水号
 
@@ -15,7 +13,7 @@ public class SyslogVo {
     
     private String remoteIP;  //请求IP地址
     
-    private Date createtime;  //操作时间
+    private String createtime;  //操作时间
 
 	public String getId() {
 		return id;
@@ -65,11 +63,11 @@ public class SyslogVo {
 		this.remoteIP = remoteIP;
 	}
 
-	public Date getCreatetime() {
+	public String getCreatetime() {
 		return createtime;
 	}
 
-	public void setCreatetime(Date createtime) {
+	public void setCreatetime(String createtime) {
 		this.createtime = createtime;
 	}
 

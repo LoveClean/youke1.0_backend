@@ -1,23 +1,12 @@
 package com.media.ops.backend.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.beust.jcommander.internal.Lists;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
-import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.request.PlayAddRequestBean;
-import com.media.ops.backend.controller.request.PlaySearchRequestBean;
 import com.media.ops.backend.controller.request.PlayUpdateRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Play;
@@ -32,7 +21,14 @@ import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.PlayVo;
 import com.media.ops.backend.vo.PlayerVo;
-import com.media.ops.backend.vo.UserVo;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PlayServiceImpl implements PlayService {
@@ -212,43 +208,41 @@ public class PlayServiceImpl implements PlayService {
 	}
 
 	@Override
-	public ResponseEntity<List<PlayVo>> selectPlayListByKeys(PlaySearchRequestBean bean) {
-
-		String playTitle= bean.getPlayTitle();
+	public PageResponseBean<PlayVo> selectPlayListByKeys(Integer playerId, Integer status , String  playTitle, String beginTime, String endTime, int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		
 		if(StringUtils.isNotEmpty(playTitle)) {
 			playTitle=new StringBuilder().append("%").append(playTitle).append("%").toString();
 		}
 		
 		List<Play> plays = playMapper.selectByKeys(
-				bean.getPlayerId()<=0?null:bean.getPlayerId(), bean.getStatus()<0?null:bean.getStatus(), 
+				playerId,status,
 						StringUtils.isBlank(playTitle)?null:playTitle, 
-								StringUtils.isBlank(bean.getBeginTime())?null:bean.getBeginTime(), 
-										StringUtils.isBlank(bean.getEndTime())?null:bean.getEndTime());
-		if (plays.size() == 0) {
-			return ResponseEntityUtil.fail(Errors.SYSTEM_DATA_NOT_FOUND);
-		}
+								StringUtils.isBlank(beginTime)?null:beginTime,
+										StringUtils.isBlank(endTime)?null:endTime);
 		List<PlayVo> playVos = Lists.newArrayList();
 		for (Play play : plays) {
 			PlayVo playVo = assemblePlayVo(play);
 			playVos.add(playVo);
 		}
-		return ResponseEntityUtil.success(playVos);
+		PageInfo pageInfo = new PageInfo(plays);
+		pageInfo.setList(playVos);
+		return new PageResponseBean<PlayVo>(pageInfo);
 	}
 
 	@Override
-	public ResponseEntity<List<PlayVo>> selectPlayList() {
-
+	public PageResponseBean<PlayVo> selectPlayList(int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		List<Play> plays = playMapper.selectList();
-		if (plays.size() == 0) {
-			return ResponseEntityUtil.fail(Errors.SYSTEM_DATA_NOT_FOUND);
-		}
 		List<PlayVo> playVos = Lists.newArrayList();
 		for (Play play : plays) {
-			PlayVo playVo2 = assemblePlayVo(play);
-			playVos.add(playVo2);
+			PlayVo playVo = assemblePlayVo(play);
+			playVos.add(playVo);
 		}
-		return ResponseEntityUtil.success(playVos);
+		PageInfo pageInfo =new PageInfo(plays);
+		pageInfo.setList(playVos);
+
+		return new PageResponseBean<PlayVo>(pageInfo);
 	}
 	
 	public ResponseEntity<List<PlayVo>> selectUnfinishedPlayList() {
@@ -275,7 +269,7 @@ public class PlayServiceImpl implements PlayService {
 		return ResponseEntityUtil.success(playerVos);
 	}
 	
-	private PlayerVo  assemblePlayerVo(User user) {
+	private PlayerVo assemblePlayerVo(User user) {
 		PlayerVo playerVo = new PlayerVo();
 		playerVo.setId(user.getId());
 		playerVo.setAccount(user.getAccount());

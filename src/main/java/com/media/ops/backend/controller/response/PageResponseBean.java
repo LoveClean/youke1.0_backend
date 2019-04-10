@@ -1,12 +1,11 @@
 package com.media.ops.backend.controller.response;
 
-import java.io.Serializable;
-import java.util.List;
-
 import com.github.pagehelper.PageInfo;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Title: PageResponseBean.java
@@ -59,6 +58,12 @@ public class PageResponseBean<T> implements Serializable {
    */
   @ApiModelProperty(value = "是否是最后一页")
   private boolean last;
+
+  @ApiModelProperty(value = "code")
+  private int code;
+
+  @ApiModelProperty(value = "httpStatus")
+  private int httpStatus;
 
   public PageResponseBean() {}
 
@@ -135,4 +140,19 @@ public class PageResponseBean<T> implements Serializable {
     return pageNum==1;
   }
 
+  public int getCode(){
+    return this.code;
+  }
+
+  public void setCode(int code){
+    this.code=code;
+  }
+
+  public int getHttpStatus(){
+    return this.httpStatus;
+  }
+
+  public void setHttpStatus(int httpStatus){
+    this.httpStatus = httpStatus;
+  }
 }

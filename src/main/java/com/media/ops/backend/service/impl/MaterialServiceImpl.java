@@ -1,12 +1,5 @@
 package com.media.ops.backend.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -14,8 +7,6 @@ import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.MaterialAddRequestBean;
-import com.media.ops.backend.controller.request.MaterialQueryRequestBean;
-import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.request.MaterialUptRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Material;
@@ -26,21 +17,26 @@ import com.media.ops.backend.service.MaterialService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.MaterialVo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 
 @Service
 public class MaterialServiceImpl implements MaterialService {
 
-	@Autowired
+	@Resource
 	private MaterialMapper materialMapper;
-	@Autowired
+	@Resource
 	private MaterialgroupMapper materialgroupMapper;
 	
 	@Override
-	public PageResponseBean<MaterialVo> selectMaterialList(PageRequestBean bean) {
+	public PageResponseBean<MaterialVo> selectMaterialList(int pageNum, int pageSize) {
 		// TODO Auto-generated method stub
-		PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
+		PageHelper.startPage(pageNum, pageSize);
 		List<Material> materials=  materialMapper.selectList();
 		List<MaterialVo> materialVos= Lists.newArrayList();
 
@@ -53,12 +49,12 @@ public class MaterialServiceImpl implements MaterialService {
 		return new PageResponseBean<MaterialVo>(pageInfo);
 	}
 	
-	public PageResponseBean<MaterialVo> selectMaterialListByIds(MaterialQueryRequestBean bean){
+	public PageResponseBean<MaterialVo> selectMaterialListByIds(String ids, int pageNum, int pageSize){
 		// TODO Auto-generated method stub
-		PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
-		String ids[]= bean.getIds().split(",");
+		PageHelper.startPage(pageNum, pageSize);
+		String idlist[]= ids.split(",");
 		List<Integer> materialIds=Lists.newArrayList();
-		for(String id:ids) {
+		for(String id:idlist) {
 			materialIds.add(Integer.parseInt(id));
 		}
 		List<Material> materials=  materialMapper.selectListByIds(materialIds);
@@ -75,14 +71,14 @@ public class MaterialServiceImpl implements MaterialService {
 	
 	@Override
 	public PageResponseBean<MaterialVo> selectMaterialByKeywordTypeGroup(String keyword, String type, Integer groupId,
-			Integer pageNum, Integer pageSize) {
+                                                                         Integer pageNum, Integer pageSize) {
 		if(StringUtils.isNotBlank(keyword)) {
 			keyword= new StringBuilder().append("%").append(keyword).append("%").toString();
 		}
 		
 		
 		PageHelper.startPage(pageNum, pageSize);
-		List<Material> materials= materialMapper.selectByNameTypeGroupId(StringUtils.isBlank(keyword)?null:keyword,StringUtils.isBlank(type)?null:type, groupId==0?null:groupId);
+		List<Material> materials= materialMapper.selectByNameTypeGroupId(StringUtils.isBlank(keyword)?null:keyword,StringUtils.isBlank(type)?null:type,groupId);
 		List<MaterialVo> materialVos= Lists.newArrayList();
 		
 		for(Material material : materials) {
@@ -131,7 +127,7 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public ResponseEntity addMaterial(String createby,MaterialAddRequestBean bean) {
+	public ResponseEntity addMaterial(String createby, MaterialAddRequestBean bean) {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -156,7 +152,7 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public ResponseEntity uptMaterial(String updateby,MaterialUptRequestBean bean) {
+	public ResponseEntity uptMaterial(String updateby, MaterialUptRequestBean bean) {
 		if(bean==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -177,7 +173,7 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public ResponseEntity<String> delMaterial(String updateby,Integer id) {
+	public ResponseEntity<String> delMaterial(String updateby, Integer id) {
 		if(id==null) {
 			return ResponseEntityUtil.fail(Errors.SYSTEM_REQUEST_PARAM_ERROR);
 		}
@@ -192,6 +188,50 @@ public class MaterialServiceImpl implements MaterialService {
 		return ResponseEntityUtil.delMessage(resultCount);
 	}
 
+	@Override
+	public ResponseEntity<List<MaterialVo>> selectMaterialMusicList() {
+		List<Material> list = materialMapper.selectMusicList();
+		List<MaterialVo> materialVos= Lists.newArrayList();
+		for(Material material : list) {
+			MaterialVo materialVo= assembleMaterialVo(material);
+			materialVos.add(materialVo);
+		}
+		return ResponseEntityUtil.success(materialVos);
+	}
 
+	@Override
+	public PageResponseBean<MaterialVo> selectMaterialListExMu(int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		List<Material> materials=  materialMapper.selectList2();
+		List<MaterialVo> materialVos= Lists.newArrayList();
+
+		for(Material material : materials) {
+			MaterialVo materialVo= assembleMaterialVo(material);
+			materialVos.add(materialVo);
+		}
+		PageInfo pageInfo =new PageInfo(materials);
+		pageInfo.setList(materialVos);
+		return new PageResponseBean<MaterialVo>(pageInfo);
+	}
+	@Override
+	public PageResponseBean<MaterialVo> selectMaterialByKeywordTypeGroupExMu(String keyword, String type, Integer groupId, Integer pageNum, Integer pageSize) {
+		if(StringUtils.isNotBlank(keyword)) {
+			keyword= new StringBuilder().append("%").append(keyword).append("%").toString();
+		}
+
+
+		PageHelper.startPage(pageNum, pageSize);
+		List<Material> materials= materialMapper.selectByNameTypeGroupId2(StringUtils.isBlank(keyword)?null:keyword,StringUtils.isBlank(type)?null:type,groupId);
+		List<MaterialVo> materialVos= Lists.newArrayList();
+
+		for(Material material : materials) {
+			MaterialVo materialVo= assembleMaterialVo(material);
+			materialVos.add(materialVo);
+		}
+
+		PageInfo pageInfo =new PageInfo(materials);
+		pageInfo.setList(materialVos);
+		return new PageResponseBean<MaterialVo>(pageInfo);
+	}
 
 }

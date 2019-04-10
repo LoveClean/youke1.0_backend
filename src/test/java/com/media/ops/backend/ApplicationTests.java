@@ -1,28 +1,18 @@
 package com.media.ops.backend;
 
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import com.media.ops.backend.controller.request.PageRequestBean;
+import com.media.ops.backend.service.AddeliveryService;
+import com.media.ops.backend.service.SmsService;
+import com.media.ops.backend.service.SysLogService;
+import com.media.ops.backend.util.MD5Util;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.google.common.collect.Lists;
-import com.media.ops.backend.controller.request.AddeliveryAddRequestBean;
-import com.media.ops.backend.controller.request.PageRequestBean;
-import com.media.ops.backend.controller.response.PageResponseBean;
-import com.media.ops.backend.service.AddeliveryService;
-import com.media.ops.backend.service.CityService;
-import com.media.ops.backend.service.SmsService;
-import com.media.ops.backend.service.SysLogService;
-import com.media.ops.backend.util.MD5Util;
-import com.media.ops.backend.vo.SyslogVo;
-import com.mysql.fabric.xmlrpc.base.Array;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -67,7 +57,7 @@ public class ApplicationTests {
 		PageRequestBean bean= new PageRequestBean();
 		bean.setPageNum(0);
 		bean.setPageSize(0);
-		PageResponseBean<SyslogVo>  result =sysLogService.sysLog(bean);
+		//PageResponseBean<SyslogVo>  result =sysLogService.sysLog(bean);
 
 	}
 	

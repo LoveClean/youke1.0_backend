@@ -1,16 +1,5 @@
 package com.media.ops.backend.service.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -18,25 +7,27 @@ import com.google.common.collect.Maps;
 import com.media.ops.backend.contants.Const;
 import com.media.ops.backend.contants.Errors;
 import com.media.ops.backend.controller.request.DeviceAddRequestBean;
-import com.media.ops.backend.controller.request.DeviceSearchRequestBean;
 import com.media.ops.backend.controller.request.DeviceUptRequestBean;
-import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Building;
 import com.media.ops.backend.dao.entity.Device;
 import com.media.ops.backend.dao.entity.Devicegroup;
-import com.media.ops.backend.dao.entity.Devicetype;
 import com.media.ops.backend.dao.mapper.BuildingMapper;
 import com.media.ops.backend.dao.mapper.DeviceMapper;
 import com.media.ops.backend.dao.mapper.DevicegroupMapper;
 import com.media.ops.backend.dao.mapper.DevicetypeMapper;
 import com.media.ops.backend.service.DeviceService;
-import com.media.ops.backend.util.ExcelUtil;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.AreaVo;
 import com.media.ops.backend.vo.DeviceListVo;
 import com.media.ops.backend.vo.DeviceVo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 @Service
 public class DeviceServiceImpl implements DeviceService {
 
@@ -52,8 +43,8 @@ public class DeviceServiceImpl implements DeviceService {
 	private DevicetypeMapper devicetypeMapper;
 	
 	@Override
-	public PageResponseBean<DeviceListVo> selectDeviceList(PageRequestBean bean) {
-		PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
+	public PageResponseBean<DeviceListVo> selectDeviceList( Integer pageNum, Integer pageSize) {
+		PageHelper.startPage(pageNum,pageSize);
 		List<Device> devices= deviceMapper.selectList();
 		List<DeviceListVo> deviceListVos= Lists.newArrayList();
 		for(Device device: devices) {
@@ -62,8 +53,10 @@ public class DeviceServiceImpl implements DeviceService {
 		}
 		PageInfo pageInfo=new PageInfo(devices);
 		pageInfo.setList(deviceListVos);
-		
-		return new PageResponseBean<DeviceListVo>(pageInfo);
+		PageResponseBean<DeviceListVo> list = new PageResponseBean<DeviceListVo>(pageInfo);
+		list.setHttpStatus(200);
+		list.setCode(0);
+		return list;
 		
 	}
 	
@@ -107,15 +100,16 @@ public class DeviceServiceImpl implements DeviceService {
 	}
 
 	@Override
-	public ResponseEntity<PageInfo> selectDeviceByCodeAreaAddress(DeviceSearchRequestBean bean) {
-		String code=bean.getCode();
-		String address=bean.getAddress();
-		String cityId= bean.getCityId();
-		String areaId=bean.getAreaId();
-		Integer buildingId= bean.getBuildingId();
-		Integer groupId= bean.getGroupId();
-		Integer pageNum=bean.getPageNum();
-		Integer pageSize=bean.getPageSize();
+	public PageResponseBean<DeviceListVo> selectDeviceByCodeAreaAddress(String code2, String cityId2, String areaId2, String address2,
+																  Integer buildingId2, Integer groupId2, Integer pageNum2, Integer pageSize2) {
+		String code=code2;
+		String address=address2;
+		String cityId= cityId2;
+		String areaId=areaId2;
+		Integer buildingId= buildingId2;
+		Integer groupId= groupId2;
+		Integer pageNum=pageNum2;
+		Integer pageSize=pageSize2;
 		
 		if(StringUtils.isNotBlank(code)) {
 			code=new StringBuilder().append("%").append(code).append("%").toString();
@@ -142,8 +136,10 @@ public class DeviceServiceImpl implements DeviceService {
 		
 		PageInfo pageInfo= new PageInfo<>(devices);
 		pageInfo.setList(deviceListVos);
-		
-		return ResponseEntityUtil.success(pageInfo);
+		PageResponseBean<DeviceListVo> list= new PageResponseBean<DeviceListVo>(pageInfo);
+		list.setCode(0);
+		list.setHttpStatus(200);
+		return list;
 	}
 
 	@Override

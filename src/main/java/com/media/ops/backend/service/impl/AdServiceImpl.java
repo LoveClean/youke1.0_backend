@@ -1,12 +1,5 @@
 package com.media.ops.backend.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -17,24 +10,24 @@ import com.media.ops.backend.controller.request.AdAddRequestBean;
 import com.media.ops.backend.controller.request.AdMaterialUptRequestBean;
 import com.media.ops.backend.controller.request.AdMergeUptRequestBean;
 import com.media.ops.backend.controller.request.AdUptRequestBean;
-import com.media.ops.backend.controller.request.PageRequestBean;
 import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.dao.entity.Ad;
 import com.media.ops.backend.dao.entity.Adgroup;
 import com.media.ops.backend.dao.entity.Admaterial;
 import com.media.ops.backend.dao.entity.Material;
-import com.media.ops.backend.dao.mapper.AdMapper;
-import com.media.ops.backend.dao.mapper.AddeliveryMapper;
-import com.media.ops.backend.dao.mapper.AdgroupMapper;
-import com.media.ops.backend.dao.mapper.AdmaterialMapper;
-import com.media.ops.backend.dao.mapper.MaterialMapper;
+import com.media.ops.backend.dao.mapper.*;
 import com.media.ops.backend.service.AdMaterialService;
 import com.media.ops.backend.service.AdService;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.util.ResponseEntityUtil;
 import com.media.ops.backend.vo.AdMaterialVo;
 import com.media.ops.backend.vo.AdVo;
-import com.media.ops.backend.vo.MaterialVo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdServiceImpl implements AdService{
@@ -135,8 +128,8 @@ public class AdServiceImpl implements AdService{
 		return ResponseEntityUtil.updMessage(resultCount);
 	}
 	
-	public PageResponseBean<AdVo> selectAdList(PageRequestBean bean){
-		PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
+	public PageResponseBean<AdVo> selectAdList(Integer pageNum,Integer pageSize){
+		PageHelper.startPage(pageNum,pageSize);
 		List<Ad> adList= adMapper.selectList();
 		List<AdVo> adVos= Lists.newArrayList();
 		for(Ad ad: adList) {
@@ -153,8 +146,10 @@ public class AdServiceImpl implements AdService{
 		
 		PageInfo pageInfo=new PageInfo(adList);
 		pageInfo.setList(adVos);
-		
-		return new PageResponseBean<AdVo>(pageInfo);
+		PageResponseBean<AdVo> list = new PageResponseBean<AdVo>(pageInfo);
+		list.setHttpStatus(200);
+		list.setCode(0);
+		return list;
 	}
 	
 	public ResponseEntity<AdVo> selectAd(Integer id){
@@ -248,8 +243,10 @@ public class AdServiceImpl implements AdService{
 		
 		PageInfo pageInfo=new PageInfo(adList);
 		pageInfo.setList(adVos);
-		
-		return new PageResponseBean<AdVo>(pageInfo);
+		PageResponseBean<AdVo> list = new PageResponseBean<AdVo>(pageInfo);
+		list.setHttpStatus(200);
+		list.setCode(0);
+		return list;
 	}
 	
 }

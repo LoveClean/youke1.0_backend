@@ -1,11 +1,12 @@
 package com.media.ops.backend.service;
 
-import java.util.List;
-
 import com.media.ops.backend.controller.request.AdMaterialAddRequestBean;
 import com.media.ops.backend.controller.request.AdMaterialUptRequestBean;
+import com.media.ops.backend.controller.response.PageResponseBean;
 import com.media.ops.backend.util.ResponseEntity;
 import com.media.ops.backend.vo.AdMaterialVo;
+
+import java.util.List;
 
 public interface AdMaterialService {
 
@@ -21,7 +22,7 @@ public interface AdMaterialService {
 	
 	public ResponseEntity  delAdMaterialByAdId(Integer adId, String updateby);
 	
-	public List<AdMaterialVo> selectListByAdId(Integer adId);
+	public PageResponseBean<AdMaterialVo> selectListByAdId(Integer adId, Integer pageNum, Integer PageSize);
 	
 	
 }

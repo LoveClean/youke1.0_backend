@@ -1,11 +1,10 @@
 package com.media.ops.backend.dao.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.media.ops.backend.dao.entity.Playdelivery;
 import com.media.ops.backend.vo.VmPlayDeliveryVo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 public interface PlaydeliveryMapper {
@@ -32,4 +31,9 @@ public interface PlaydeliveryMapper {
     int batchUpdateDelFlagByPlayId(@Param("playId")Integer playId, @Param("updateBy")String updateBy);
 
     int batchInsert(@Param("playdeliverys")  List<Playdelivery> playdeliveries);
+
+    List<Playdelivery> selectByKeys2(@Param("areaId") String areaId,@Param("deliverType") Integer deliverType,@Param("groupId") Integer groupId);
+
+    int batchDelete(@Param("list")List<Integer> list,@Param("updateBy") String updataBy);
+
 }

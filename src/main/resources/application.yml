@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8083
   session-timeout: 1800
 
 # 应用信息
@@ -47,14 +47,14 @@ spring:
       force: true
     multipart:
       enabled: true
-      max-file-size: 200Mb
-      max-request-size: 200Mb
+      max-file-size: 1024Mb
+      max-request-size: 1024Mb
   datasource:
     name: datasource
     initialize: false
-    url: jdbc:mysql://ilovemldu.mysql.rds.aliyuncs.com:3506/media_test?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF8
-    username: media_test
-    password: media_test123
+    url: jdbc:mysql://119.23.29.186:3306/media_dev?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF8
+    username: root
+    password: rootroot
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     max-active: 2
@@ -78,13 +78,22 @@ mybatis:
 logging:
   path: /base-web-log
 
+## 缓存配置
+#memcached:
+#  servers: 192.168.148.7:11211
+#  username: root
+#  password: YwjX2NhL62
+#  needAuth: false
 # 缓存配置
+#memcached:
+#  servers: 139.129.116.62:11211
+#  username: root
+#  password: YwjX2NhL62
+#  needAuth: false
 memcached:
-  servers: 139.129.116.62:11211
+  servers: 119.23.29.186:11211
   username: root
-  password: YwjX2NhL62
-  needAuth: false
-
+  password: zimenet601~
 # 短信
 sms:
   platformId: 10001

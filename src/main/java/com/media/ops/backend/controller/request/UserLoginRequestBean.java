@@ -56,7 +56,7 @@ public class UserLoginRequestBean {
 	public void setVerifyCode(String verifyCode) {
 		this.verifyCode = verifyCode;
 	}
-	
+
 	
 
 }

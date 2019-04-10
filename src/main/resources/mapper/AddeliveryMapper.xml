@@ -282,4 +282,31 @@
 			)
 		</foreach>
 	</insert>
+
+	<select id="selectByKeys2" resultMap="BaseResultMap"
+			parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from tbaddelivery
+		<where>
+			del_flag = 0
+			<if test="areaId != null">
+				and areaid LIKE #{areaId}"%"
+			</if>
+			<if test="deliverType != null and deliverType !=2">
+				and delivertype = #{deliverType}
+			</if>
+			<if test="groupId != null">
+				and groupid = #{groupId}
+			</if>
+		</where>
+	</select>
+
+	<update id="batchDelete" parameterType="java.util.List">
+		UPDATE tbaddelivery set del_flag = 1 , update_by = #{updateBy,jdbcType=VARCHAR} where id IN
+		<foreach collection="list" item="list" index="index" open="(" separator="," close=")">
+			#{list}
+		</foreach>
+		and del_flag = 0
+	</update>
 </mapper>
